@@ -1,6 +1,6 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import createError, { HttpError } from "http-errors";
 import logger from "morgan";
 import appEnvironmentVariables from "./config/appEnvironmentVariables.config";
@@ -34,7 +34,7 @@ app.use(function (req, res, next) {
 });
 
 // General error handler
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
+app.use((err: HttpError, req: Request, res: Response) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error =
