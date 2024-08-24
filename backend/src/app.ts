@@ -3,13 +3,14 @@ import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import createError, { HttpError } from "http-errors";
 import logger from "morgan";
+import appEnvironmentVariables from "./config/appEnvironmentVariables.config";
 import indexRouter from "./routes/index.route";
 
 // Initialize app
 const app = express();
 
 // Middlewares
-app.use(logger((process.env.NODE_ENV as string) || "dev"));
+app.use(logger(appEnvironmentVariables.nodeEnvironment || "dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -36,7 +37,8 @@ app.use(function (req, res, next) {
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = (process.env.NODE_ENV as string) === "dev" ? err : {};
+  res.locals.error =
+    appEnvironmentVariables.nodeEnvironment === "dev" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
