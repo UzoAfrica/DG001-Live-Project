@@ -9,13 +9,11 @@
   "lint-staged": {
     "frontend/src/*.{js,ts,tsx,jsx}": [
       "cd frontend && npx eslint . --fix",
-      "cd frontend && npx prettier . --write",
-      "git add"
+      "cd frontend && npx prettier . --write"
     ],
     "backend/src/*.{js,ts}": [
       "cd backend && npx eslint . --fix",
-      "cd backend && npx prettier . --write",
-      "git add"
+      "cd backend && npx prettier . --write"
     ]
   }
 }
