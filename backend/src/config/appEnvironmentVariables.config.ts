@@ -1,4 +1,4 @@
-import "dotenv/config";
+import 'dotenv/config';
 
 /**
  * Application environment variables declared in the ".env" file.

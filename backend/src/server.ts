@@ -1,12 +1,12 @@
-import app from "./app";
-import appEnvironmentVariables from "./config/appEnvironmentVariables.config";
-import sequelize from "./config/sequelize.config";
+import app from './app';
+import appEnvironmentVariables from './config/appEnvironmentVariables.config';
+import sequelize from './config/sequelize.config';
 
 // Synchronize Database and start the server
 sequelize
   .sync({ logging: false })
   .then(() => {
-    console.log("Database synchronized successfully.");
+    console.log('Database synchronized successfully.');
 
     // Start API
     const port = appEnvironmentVariables.port || 5001;

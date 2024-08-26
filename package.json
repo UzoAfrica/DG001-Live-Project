@@ -7,13 +7,11 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "frontend/**/*.{js,ts,tsx,jsx}": [
-      "cd frontend && npx eslint . --fix",
-      "cd frontend && npx prettier . --write"
-    ],
     "backend/**/*.{js,ts}": [
-      "cd backend && npx eslint . --fix",
-      "cd backend && npx prettier . --write"
+      "npx lint-staged --cwd /backend"
+    ],
+    "frontend/**/*.{js,ts,tsx,jsx}": [
+      "npx lint-staged --cwd /frontend"
     ]
   }
 }

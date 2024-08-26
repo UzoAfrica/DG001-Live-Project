@@ -1,10 +1,10 @@
-import { Sequelize } from "sequelize";
-import appEnvironmentVariables from "../config/appEnvironmentVariables.config";
+import { Sequelize } from 'sequelize';
+import appEnvironmentVariables from '../config/appEnvironmentVariables.config';
 
 const sequelize = new Sequelize(appEnvironmentVariables.databaseURI, {
-  dialect: "postgres",
+  dialect: 'postgres',
   logging: () =>
-    appEnvironmentVariables.nodeEnvironment === "dev" ? true : false,
+    appEnvironmentVariables.nodeEnvironment === 'dev' ? true : false,
 });
 
 export default sequelize;

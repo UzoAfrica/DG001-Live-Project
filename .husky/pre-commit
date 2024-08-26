@@ -1,2 +1,1 @@
 npx lint-staged
-echo "Ran lint staged"

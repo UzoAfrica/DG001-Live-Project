@@ -1,10 +1,10 @@
-import express from "express";
+import express, { Request, Response } from 'express';
 
 const indexRouter = express.Router();
 
 /* Home route. */
-indexRouter.get("/", (req, res) => {
-  res.status(200).json({ message: "Welcome to traidr API 🚀" });
+indexRouter.get('/', (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Welcome to traidr API 🚀' });
 });
 
 export default indexRouter;
