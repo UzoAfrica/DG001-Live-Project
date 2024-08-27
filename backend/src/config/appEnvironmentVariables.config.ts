@@ -9,6 +9,10 @@ const appEnvironmentVariables = {
   nodeEnvironment: process.env.NODE_ENV as string,
   port: process.env.PORT as string,
   databaseURI: process.env.DATABASE_URI as string,
+  googleClientId: process.env.GOOGLE_CLIENT_ID as string,
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+  sessionSecret: process.env.SESSION_SECRET as string,
+  googleCallbackURL: process.env.GOOGLE_CALLBACK_URL as string,
 };
 
 export default appEnvironmentVariables;
