@@ -3,7 +3,7 @@ import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import createError, { HttpError } from 'http-errors';
 import logger from 'morgan';
-import appEnvironmentVariables from './config/appEnvironmentVariables.config';
+import appEnvironmentVariables from './config/app-environment-variables.config';
 import indexRouter from './routes/index.route';
 
 // Initialize app
