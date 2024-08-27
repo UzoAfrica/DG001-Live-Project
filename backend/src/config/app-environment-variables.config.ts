@@ -9,6 +9,8 @@ const appEnvironmentVariables = {
   nodeEnvironment: process.env.NODE_ENV as string,
   port: process.env.PORT as string,
   databaseURI: process.env.DATABASE_URI as string,
+  mailUser: process.env.MAIL_USER,
+  mailPassword: process.env.MAIL_PASSWORD,
 };
 
 export default appEnvironmentVariables;

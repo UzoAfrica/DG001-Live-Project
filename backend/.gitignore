@@ -131,4 +131,5 @@ dist
 
 
 # My personal file ignores
-src/database/models/my-user.model.ts
+src/utils/my-email.util.ts
+src/config/my-email.config.ts

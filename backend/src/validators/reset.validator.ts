@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const generateResetTokenSchema = Joi.object({
+export const resendOTPSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 

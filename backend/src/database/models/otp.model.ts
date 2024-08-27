@@ -1,9 +1,9 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 
-// ResetToken model
-const ResetToken = sequelize.define(
-  'ResetToken',
+// OTP model
+const OTP = sequelize.define(
+  'OTP',
   {
     id: {
       type: DataTypes.UUID,
@@ -14,8 +14,12 @@ const ResetToken = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    token: {
-      type: DataTypes.STRING,
+    otp: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    expiresAt: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },
@@ -29,4 +33,4 @@ const ResetToken = sequelize.define(
   }
 );
 
-export default ResetToken;
+export default OTP;

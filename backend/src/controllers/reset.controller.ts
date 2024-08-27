@@ -1,13 +1,18 @@
-// import { Request, Response } from "express";
-// import jwt from "jsonwebtoken";
-// import User from '../database/models/my-user.model';
-// import ResetToken from '../database/models/reset-token.model';
-// import {generateResetTokenSchema, changePasswordSchema} from '../validators/reset.validator';
+// import { Request, Response } from 'express';
+// import { resendOTPSchema, changePasswordSchema } from '../validators/reset.validator';
+// import User from "../database/models/user.model";
+// import OTP from '../database/models/otp.model';
+// import sendEmail from "../utils/my-email.util";
 
-// export const generateResetToken = async (req: Request, res: Response) => {
-
+// export const resendOTP = async (req: Request, res: Response) => {
+//   // Validation Error
+//   const { error } = resendOTPSchema.validate(req.body);
+//   if (error)
+//     return res
+//       .status(400)
+//       .json({ message: error.details[0].message, data: null });
 // };
 
-// export const changePassword = async (req: Request, res: Response) => {
+// export const verifyOTP = async (req: Request, res: Response) => {};
 
-// };
+// export const changePassword = async (req: Request, res: Response) => {};
