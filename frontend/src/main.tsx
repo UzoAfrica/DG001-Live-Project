@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import App from './App';
+import App from './App.tsx'; // Ensure the path and file extension is correct based on your setup
+import './index.css';
 
 // Use environment variable for Google Client ID
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || '';
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
-// Initialize React app with Google OAuth provider
+// Check if root element exists
 const rootElement = document.getElementById('root');
-
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
