@@ -10,7 +10,7 @@ export const signup = async (req: Request, res: Response) => {
     return res.status(400).json(error.details[0].message);
   }
   try {
-    const { name, email, password, otp } = req.body;
+    const { name, email, password } = req.body;
 
     // Check if all details are provided
     if (!name || !email || !password) {
@@ -77,7 +77,7 @@ export const signup = async (req: Request, res: Response) => {
     await sendVerificationEmail(email, generatedOtp);
 
     res.status(201).json({
-      success: true,
+      success: false,
       message: 'User registered successfully',
       user: newUser,
     });
