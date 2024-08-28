@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   BackImg,
   StyledResetContainer,
@@ -10,6 +11,7 @@ import {
 import Logo from '../images/Group.png';
 
 export default function Reset() {
+  const navigate = useNavigate();
   return (
     <BackImg>
       <StyledResetContainer>
@@ -25,6 +27,7 @@ export default function Reset() {
 
           <StyledButton type="submit">Send Rest Instructions</StyledButton>
         </ResetPass>
+        <div onClick={() => navigate('/resend')}>Sign Up</div>
       </StyledResetContainer>
     </BackImg>
   );
