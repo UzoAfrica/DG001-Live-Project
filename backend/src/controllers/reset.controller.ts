@@ -4,7 +4,7 @@ import appEnvironmentVariables from '../config/app-environment-variables.config'
 import OTP from '../database/models/otp.model';
 import User from '../database/models/user.model';
 import { resetTokenPayload } from '../middlewares/reset.middleware';
-import sendEmail from '../utils/my-email.util';
+import sendEmail from '../utils/email.util';
 import { generateExpiryDate, generateOTP } from '../utils/reset.util';
 import {
   changePasswordSchema,
