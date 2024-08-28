@@ -63,7 +63,7 @@ const SignUpPage: React.FC = () => {
             </Separator>
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              Log in with Google
+              Sign up with Google
             </GoogleSignUp>
             <SignUpButton type="submit">SIGN UP</SignUpButton>
           </form>
