@@ -12,6 +12,8 @@ const appEnvironmentVariables = {
   mailUser: process.env.MAIL_USER,
   mailPassword: process.env.MAIL_PASSWORD,
   frontendVerifyOTPPage: process.env.VERIFY_OTP_PAGE,
+  resetTokenSecretKey: process.env.RESET_TOKEN_SECRET_KEY,
+  resetTokenExpiresIn: process.env.RESET_TOKEN_EXPIRES_IN,
 };
 
 export default appEnvironmentVariables;
