@@ -1,0 +1,23 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+  }
+  
+  header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: coral;
+  }
+  
+  header nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: coral;
+  }
+  header nav a button{
+    background-color: coral;
+    border: none;
+  }
+  

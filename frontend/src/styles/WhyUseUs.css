@@ -1,0 +1,32 @@
+.container {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  max-width: 1400px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+  gap: 100px;
+}
+
+.container span {
+  color: coral;
+}
+
+.boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.woman_image{
+  width: 100%;
+}
+
+@media screen and (max-width: 990px){
+
+.container {
+  grid-template-columns: 1fr;
+}
+  
+}
+  

@@ -1,0 +1,31 @@
+.trending-sales {
+    padding: 40px 20px;
+    background-color: #f8f8f8;
+  }
+  
+  .trending-sales h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .sales-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .sale-item {
+    flex: 1 1 200px;
+    text-align: center;
+    background-color: whitesmoke
+  }
+  
+  .sale-item img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+ .sale-item p {
+  margin: 5px 0;
+}
+  
