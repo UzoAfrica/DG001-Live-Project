@@ -3,9 +3,11 @@ import jwt from 'jsonwebtoken';
 import appEnvironmentVariables from '../config/app-environment-variables.config';
 import OTP from '../database/models/otp.model';
 import User from '../database/models/user.model';
+import { resetTokenPayload } from '../middlewares/reset.middleware';
 import sendEmail from '../utils/my-email.util';
 import { generateExpiryDate, generateOTP } from '../utils/reset.util';
 import {
+  changePasswordSchema,
   resendOTPSchema,
   verifyOTPSchema,
 } from '../validators/reset.validator';
@@ -81,7 +83,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       console.error(error.message);
 
       return res.status(500).json({
-        message: 'Failed to resend OTP:',
+        message: 'Failed to resend OTP',
         data: null,
       });
     }
@@ -115,12 +117,9 @@ export const verifyOTP = async (req: Request, res: Response) => {
         .json({ message: 'Expired OTP. Request for a new OTP.', data: null });
     }
 
-    // OTP is valid, but we still delete it.
-    await userOTP.destroy();
-
     // Create token for Reset Password Page
-    const resetPasswordToken = jwt.sign(
-      {},
+    const resetToken = jwt.sign(
+      { id: userOTP.getDataValue('id') },
       appEnvironmentVariables.resetTokenSecretKey as string,
       {
         expiresIn: appEnvironmentVariables.resetTokenExpiresIn!,
@@ -128,18 +127,72 @@ export const verifyOTP = async (req: Request, res: Response) => {
     );
     return res.status(200).json({
       message: 'OTP verification successful',
-      data: { resetPasswordToken },
+      data: { resetToken },
     });
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
 
       return res.status(500).json({
-        message: 'Failed to verify OTP:',
+        message: 'Failed to verify OTP',
         data: null,
       });
     }
   }
 };
 
-// export const changePassword = async (req: Request, res: Response) => {};
+export const changePassword = async (req: Request, res: Response) => {
+  // Validation Error
+  const validationResult = changePasswordSchema.validate(req.body);
+  if (validationResult.error)
+    return res
+      .status(400)
+      .json({ message: validationResult.error.details[0].message, data: null });
+
+  const { password } = req.body;
+
+  try {
+    const resetToken = req.resetToken as resetTokenPayload;
+    // Get user OTP associated with the reset token
+    const userOTP = await OTP.findByPk(resetToken.id);
+    if (!userOTP) {
+      return res.status(400).json({
+        message: 'Invalid reset token. Request for a new OTP.',
+        data: null,
+      });
+    }
+    // Find user with the user OTP
+    const user = await User.findOne({
+      where: { email: userOTP.getDataValue('userEmail') },
+    });
+
+    // Check if user password field is null
+    if (user?.getDataValue('password') === null) {
+      await userOTP.destroy();
+      return res.status(400).json({
+        message: 'User did not signup with password.',
+        data: null,
+      });
+    }
+
+    // Update user password
+    await user?.update({ password });
+
+    // Delete OTP
+    await userOTP.destroy();
+
+    return res.status(200).json({
+      message: 'Password reset successful', // frontend should delete resetToken from localstorage
+      data: null,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+
+      return res.status(500).json({
+        message: 'Failed to reset password',
+        data: null,
+      });
+    }
+  }
+};

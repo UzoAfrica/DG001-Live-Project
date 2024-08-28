@@ -10,5 +10,5 @@ export const verifyOTPSchema = Joi.object({
 
 export const changePasswordSchema = Joi.object({
   password: Joi.string().required(),
-  confirmPassword: Joi.string().required(),
+  confirmPassword: Joi.ref('password'),
 });

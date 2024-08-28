@@ -1,9 +1,10 @@
 import express from 'express';
 import {
-  // changePassword,
+  changePassword,
   resendOTP,
   verifyOTP,
 } from '../controllers/reset.controller';
+import verifyResetToken from '../middlewares/reset.middleware';
 
 const resetRouter = express.Router();
 
@@ -14,6 +15,6 @@ resetRouter.post('/resend-otp', resendOTP);
 resetRouter.post('/verify-otp', verifyOTP);
 
 // Confirm reset password
-// resetRouter.post('/change-password', changePassword);
+resetRouter.post('/change-password', verifyResetToken, changePassword);
 
 export default resetRouter;
