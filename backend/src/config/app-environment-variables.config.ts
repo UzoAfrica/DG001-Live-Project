@@ -11,6 +11,7 @@ const appEnvironmentVariables = {
   databaseURI: process.env.DATABASE_URI as string,
   mailUser: process.env.MAIL_USER,
   mailPassword: process.env.MAIL_PASSWORD,
+  frontendVerifyOTPPage: process.env.VERIFY_OTP_PAGE,
 };
 
 export default appEnvironmentVariables;

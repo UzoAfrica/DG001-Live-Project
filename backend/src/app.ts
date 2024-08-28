@@ -26,7 +26,7 @@ app.use(
 );
 
 // Register API entry route
-app.use(indexRouter);
+app.use('/api', indexRouter);
 
 // catch 404 and forward to general error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
