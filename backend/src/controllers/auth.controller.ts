@@ -1,20 +1,23 @@
-import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User, { validateUser } from '../models/User.Model';
+import { Request, Response } from 'express';
 import OTP from '../database/models/otp.model';
-import sendVerificationEmail from '../utils/mailSender.utils';
+import User from '../database/models/user.model';
+import sendEmail from '../utils/email.util';
+import { generateExpiryDate } from '../utils/reset.util';
 
 export const signup = async (req: Request, res: Response) => {
-  const { error } = validateUser(req.body);
-  if (error) {
-    return res.status(400).json(error.details[0].message);
-  }
+  // const { error } = validateUser(req.body);
+  // if (error) {
+  //   return res.status(400).json(error.details[0].message);
+  // }
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, referralSource } = req.body;
+
+    console.log(req.body)
 
     // Check if all details are provided
-    if (!name || !email || !password) {
-      res.status(403).json({
+    if (!name || !email || !password || !referralSource) {
+      res.status(401).json({
         success: false,
         message: 'All fields are required',
       });
@@ -22,7 +25,8 @@ export const signup = async (req: Request, res: Response) => {
     }
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ where: { email: email } });
+    // user
     if (existingUser) {
       res.status(400).json({
         success: false,
@@ -32,24 +36,24 @@ export const signup = async (req: Request, res: Response) => {
     }
 
     // Find the most recent OTP for the email
-    const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-    if (response.length === 0 || otp !== response[0].otp) {
-      res.status(400).json({
-        success: false,
-        message: 'The OTP is not valid',
-      });
-      return;
-    }
+    // const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+    // if (response.length === 0 || otp !== response[0].otp) {
+    //   res.status(400).json({
+    //     success: false,
+    //     message: 'The OTP is not valid',
+    //   });
+    //   return;
+    // }
     // Check if the OTP has expired (assuming OTP is valid for 5 minutes)
-    const otpCreatedAt = response[0].createdAt;
-    const otpExpirationTime = 5 * 60 * 1000; // 5 minutes in milliseconds
-    if (Date.now() - otpCreatedAt.getTime() > otpExpirationTime) {
-      res.status(400).json({
-        success: false,
-        message: 'The OTP has expired',
-      });
-      return;
-    }
+    // const otpCreatedAt = response[0].createdAt;
+    // const otpExpirationTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+    // if (Date.now() - otpCreatedAt.getTime() > otpExpirationTime) {
+    //   res.status(400).json({
+    //     success: false,
+    //     message: 'The OTP has expired',
+    //   });
+    //   return;
+    // }
 
     // Secure password
     let hashedPassword;
@@ -68,17 +72,34 @@ export const signup = async (req: Request, res: Response) => {
       name,
       email,
       password: hashedPassword,
+      referralSource,
     });
 
-    const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-    const otpDoc = new OTP({ email, otp: generatedOtp });
-    await otpDoc.save();
+    const generatedOtp = Math.floor(1000 + Math.random() * 9000);
 
-    await sendVerificationEmail(email, generatedOtp);
+    // Create new OTP for user
+    await OTP.create({
+      userEmail: email,
+      otp: generatedOtp,
+      expiresAt: generateExpiryDate(50),
+      UserId: newUser.getDataValue('id'),
+    });
+
+    // const otpDoc = new OTP({ email, otp: generatedOtp });
+    // await otpDoc.save();
+
+    // Send OTP mail
+    await sendEmail(res, {
+      to: email,
+      subject: 'Your OTP',
+      text: `Your OTP for email verification is: ${generatedOtp}. It will expire in 10 minutes.`,
+    });
+
+    // await sendVerificationEmail(email, generatedOtp);
 
     res.status(201).json({
       success: false,
-      message: 'User registered successfully',
+      message: 'User registered successfully, an OTP has been sent to your email address. Please input it in the OTP page.',
       user: newUser,
     });
   } catch (error) {

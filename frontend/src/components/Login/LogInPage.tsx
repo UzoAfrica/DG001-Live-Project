@@ -17,21 +17,29 @@ import {
   Footer,
 } from './StyledLogIn';
 import { Link, useNavigate } from 'react-router-dom';
-import googleLogo from '/Users/mac/Desktop/DG001-Live-Project/frontend/src/images/download.png';
+import googleLogo from '../../images/download.png';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
+import { loginFunction } from '../../axiosFolder/functions/userAuth';
 
 const LogIn: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  })
+  const [loading, setLoading] = useState(false);
+
+  // const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    if (id === 'username') {
-      setUsername(value);
-    } else if (id === 'password') {
-      setPassword(value);
-    }
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSignUpLinkClick = (
@@ -42,32 +50,35 @@ const LogIn: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const payload = {
-      username,
-      password,
-    };
 
     try {
-      const response = await fetch('http://localhost:5001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      event.preventDefault();
+      setLoading(true);
 
-      if (!response.ok) {
-        throw new Error('Failed to log in');
+    const payload = {
+      email: formData.email,
+      password: formData.password,
+    };
+
+      const response = await loginFunction(payload);
+
+      if (response.status !== 200) {
+        setLoading(false);
+        return showErrorToast(response.data.message)
       }
+      setLoading(false);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
 
-      const data = await response.json();
-      console.log('Logged in successfully:', data);
-      navigate('/dashboard');
-    } catch (error) {
+      showSuccessToast(response.data.message)
+
+      return navigate('/dashboard');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
       console.error('Error logging in:', error);
-      setErrorMessage('Invalid username or password');
+      setLoading(false);
+      return showErrorToast(error.message);
+      // setErrorMessage('Invalid username or password');
     }
   };
 
@@ -76,7 +87,9 @@ const LogIn: React.FC = () => {
       <Container>
         <BackgroundImage />
         <FormContainer>
-          <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          <a href="/">
+            <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          </a>
           <Title>Welcome back to Traidr</Title>
           <form onSubmit={handleSubmit}>
             <InputField>
@@ -85,7 +98,8 @@ const LogIn: React.FC = () => {
                 type="text"
                 id="username"
                 placeholder="Enter your username"
-                value={username}
+                name='email'
+                value={formData.email}
                 onChange={handleInputChange}
               />
             </InputField>
@@ -95,7 +109,8 @@ const LogIn: React.FC = () => {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                value={password}
+                name='password'
+                value={formData.password}
                 onChange={handleInputChange}
               />
             </InputField>
@@ -118,12 +133,12 @@ const LogIn: React.FC = () => {
               <img src={googleLogo} alt="Google Logo" />
               Log in with Google
             </GoogleSignUp>
-            <SignUpButton type="submit">LOG IN</SignUpButton>
+            <SignUpButton type="submit">{loading ? "Loading" : "Sign Up here"}</SignUpButton>
           </form>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+          {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Don't have an account?{' '}
-            <a href="#" onClick={handleSignUpLinkClick}>
+            <a href="/signup" onClick={handleSignUpLinkClick}>
               Sign Up here
             </a>
           </Footer>

@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import appEnvironmentVariables from '../config/appEnvironmentVariables.config';
+import appEnvironmentVariables from './app-environment-variables.config';
 
 const sequelize = new Sequelize(appEnvironmentVariables.databaseURI, {
   dialect: 'postgres',
