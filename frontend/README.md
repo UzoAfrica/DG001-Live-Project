@@ -49,7 +49,6 @@ export default tseslint.config({
 });
 ```
 
-
 ```bash
 const [image, setImage] = useState("")
 
@@ -66,3 +65,4 @@ const handleImageChange = async (e:React.changeEvent<HTMLInputElement>) => {
     reader.readAsDataURL(file)
   }
 }
+```

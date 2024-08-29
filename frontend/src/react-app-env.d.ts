@@ -4,10 +4,9 @@ declare module '*.jpeg';
 declare module '*.jpg';
 
 interface ImportMetaEnv {
-    readonly VITE_APP_ENVIRONMENT: string;
-  }
-  
-  interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
-  
+  readonly VITE_APP_ENVIRONMENT: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
