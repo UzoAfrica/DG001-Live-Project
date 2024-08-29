@@ -7,6 +7,8 @@ import TrendingSales from './components/LandingPage/TrendingSales';
 import Footer from './components/LandingPage/Footer';
 import LogIn from './components/Login/LogInPage';
 import SignUp from './components/SignUp/SignUpPage';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 
@@ -23,6 +25,7 @@ const MainPage: React.FC = () => (
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="login" element={<LogIn />} />
