@@ -13,7 +13,7 @@ function App() {
             <Route path="login" element={<LogIn />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="reset" element={<Reset />} />
-            <Route path="resend" element={<ReSend />} />
+            <Route path="otp" element={<ReSend />} />
 
             {/* <Route path="*" element={<NoPage />} /> */}
           </Route>

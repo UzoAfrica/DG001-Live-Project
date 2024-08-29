@@ -25,7 +25,7 @@ const SignUpPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [hearAboutUs, setHearAboutUs] = useState('');
+  const [referralSource, setreferralSource] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const SignUpPage: React.FC = () => {
     } else if (id === 'password') {
       setPassword(value);
     } else if (id === 'hear-about-us') {
-      setHearAboutUs(value);
+      setreferralSource(value);
     }
   };
 
@@ -50,9 +50,18 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await api.post('/api/signup', { name, email, password, hearAboutUs });
+      if (!referralSource) {
+        alert('Please select a referral source');
+      }
+      await api.post('/api/signup', {
+        name,
+        email,
+        password,
+        referralSource,
+      });
+      localStorage.setItem('email', email);
       alert('User registered successfully');
-      navigate('/login');
+      navigate('/otp');
     } catch (err) {
       console.error('Error registering user:', err);
       setErrorMessage('Error registering user. Please try again.');
@@ -106,12 +115,18 @@ const SignUpPage: React.FC = () => {
               <Label htmlFor="hear-about-us">How did you hear about us?</Label>
               <Select
                 id="hear-about-us"
-                value={hearAboutUs}
+                value={referralSource}
                 onChange={handleInputChange}
               >
-                <option value="Instagram">Instagram</option>
-                <option value="Facebook">Facebook</option>
-                <option value="Google">Google</option>
+                <optgroup label="">
+                  {/* <option disabled value="Select">
+                    Select
+                  </option> */}
+                  <option value="Instagram">Instagram</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Google">Google</option>
+                  <option value="Others">Others</option>
+                </optgroup>
               </Select>
             </InputField>
             <Separator>

@@ -1,16 +1,20 @@
 import nodemailer from 'nodemailer';
+import appEnvironmentVariables from '../config/app-environment-variables.config';
 
 const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
+  host: 'smtp.gmail.com',
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    user: appEnvironmentVariables.mailUser,
+    pass: appEnvironmentVariables.mailPassword,
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 
 export const sendVerificationEmail = async (
   email: string,
-  otp: string
+  otp: number
 ): Promise<void> => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -22,9 +26,11 @@ export const sendVerificationEmail = async (
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log('Email info: ', info);
-  } catch (error: never) {
-    console.log(error.message);
-    throw error;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      throw error;
+    }
   }
 };
 
