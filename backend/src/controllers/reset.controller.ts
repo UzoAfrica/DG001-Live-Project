@@ -117,6 +117,12 @@ export const verifyOTP = async (req: Request, res: Response) => {
         .json({ message: 'Expired OTP. Request for a new OTP.', data: null });
     }
 
+    // Update user "isVerified" field
+    const user = await User.findOne({
+      where: { email: userOTP.getDataValue('userEmail') },
+    });
+    await user?.update({ isVerified: true });
+
     // Create token for Reset Password Page
     const resetToken = jwt.sign(
       { id: userOTP.getDataValue('id') },

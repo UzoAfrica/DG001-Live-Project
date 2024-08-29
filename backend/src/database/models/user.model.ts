@@ -32,6 +32,11 @@ const User = sequelize.define(
       defaultValue: 'user',
       allowNull: false,
     },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
   },
   {
     indexes: [
