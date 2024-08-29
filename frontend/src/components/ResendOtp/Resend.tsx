@@ -141,9 +141,11 @@ export default function ResentOtp() {
             ))}
           </StyledOtpFlex>
           <StyledDiv>
+            { /*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
             <StyledOne onClick={(e:any)=> handleSubmit(e)} disabled={isButtonDisabled}>
               {resetVerificationLoading ? "Loading..." : "Submit OTP"}
             </StyledOne>
+            { /*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
             <StyledTwo onClick={(e:any)=> handleResend(e)}>{resetLoading ? "Loading..." : "Resend OTP"}</StyledTwo>
           </StyledDiv>
         </ResetPass>
