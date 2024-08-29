@@ -24,17 +24,16 @@ import { signup } from '../../axiosFolder/functions/userAuth';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 const SignUpPage: React.FC = () => {
-
-  const [errorMessage, setErrorMessage] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     hearAboutUs: '',
-  })
+  });
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -53,7 +52,7 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
 
       const body = {
         name: formData.name,
@@ -62,23 +61,24 @@ const SignUpPage: React.FC = () => {
         hearAboutUs: formData.hearAboutUs,
       };
 
-      const response = await signup(body)
+      const response = await signup(body);
 
-      if(response.status !== 201){
-        setLoading(false)
-       return showErrorToast(response.data.message)
+      if (response.status !== 201) {
+        setLoading(false);
+        return showErrorToast(response.data.message);
       }
 
-      setLoading(false)
-      showSuccessToast(response.data.message)
+      setLoading(false);
+      showSuccessToast(response.data.message);
 
       return navigate('/login');
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error('Error registering user:', error);
-      setErrorMessage('Error registering user. Please try again.');
-      return showErrorToast(error.message)
+      setLoading(false);
+      // setErrorMessage('Error registering user. Please try again.');
+      return showErrorToast(error.message);
     }
   };
 
@@ -92,7 +92,9 @@ const SignUpPage: React.FC = () => {
       <Container>
         <BackgroundImage />
         <FormContainer>
-          <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          <a href="/">
+            <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          </a>
           <Title>Create an Account</Title>
           <form onSubmit={handleSubmit}>
             <InputField>
@@ -100,7 +102,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 type="text"
                 id="name"
-                name= "name"
+                name="name"
                 placeholder=""
                 value={formData.name}
                 onChange={handleInputChange}
@@ -112,7 +114,7 @@ const SignUpPage: React.FC = () => {
               <Input
                 type="email"
                 id="email"
-                name = "email"
+                name="email"
                 placeholder=""
                 value={formData.email}
                 onChange={handleInputChange}
@@ -153,9 +155,11 @@ const SignUpPage: React.FC = () => {
               <img src={googleLogo} alt="Google Logo" />
               Sign up with Google
             </GoogleSignUp>
-            <SignUpButton type="submit">{loading ? "Loading..." : "SIGN UP"}</SignUpButton>
+            <SignUpButton type="submit">
+              {loading ? 'Loading...' : 'SIGN UP'}
+            </SignUpButton>
           </form>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+          {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Already have an account?{' '}
             <a href="#" onClick={handleLoginLinkClick}>
