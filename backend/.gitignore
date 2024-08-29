@@ -133,3 +133,8 @@ dist
 # My personal file ignores
 src/utils/my-email.util.ts
 src/config/my-email.config.ts
+
+
+# My personal file ignores
+src/utils/my-email.util.ts
+src/config/my-email.config.ts
