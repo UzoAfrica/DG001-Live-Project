@@ -142,14 +142,15 @@ const SignUpPage: React.FC = () => {
                 name="hearAboutUs"
               >
                 <optgroup label="">
-                  {/* <option disabled value="Select">
-                    Select
-                  </option> */}
+                  <option value="" disabled>
+                    Select an option
+                  </option>
                   <option value="Instagram">Instagram</option>
                   <option value="Facebook">Facebook</option>
                   <option value="Google">Google</option>
                   <option value="Others">Others</option>
                 </optgroup>
+                <p>Selected: {formData.hearAboutUs}</p>
               </Select>
             </InputField>
             <Separator>

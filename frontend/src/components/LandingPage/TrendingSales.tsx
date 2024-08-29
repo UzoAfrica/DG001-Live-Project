@@ -1,19 +1,19 @@
 import React from 'react';
-import '../styles/TrendingSales.css';
-import Iron from '../assets/images/iron.png';
-import Blender from '../assets/images/blender.png';
-import Washing from '../assets/images/wash.png';
-import Wood from '../assets/images/woodChair.png';
-import Cups from '../assets/images/cups.png';
-import Mixer from '../assets/images/mixer.png';
-import PillowChair from '../assets/images/pillowChair.png';
-import Kitchen from '../assets/images/kitchen.png';
-import CeramicCups from '../assets/images/ceramics.png';
-import Wooden from '../assets/images/wooden.png';
-import Microwave from '../assets/images/microwave.png';
-import Utensil from '../assets/images/utensil.png';
-import image4 from '../assets/images/redBlender.png';
-import pillow from '../assets/images/pillow.png';
+// import '../styles/TrendingSales.css';
+import Iron from '../../assets/images/iron.png';
+import Blender from '../../assets/images/blender.png';
+import Washing from '../../assets/images/wash.png';
+import Wood from '../../assets/images/woodChair.png';
+import Cups from '../../assets/images/cups.png';
+import Mixer from '../../assets/images/mixer.png';
+import PillowChair from '../../assets/images/pillowChair.png';
+import Kitchen from '../../assets/images/kitchen.png';
+import CeramicCups from '../../assets/images/ceramics.png';
+import Wooden from '../../assets/images/wooden.png';
+import Microwave from '../../assets/images/microwave.png';
+import Utensil from '../../assets/images/utensil.png';
+import image4 from '../../assets/images/redBlender.png';
+import pillow from '../../assets/images/pillow.png';
 import {
   TrendingSalesSection,
   Title,
