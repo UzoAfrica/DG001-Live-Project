@@ -19,14 +19,21 @@ import {
 } from './StyledSignUp';
 import { useNavigate } from 'react-router-dom';
 import googleLogo from '../../images/download.png';
-import api from '../utils/Api';
+// import api from '../utils/Api';
+import { signup } from '../../axiosFolder/functions/userAuth';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 const SignUpPage: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [hearAboutUs, setHearAboutUs] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    hearAboutUs: '',
+  });
+
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,28 +41,45 @@ const SignUpPage: React.FC = () => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { id, value } = e.target;
-    if (id === 'name') {
-      setName(value);
-    } else if (id === 'email') {
-      setEmail(value);
-    } else if (id === 'password') {
-      setPassword(value);
-    } else if (id === 'hear-about-us') {
-      setHearAboutUs(value);
-    }
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await api.post('/api/signup', { name, email, password, hearAboutUs });
-      alert('User registered successfully');
-      navigate('/login');
-    } catch (err) {
-      console.error('Error registering user:', err);
-      setErrorMessage('Error registering user. Please try again.');
+      setLoading(true);
+
+      const body = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        referralSource: formData.hearAboutUs,
+      };
+
+      const response = await signup(body);
+
+      if (response.status !== 201) {
+        setLoading(false);
+        return showErrorToast(response.data.message);
+      }
+
+      setLoading(false);
+      showSuccessToast(response.data.message);
+      localStorage.setItem('email', formData.email);
+
+      return navigate('/otp');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('Error registering user:', error);
+      setLoading(false);
+      // setErrorMessage('Error registering user. Please try again.');
+      return showErrorToast(error.message);
     }
   };
 
@@ -69,7 +93,9 @@ const SignUpPage: React.FC = () => {
       <Container>
         <BackgroundImage />
         <FormContainer>
-          <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          <a href="/">
+            <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          </a>
           <Title>Create an Account</Title>
           <form onSubmit={handleSubmit}>
             <InputField>
@@ -77,9 +103,11 @@ const SignUpPage: React.FC = () => {
               <Input
                 type="text"
                 id="name"
+                name="name"
                 placeholder=""
-                value={name}
+                value={formData.name}
                 onChange={handleInputChange}
+                required
               />
             </InputField>
             <InputField>
@@ -87,9 +115,11 @@ const SignUpPage: React.FC = () => {
               <Input
                 type="email"
                 id="email"
+                name="email"
                 placeholder=""
-                value={email}
+                value={formData.email}
                 onChange={handleInputChange}
+                required
               />
             </InputField>
             <InputField>
@@ -97,21 +127,31 @@ const SignUpPage: React.FC = () => {
               <Input
                 type="password"
                 id="password"
-                placeholder=""
-                value={password}
+                name="password"
+                placeholder="******"
+                value={formData.password}
                 onChange={handleInputChange}
+                required
               />
             </InputField>
             <InputField>
               <Label htmlFor="hear-about-us">How did you hear about us?</Label>
               <Select
                 id="hear-about-us"
-                value={hearAboutUs}
+                value={formData.hearAboutUs}
                 onChange={handleInputChange}
+                name="hearAboutUs"
               >
-                <option value="Instagram">Instagram</option>
-                <option value="Facebook">Facebook</option>
-                <option value="Google">Google</option>
+                <optgroup label="">
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Google">Google</option>
+                  <option value="Others">Others</option>
+                </optgroup>
+                {/* <p>Selected: {formData.hearAboutUs}</p> */}
               </Select>
             </InputField>
             <Separator>
@@ -123,12 +163,14 @@ const SignUpPage: React.FC = () => {
               <img src={googleLogo} alt="Google Logo" />
               Sign up with Google
             </GoogleSignUp>
-            <SignUpButton type="submit">SIGN UP</SignUpButton>
+            <SignUpButton type="submit">
+              {loading ? 'Loading...' : 'SIGN UP'}
+            </SignUpButton>
           </form>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+          {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Already have an account?{' '}
-            <a href="#" onClick={handleLoginLinkClick}>
+            <a href="/login" onClick={handleLoginLinkClick}>
               Log In here
             </a>
           </Footer>
