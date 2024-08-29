@@ -1,5 +1,5 @@
 import app from './app';
-import appEnvironmentVariables from './config/appEnvironmentVariables.config';
+import appEnvironmentVariables from './config/app-environment-variables.config';
 import sequelize from './config/sequelize.config';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
