@@ -10,10 +10,10 @@ export const signup = async (req: Request, res: Response) => {
     return res.status(400).json(error.details[0].message);
   }
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, referralSource } = req.body;
 
     // Check if all details are provided
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !referralSource) {
       res.status(403).json({
         success: false,
         message: 'All fields are required',
