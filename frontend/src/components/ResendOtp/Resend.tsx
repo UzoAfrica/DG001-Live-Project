@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import {
   BackImg,
   ResetPass,
+  StyleImg,
   StyledDiv,
   StyledIcon,
   StyledOne,
@@ -11,6 +12,7 @@ import {
   StyledString,
   StyledTwo,
 } from '../StyleCompo';
+import { Logo } from '../Login/StyledLogIn';
 // import axios from 'axios';
 
 export default function ResentOtp() {
@@ -67,6 +69,7 @@ export default function ResentOtp() {
   return (
     <BackImg>
       <StyledResetContainer>
+        <StyleImg src={Logo} alt="logotraidr" />
         <StyledIcon />
         <StyledString>Enter OTP</StyledString>
         <ResetPass>

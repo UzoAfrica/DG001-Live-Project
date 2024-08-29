@@ -67,11 +67,10 @@ export const StyledButton = styled.button`
 `;
 export const StyledIcon = styled(MdMarkEmailUnread)`
   color: #ef6820;
-
   height: 100px;
   width: 100px;
   display: block;
-  margin: 50px auto;
+  margin: 20px auto;
 `;
 export const StyledDiv = styled.div`
   display: flex;
