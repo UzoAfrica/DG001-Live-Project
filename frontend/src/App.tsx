@@ -28,10 +28,10 @@ const App: React.FC = () => {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/reset" element={<Reset />} />
-        <Route path="/resend" element={<ReSend />} />
+        <Route path="login" element={<LogIn />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="reset" element={<Reset />} />
+        <Route path="otp" element={<ReSend />} />
         {/* <Route path="*" element={<NoPage />} /> */}
       </Routes>
     </BrowserRouter>

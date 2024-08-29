@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import registerRouter from './register';
 import resetRouter from './reset.route';
 
 const indexRouter = express.Router();
@@ -10,5 +11,8 @@ indexRouter.get('/', (req: Request, res: Response) => {
 
 /* Reset routes. */
 indexRouter.use('/reset', resetRouter);
+
+/* Register routes. */
+indexRouter.use('', registerRouter);
 
 export default indexRouter;
