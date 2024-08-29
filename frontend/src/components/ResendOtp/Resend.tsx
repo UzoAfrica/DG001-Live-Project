@@ -12,7 +12,7 @@ import {
   StyledString,
   StyledTwo,
 } from '../StyleCompo';
-import { Logo } from '../Login/StyledLogIn';
+import Logo from '../../images/logo-removebg-preview.png';
 // import axios from 'axios';
 
 export default function ResentOtp() {
