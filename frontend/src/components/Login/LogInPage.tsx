@@ -17,7 +17,7 @@ import {
   Footer,
 } from './StyledLogIn';
 import { Link, useNavigate } from 'react-router-dom';
-import googleLogo from '/Users/mac/Desktop/DG001-Live-Project/frontend/src/images/download.png';
+import googleLogo from '../../images/download.png';
 
 const LogIn: React.FC = () => {
   const [username, setUsername] = useState('');
