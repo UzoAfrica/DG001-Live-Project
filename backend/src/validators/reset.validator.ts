@@ -5,7 +5,7 @@ export const resendOTPSchema = Joi.object({
 });
 
 export const verifyOTPSchema = Joi.object({
-  otp: Joi.number().min(6).required(),
+  otp: Joi.number().min(4).required(),
 });
 
 export const changePasswordSchema = Joi.object({

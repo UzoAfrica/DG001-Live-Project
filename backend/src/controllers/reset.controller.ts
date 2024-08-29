@@ -36,7 +36,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       // Create new OTP for user
       const newUserOTP = await OTP.create({
         userEmail: email,
-        otp: generateOTP(6),
+        otp: generateOTP(4),
         expiresAt: generateExpiryDate(50),
         UserId: user.getDataValue('id'),
       });
@@ -58,7 +58,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       // Create new OTP for user
       const newUserOTP = await OTP.create({
         userEmail: email,
-        otp: generateOTP(6),
+        otp: generateOTP(4),
         expiresAt: generateExpiryDate(50),
         UserId: user.getDataValue('id'),
       });
