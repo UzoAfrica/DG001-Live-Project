@@ -18,7 +18,7 @@ import {
   Footer,
 } from './StyledSignUp';
 import { useNavigate } from 'react-router-dom';
-import googleLogo from '/Users/mac/Desktop/DG001-Live-Project/frontend/src/images/download.png';
+import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton'; // Adjust the path as needed
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -61,10 +61,12 @@ const SignUpPage: React.FC = () => {
               <SeparatorSpan>OR</SeparatorSpan>
               <SeparatorHr />
             </Separator>
+
+            {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <img src={googleLogo} alt="Google Logo" />
-              Log in with Google
+              <GoogleLoginButton action="signup" />
             </GoogleSignUp>
+
             <SignUpButton type="submit">SIGN UP</SignUpButton>
           </form>
           <Footer>

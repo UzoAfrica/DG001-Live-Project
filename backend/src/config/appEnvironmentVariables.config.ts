@@ -1,10 +1,13 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 
 /**
  * Application environment variables declared in the ".env" file.
  *
  * Check ".env.sample" to see what the ".env" file looks like.
  */
+
+// Load environment variables from .env file
+dotenv.config();
 const appEnvironmentVariables = {
   nodeEnvironment: process.env.NODE_ENV as string,
   port: process.env.PORT as string,

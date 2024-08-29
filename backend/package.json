@@ -4,8 +4,8 @@
   "description": "Backend for DG001-Live-Project",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"nodemon --ignore node_modules/ dist/server.js\"",
-    "start": "node dist/server.js",
+    "dev": "concurrently \"tsc -w\" \"nodemon --ignore node_modules/ dist/app.js\"",
+    "start": "node dist/app.js",
     "build": "tsc -b",
     "test": "jest",
     "lint": "eslint .",
@@ -33,6 +33,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "google-auth-library": "^9.14.0",
     "http-errors": "^2.0.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
