@@ -7,15 +7,19 @@ import {
   FloatLeft,
   StyledInput,
   StyledButton,
+  StyleImg,
+  StyledTwin,
+  Styledp,
+  StyledSign,
 } from '../StyleCompo';
-import Logo from '../images/Group.png';
+import Logo from '../../images/logo-removebg-preview.png';
 
 export default function Reset() {
   const navigate = useNavigate();
   return (
     <BackImg>
       <StyledResetContainer>
-        <img src={Logo} alt="logotraidr" />
+        <StyleImg src={Logo} alt="logotraidr" />
         <StyledInfo>Reset password</StyledInfo>
 
         <ResetPass>
@@ -25,9 +29,12 @@ export default function Reset() {
           <FloatLeft htmlFor="Confirm Password">Confirm Password</FloatLeft>
           <StyledInput type="password" placeholder="" />
 
-          <StyledButton type="submit">Send Rest Instructions</StyledButton>
+          <StyledButton type="submit">Confim Password</StyledButton>
+          <StyledTwin>
+            <Styledp>go back to</Styledp>
+            <StyledSign onClick={() => navigate('/resend')}>Sign Up</StyledSign>
+          </StyledTwin>
         </ResetPass>
-        <div onClick={() => navigate('/resend')}>Sign Up</div>
       </StyledResetContainer>
     </BackImg>
   );

@@ -18,7 +18,7 @@ import {
   Footer,
 } from './StyledSignUp';
 import { useNavigate } from 'react-router-dom';
-import googleLogo from '/Users/mac/Desktop/DG001-Live-Project/frontend/src/images/download.png';
+import googleLogo from '../../images/download.png';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
