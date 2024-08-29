@@ -42,7 +42,7 @@ app.use((err: HttpError, req: Request, res: Response) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.json({ mesage: err.message, data: null });
+  res.json({ message: err.message, data: null });
 });
 
 export default app;
