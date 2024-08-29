@@ -1,9 +1,9 @@
 import React from 'react';
-import Woman from '../../assets/Rectangle 2.png';
-import Icon from '../../assets/images/delivery.png';
-import bagLike from '../../assets/images/baggs.svg';
-import people from '../../assets/images/people.png';
-import shop from '../../assets/images/shop.png';
+import Woman from '../assets/Rectangle 2.png';
+import Icon from '../assets/images/delivery.png';
+import bagLike from '../assets/images/baggs.svg';
+import people from '../assets/images/people.png';
+import shop from '../assets/images/shop.png';
 import { Container, Boxes, Box, WomanImage } from './StyledWhyUseUs';
 
 const WhyUseUs: React.FC = () => {
