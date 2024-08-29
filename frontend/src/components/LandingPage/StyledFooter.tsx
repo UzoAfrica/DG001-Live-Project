@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
-
 export const FooterContainer = styled.footer`
-  background-color: #000; 
-  color: #fff; 
+  background-color: #000;
+  color: #fff;
   padding: 40px 20px;
   font-family: Arial, sans-serif;
 `;
@@ -12,17 +11,17 @@ export const FooterInnerContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const FooterInfo = styled.div`
-  text-align: center; 
+  text-align: center;
   margin-bottom: 20px;
 `;
 
 export const FooterLogo = styled.h3`
-  color: orange; 
+  color: orange;
   font-size: 24px;
   margin-bottom: 10px;
 `;
@@ -31,7 +30,7 @@ export const FooterDescription = styled.p`
   margin-bottom: 20px;
 
   a {
-    color: #fff; 
+    color: #fff;
     text-decoration: underline;
   }
 `;
@@ -52,22 +51,22 @@ export const ContactItem = styled.div`
 export const FooterLinks = styled.div`
   display: flex;
   justify-content: center;
-  gap: 50px; 
+  gap: 50px;
   margin-bottom: 20px;
 `;
 
 export const LinksGroup = styled.div`
   h4 {
-    color: orange; 
+    color: orange;
     margin-bottom: 10px;
-    text-align: center; 
+    text-align: center;
   }
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    text-align: center; 
+    text-align: center;
   }
 
   ul li {
@@ -75,7 +74,7 @@ export const LinksGroup = styled.div`
   }
 
   ul li a {
-    color: #fff; 
+    color: #fff;
     text-decoration: none;
 
     &:hover {
@@ -85,7 +84,7 @@ export const LinksGroup = styled.div`
 `;
 
 export const FooterBottom = styled.div`
-  border-top: 1px solid #444; 
+  border-top: 1px solid #444;
   padding-top: 20px;
   display: flex;
   justify-content: space-between;

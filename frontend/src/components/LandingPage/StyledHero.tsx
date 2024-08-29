@@ -27,28 +27,28 @@ export const HeroImage = styled.div`
 `;
 
 export const SearchContainer = styled.div`
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   gap: 10px;
 `;
 
 export const SearchInput = styled.input.attrs({ type: 'text' })`
   height: 40px;
-  padding: 0 10px; 
-  border: 1px solid #ccc; 
-  border-radius: 4px 0 0 4px; 
-  font-size: 16px; 
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
   flex-grow: 1;
   border-right: none;
 `;
 
 export const SearchButton = styled.button`
   height: 40px;
-  background-color: coral; 
+  background-color: coral;
   color: white;
-  border: none; 
-  cursor: pointer; 
-  border-radius: 0 4px 4px 0; 
-  padding: 0 10px; 
+  border: none;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  padding: 0 10px;
   font-size: 16px;
 `;

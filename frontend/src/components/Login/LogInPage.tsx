@@ -76,7 +76,9 @@ const LogIn: React.FC = () => {
       <Container>
         <BackgroundImage />
         <FormContainer>
-          <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          <a href="/">
+            <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+          </a>
           <Title>Welcome back to Traidr</Title>
           <form onSubmit={handleSubmit}>
             <InputField>

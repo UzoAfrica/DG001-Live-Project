@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeaderContainer, Logo, Nav} from './Styledheader'
+import { HeaderContainer, Logo, Nav } from './Styledheader';
 
 const Header: React.FC = () => {
   return (
@@ -7,11 +7,12 @@ const Header: React.FC = () => {
       <Logo>traïdr</Logo>
       <Nav>
         <a href="#login">Log in</a>
-        <a href="#signup"><button>Sign Up</button></a>
+        <a href="#signup">
+          <button>Sign Up</button>
+        </a>
       </Nav>
     </HeaderContainer>
   );
 };
 
 export default Header;
-

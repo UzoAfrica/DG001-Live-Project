@@ -22,7 +22,8 @@ export const sendVerificationEmail = async (
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log('Email info: ', info);
-  } catch (error: never) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.log(error.message);
     throw error;
   }
