@@ -34,7 +34,7 @@ const User = sequelize.define(
     },
     referralSource: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     isVerified: {
       type: DataTypes.BOOLEAN,
