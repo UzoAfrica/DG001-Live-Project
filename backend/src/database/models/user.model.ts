@@ -32,6 +32,10 @@ const User = sequelize.define(
       defaultValue: 'user',
       allowNull: false,
     },
+    referralSource: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
