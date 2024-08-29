@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import App from './App.tsx'; // Ensure the path and file extension is correct based on your setup
+import App from './App.tsx';
 import './index.css';
 
 // Use environment variable for Google Client ID

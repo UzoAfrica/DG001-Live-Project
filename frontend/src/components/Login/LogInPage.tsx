@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AuthContainer,
   Container,
@@ -20,7 +20,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import googleLogo from '/Users/mac/Desktop/DG001-Live-Project/frontend/src/images/download.png';
 
 const LogIn: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    if (id === 'username') {
+      setUsername(value);
+    } else if (id === 'password') {
+      setPassword(value);
+    }
+  };
 
   const handleSignUpLinkClick = (
     event: React.MouseEvent<HTMLAnchorElement>
@@ -29,21 +41,52 @@ const LogIn: React.FC = () => {
     navigate('/signup');
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const payload = {
+      username,
+      password,
+    };
+
+    try {
+      const response = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to log in');
+      }
+
+      const data = await response.json();
+      console.log('Logged in successfully:', data);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setErrorMessage('Invalid username or password');
+    }
+  };
+
   return (
     <AuthContainer>
       <Container>
         <BackgroundImage />
         <FormContainer>
-          {/* Use the correct path or import the image */}
           <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
           <Title>Welcome back to Traidr</Title>
-          <form>
+          <form onSubmit={handleSubmit}>
             <InputField>
               <Label htmlFor="username">Username</Label>
               <Input
                 type="text"
                 id="username"
                 placeholder="Enter your username"
+                value={username}
+                onChange={handleInputChange}
               />
             </InputField>
             <InputField>
@@ -52,9 +95,10 @@ const LogIn: React.FC = () => {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={handleInputChange}
               />
             </InputField>
-            {/* Use Link from react-router-dom */}
             <Link
               to="/forgot-password"
               style={{
@@ -76,6 +120,7 @@ const LogIn: React.FC = () => {
             </GoogleSignUp>
             <SignUpButton type="submit">LOG IN</SignUpButton>
           </form>
+          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
           <Footer>
             Don't have an account?{' '}
             <a href="#" onClick={handleSignUpLinkClick}>
