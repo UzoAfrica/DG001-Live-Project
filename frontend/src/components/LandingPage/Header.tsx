@@ -6,8 +6,8 @@ const Header: React.FC = () => {
     <HeaderContainer>
       <Logo>traïdr</Logo>
       <Nav>
-        <a href="#login">Log in</a>
-        <a href="#signup">
+        <a href="/login">Log in</a>
+        <a href="/signup">
           <button>Sign Up</button>
         </a>
       </Nav>

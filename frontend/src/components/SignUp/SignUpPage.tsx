@@ -58,7 +58,7 @@ const SignUpPage: React.FC = () => {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        hearAboutUs: formData.hearAboutUs,
+        referralSource: formData.hearAboutUs,
       };
 
       const response = await signup(body);
@@ -70,8 +70,9 @@ const SignUpPage: React.FC = () => {
 
       setLoading(false);
       showSuccessToast(response.data.message);
+      localStorage.setItem('email', formData.email);
 
-      return navigate('/login');
+      return navigate('/otp');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -150,7 +151,7 @@ const SignUpPage: React.FC = () => {
                   <option value="Google">Google</option>
                   <option value="Others">Others</option>
                 </optgroup>
-                <p>Selected: {formData.hearAboutUs}</p>
+                {/* <p>Selected: {formData.hearAboutUs}</p> */}
               </Select>
             </InputField>
             <Separator>
@@ -169,7 +170,7 @@ const SignUpPage: React.FC = () => {
           {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Already have an account?{' '}
-            <a href="#" onClick={handleLoginLinkClick}>
+            <a href="/login" onClick={handleLoginLinkClick}>
               Log In here
             </a>
           </Footer>

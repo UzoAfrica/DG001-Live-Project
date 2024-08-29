@@ -65,4 +65,19 @@ const handleImageChange = async (e:React.changeEvent<HTMLInputElement>) => {
     reader.readAsDataURL(file)
   }
 }
+
+//   const {category, colour, size} = request.query
+//   if(category){
+//   }
+//   if(colour){
+//   }
+//   if(size){
+
+//   }
+//   const allProducts = await Product.findAll({where: {$gte: noOfSales}})
+//   const finalProducts = allProducts.sort((a, b)=> b.noOfSales - a.noOfSales)
+
+//   return response.status(200).json({
+//     trendingProducts: finalProducts
+//   })
 ```
