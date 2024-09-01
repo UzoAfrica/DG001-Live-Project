@@ -9,6 +9,8 @@ const appEnvironmentVariables = {
   nodeEnvironment: process.env.NODE_ENV as string,
   port: process.env.PORT as string,
   databaseURI: process.env.DATABASE_URI as string,
+  jwtSecretKey: process.env.JWT_SECRET_KEY as string,
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN as string,
   googleClientId: process.env.GOOGLE_CLIENT_ID as string,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
   sessionSecret: process.env.SESSION_SECRET as string,

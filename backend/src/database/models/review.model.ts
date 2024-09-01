@@ -1,37 +1,38 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 
-// OTP model
-const OTP = sequelize.define(
-  'OTP',
+// Review model
+const Review = sequelize.define(
+  'Review',
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    userEmail: {
+    userName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    otp: {
-      type: DataTypes.INTEGER,
+    text: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    expiresAt: {
-      type: DataTypes.DATE,
+    stars: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
   {
     indexes: [
-      // Create index on email field
+      // Create index on userName field
       {
-        fields: ['userEmail'],
+        unique: true,
+        fields: ['userName'],
       },
     ],
   }
 );
 
-export default OTP;
+export default Review;
  

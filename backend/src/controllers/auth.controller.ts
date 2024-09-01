@@ -68,12 +68,22 @@ export const signup = async (req: Request, res: Response) => {
       }
     }
 
+    // const newUser = await User.create({
+    //   name,
+    //   email,
+    //   password: hashedPassword,
+    //   referralSource,
+    // });
+
     const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
       referralSource,
+      role: 'user', // Default role or retrieve from request
+      isVerified: false, // Default value or based on your logic
     });
+    
 
     const generatedOtp = Math.floor(1000 + Math.random() * 9000);
 
