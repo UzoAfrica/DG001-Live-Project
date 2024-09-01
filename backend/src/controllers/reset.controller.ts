@@ -123,6 +123,9 @@ export const verifyOTP = async (req: Request, res: Response) => {
     });
     await user?.update({ isVerified: true });
 
+    // Delete previous OTP
+    await userOTP.destroy();
+
     // Create token for Reset Password Page
     const resetToken = jwt.sign(
       { id: userOTP.getDataValue('id') },
