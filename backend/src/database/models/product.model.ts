@@ -1,60 +1,52 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 
-// OTP model
-const Product = sequelize.define(
-  'Product',
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    isAvailable: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    imageUrl: {
-      type: DataTypes.STRING,
-    },
-    ownerId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-    },
-    shopId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-    },
-    noOfSales: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-    },
+// Product model
+const Product = sequelize.define('Product', {
+  id: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
   },
-  {
-    indexes: [
-      // Create index on email field
-      {
-        fields: ['userEmail'],
-      },
-    ],
-  }
-);
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  isAvailable: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.DECIMAL,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false,
+  },
+  video: {
+    type: DataTypes.STRING, // Assuming the video field stores a URL or path to the video file
+    allowNull: true, // This field is optional
+  },
+  colours: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+  },
+  deals: {
+    // The product tags e.g., 'furniture', 'kids clothes', etc.
+    type: DataTypes.ARRAY(DataTypes.STRING),
+  },
+  noOfSales: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+});
 
 export default Product;

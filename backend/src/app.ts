@@ -5,11 +5,6 @@ import createError, { HttpError } from 'http-errors';
 import logger from 'morgan';
 import appEnvironmentVariables from './config/app-environment-variables.config';
 import indexRouter from './routes/index.route';
-import authRoutes from './routes/auth.routes';
-import sequelize from './config/sequelize.config';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import session from 'express-session';
 
 // Initialize app
 const app = express();
@@ -51,3 +46,4 @@ app.use((err: HttpError, req: Request, res: Response) => {
 });
 
 export default app;
+ 
