@@ -11,16 +11,16 @@ const Review = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
     },
     userName: {
-      type: DataTypes.STRING,
-      allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: true,
     },
     text: {
-      type: DataTypes.STRING,
-      allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: true, 
     },
     stars: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
   },
   {

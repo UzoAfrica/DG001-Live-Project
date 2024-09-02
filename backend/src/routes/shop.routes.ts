@@ -14,4 +14,5 @@ router.put('/shops/:id', authenticateUser as any, upload.fields([{ name: 'videos
 // Route to delete a shop
 router.delete('/shops/:id', authenticateUser as any, deleteShop);
 
+
 export default router;

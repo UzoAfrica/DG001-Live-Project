@@ -21,7 +21,7 @@ const TShop = sequelize.define('TShop', {
   },
   category: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   shopAddress: {
     type: DataTypes.STRING,
@@ -39,7 +39,7 @@ const TShop = sequelize.define('TShop', {
   },
   ownerId: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
   },
   ratings: {
     type: DataTypes.INTEGER,
