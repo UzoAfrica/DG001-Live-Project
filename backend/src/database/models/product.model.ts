@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
+import Review from './review.model';
 
 // Product model
 const Product = sequelize.define('Product', {
@@ -44,5 +45,11 @@ const Product = sequelize.define('Product', {
     defaultValue: 0,
   },
 });
+
+// One-to-Many relationship between Product and review
+Product.hasMany(Review, {
+  foreignKey: { allowNull: false },
+});
+Review.belongsTo(Product);
 
 export default Product;
