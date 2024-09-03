@@ -5,13 +5,11 @@ dotenv.config();
 
 /**
  * Application environment variables declared in the ".env" file.
- * Ensure all variables are defined in your ".env" file.
  */
 const appEnvironmentVariables = {
   nodeEnvironment: process.env.NODE_ENV || 'development',
   port: process.env.PORT || '5001',
   databaseURI: process.env.DATABASE_URI as string,
-  jwtSecretKey: process.env.JWT_SECRET_KEY as string,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN as string,
   googleClientId: process.env.GOOGLE_CLIENT_ID as string,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
@@ -22,8 +20,6 @@ const appEnvironmentVariables = {
   frontendVerifyOTPPage: process.env.VERIFY_OTP_PAGE as string,
   resetTokenSecretKey: process.env.RESET_TOKEN_SECRET_KEY as string,
   resetTokenExpiresIn: process.env.RESET_TOKEN_EXPIRES_IN as string,
-  jwtSecret: process.env.JWT_SECRET_KEY as string, // Added this missing key
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN as string, // Added this missing key
 };
 
 // Ensure all required environment variables are set
@@ -38,8 +34,7 @@ const requiredVariables = [
   'frontendVerifyOTPPage',
   'resetTokenSecretKey',
   'resetTokenExpiresIn',
-  'jwtSecret', // Added to required variables
-  'jwtExpiresIn', // Added to required variables
+  'jwtExpiresIn',
 ];
 
 requiredVariables.forEach((key) => {

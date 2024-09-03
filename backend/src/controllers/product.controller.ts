@@ -43,7 +43,7 @@ const updateProductSchema = Joi.object({
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
-  upload.single('video')(req, res, async (err) => {
+  upload.single('video')(req, res, async (err: any) => {
     if (err) {
       return res.status(400).json({ error: err.message });
     }
