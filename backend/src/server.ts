@@ -1,9 +1,9 @@
+import session from 'express-session';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import app from './app';
 import appEnvironmentVariables from './config/app-environment-variables.config';
 import sequelize from './config/sequelize.config';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import session from 'express-session';
 import authRoutes from './routes/auth.routes'; // Import the new route file
 
 // Middleware for session management
@@ -51,7 +51,7 @@ app.use('/', authRoutes);
 
 // Synchronize Database and start the server
 sequelize
-  .sync({ logging: false })
+  .sync({ logging: false, alter: true })
   .then(() => {
     console.log('Database synchronized successfully.');
 
