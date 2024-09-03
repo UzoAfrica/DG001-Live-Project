@@ -22,11 +22,10 @@ import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
 
 const LogIn: React.FC = () => {
-
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  })
+    email: '',
+    password: '',
+  });
   const [loading, setLoading] = useState(false);
 
   // const [errorMessage, setErrorMessage] = useState('');
@@ -50,31 +49,30 @@ const LogIn: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-
     try {
       event.preventDefault();
       setLoading(true);
 
-    const payload = {
-      email: formData.email,
-      password: formData.password,
-    };
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+      };
 
       const response = await loginFunction(payload);
 
       if (response.status !== 200) {
         setLoading(false);
-        return showErrorToast(response.data.message)
+        return showErrorToast(response.data.message);
       }
       setLoading(false);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
-      showSuccessToast(response.data.message)
+      showSuccessToast(response.data.message);
 
       return navigate('/dashboard');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);
       return showErrorToast(error.message);
@@ -98,7 +96,7 @@ const LogIn: React.FC = () => {
                 type="text"
                 id="username"
                 placeholder="Enter your username"
-                name='email'
+                name="email"
                 value={formData.email}
                 onChange={handleInputChange}
               />
@@ -109,7 +107,7 @@ const LogIn: React.FC = () => {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                name='password'
+                name="password"
                 value={formData.password}
                 onChange={handleInputChange}
               />
@@ -133,7 +131,9 @@ const LogIn: React.FC = () => {
               <img src={googleLogo} alt="Google Logo" />
               Log in with Google
             </GoogleSignUp>
-            <SignUpButton type="submit">{loading ? "Loading" : "Sign Up here"}</SignUpButton>
+            <SignUpButton type="submit">
+              {loading ? 'Loading' : 'Sign Up here'}
+            </SignUpButton>
           </form>
           {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
