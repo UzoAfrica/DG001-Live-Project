@@ -8,7 +8,9 @@ export const sendOTP = async (req: Request, res: Response) => {
 
   try {
     if (!email) {
-      return res.status(400).json({ success: false, message: 'Email is required' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Email is required' });
     }
 
     // Generate a random OTP

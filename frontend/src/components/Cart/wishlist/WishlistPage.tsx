@@ -28,7 +28,7 @@ const Wishlist: React.FC = () => {
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const response = await api.get('/api/user/wishlist');  // Your backend endpoint for fetching wishlist
+        const response = await api.get('/api/user/wishlist'); // Your backend endpoint for fetching wishlist
         setWishlist(response.data);
       } catch (error) {
         console.error('Error fetching wishlist:', error); // Log any error if fetching fails
@@ -45,28 +45,31 @@ const Wishlist: React.FC = () => {
 
   return (
     <>
-    <Title>Wishlist</Title>
-    <Container>
-      <WishlistContainer>
-        {wishlist.map((product) => (
-          <WishlistItem key={product.id}>
-            <ProductImage src={product.imageUrl} alt={product.name} />
-            <ProductInfo>
-              <ProductName>{product.name}</ProductName>
-              <ProductDescription>
-                The customer is very happy to be followed.
-              </ProductDescription>
-              <ProductPrice>
-                ₦{product.price.toLocaleString()} <span style={{ color: 'green' }}>Negotiable</span>
-              </ProductPrice>
-            </ProductInfo>
-            <ButtonContainer>
-              <ViewMoreButton onClick={() => handleViewMore(product.id)}>View More</ViewMoreButton>
-            </ButtonContainer>
-          </WishlistItem>
-        ))}
-      </WishlistContainer>
-    </Container>
+      <Title>Wishlist</Title>
+      <Container>
+        <WishlistContainer>
+          {wishlist.map((product) => (
+            <WishlistItem key={product.id}>
+              <ProductImage src={product.imageUrl} alt={product.name} />
+              <ProductInfo>
+                <ProductName>{product.name}</ProductName>
+                <ProductDescription>
+                  The customer is very happy to be followed.
+                </ProductDescription>
+                <ProductPrice>
+                  ₦{product.price.toLocaleString()}{' '}
+                  <span style={{ color: 'green' }}>Negotiable</span>
+                </ProductPrice>
+              </ProductInfo>
+              <ButtonContainer>
+                <ViewMoreButton onClick={() => handleViewMore(product.id)}>
+                  View More
+                </ViewMoreButton>
+              </ButtonContainer>
+            </WishlistItem>
+          ))}
+        </WishlistContainer>
+      </Container>
     </>
   );
 };

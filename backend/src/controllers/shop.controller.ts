@@ -16,9 +16,20 @@ interface CustomRequest extends Request {
 }
 
 // Create a shop
-export const createShop: RequestHandler = async (req: Request, res: Response) => {
+export const createShop: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const customReq = req as CustomRequest;
-  const { name, isOpen, description, currency, category, legalBusinessAddress, securityFeatures } = customReq.body;
+  const {
+    name,
+    isOpen,
+    description,
+    currency,
+    category,
+    legalBusinessAddress,
+    securityFeatures,
+  } = customReq.body;
   const user = customReq.user;
 
   if (!user) {
@@ -28,13 +39,21 @@ export const createShop: RequestHandler = async (req: Request, res: Response) =>
   const ownerId = user.id;
 
   try {
-    const userRecord = (await User.findByPk(ownerId)) as InstanceType<typeof User> | null;
+    const userRecord = (await User.findByPk(ownerId)) as InstanceType<
+      typeof User
+    > | null;
     if (!userRecord || !userRecord.getDataValue('isVerified')) {
-      return res.status(403).json({ message: 'User is not verified to create a shop.' });
+      return res
+        .status(403)
+        .json({ message: 'User is not verified to create a shop.' });
     }
 
-    const videoUrls = customReq.files?.videos ? await Promise.all(customReq.files.videos.map(uploadVideo)) : [];
-    const imageUrls = customReq.files?.images ? await Promise.all(customReq.files.images.map(uploadImage)) : [];
+    const videoUrls = customReq.files?.videos
+      ? await Promise.all(customReq.files.videos.map(uploadVideo))
+      : [];
+    const imageUrls = customReq.files?.images
+      ? await Promise.all(customReq.files.images.map(uploadImage))
+      : [];
 
     const shop = await Shop.create({
       name,
@@ -53,17 +72,32 @@ export const createShop: RequestHandler = async (req: Request, res: Response) =>
 
     res.status(201).json({ message: 'Shop created successfully.', shop });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error creating shop:', error);
-    res.status(500).json({ message: 'An error occurred while creating the shop.', error: errorMessage });
+    res.status(500).json({
+      message: 'An error occurred while creating the shop.',
+      error: errorMessage,
+    });
   }
 };
 
 // Update a shop
-export const updateShop: RequestHandler = async (req: Request, res: Response) => {
+export const updateShop: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const customReq = req as CustomRequest;
   const { id } = customReq.params;
-  const { name, isOpen, description, currency, category, legalBusinessAddress, securityFeatures } = customReq.body;
+  const {
+    name,
+    isOpen,
+    description,
+    currency,
+    category,
+    legalBusinessAddress,
+    securityFeatures,
+  } = customReq.body;
   const user = customReq.user;
 
   if (!user) {
@@ -80,11 +114,17 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
     }
 
     if (shop.getDataValue('ownerId') !== ownerId) {
-      return res.status(403).json({ message: 'Unauthorized to update this shop.' });
+      return res
+        .status(403)
+        .json({ message: 'Unauthorized to update this shop.' });
     }
 
-    const videoUrls = customReq.files?.videos ? await Promise.all(customReq.files.videos.map(uploadVideo)) : shop.getDataValue('videoUrls');
-    const imageUrls = customReq.files?.images ? await Promise.all(customReq.files.images.map(uploadImage)) : shop.getDataValue('imageUrls');
+    const videoUrls = customReq.files?.videos
+      ? await Promise.all(customReq.files.videos.map(uploadVideo))
+      : shop.getDataValue('videoUrls');
+    const imageUrls = customReq.files?.images
+      ? await Promise.all(customReq.files.images.map(uploadImage))
+      : shop.getDataValue('imageUrls');
 
     await shop.update({
       name,
@@ -101,14 +141,21 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
 
     res.status(200).json({ message: 'Shop updated successfully.', shop });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error updating shop:', error);
-    res.status(500).json({ message: 'An error occurred while updating the shop.', error: errorMessage });
+    res.status(500).json({
+      message: 'An error occurred while updating the shop.',
+      error: errorMessage,
+    });
   }
 };
 
 // Delete a shop
-export const deleteShop: RequestHandler = async (req: Request, res: Response) => {
+export const deleteShop: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const customReq = req as CustomRequest;
   const { id } = customReq.params;
   const user = customReq.user;
@@ -127,7 +174,9 @@ export const deleteShop: RequestHandler = async (req: Request, res: Response) =>
     }
 
     if (shop.getDataValue('ownerId') !== ownerId) {
-      return res.status(403).json({ message: 'Unauthorized to delete this shop.' });
+      return res
+        .status(403)
+        .json({ message: 'Unauthorized to delete this shop.' });
     }
 
     const videoUrls = shop.getDataValue('videoUrls');
@@ -138,8 +187,12 @@ export const deleteShop: RequestHandler = async (req: Request, res: Response) =>
     await shop.destroy();
     res.status(200).json({ message: 'Shop deleted successfully.' });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error deleting shop:', error);
-    res.status(500).json({ message: 'An error occurred while deleting the shop.', error: errorMessage });
+    res.status(500).json({
+      message: 'An error occurred while deleting the shop.',
+      error: errorMessage,
+    });
   }
 };

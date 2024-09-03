@@ -8,7 +8,11 @@ interface CustomRequest extends Request {
   };
 }
 
-export const authenticateUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
+export const authenticateUser = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const userId = req.session?.userId; // Ensure `req.session` exists
 
   if (!userId) {
@@ -17,7 +21,9 @@ export const authenticateUser = async (req: CustomRequest, res: Response, next: 
 
   try {
     // Fetch the user instance
-    const user = await User.findByPk(userId) as InstanceType<typeof User> | null;
+    const user = (await User.findByPk(userId)) as InstanceType<
+      typeof User
+    > | null;
 
     if (!user) {
       return res.status(401).json({ message: 'User not found' });
@@ -40,7 +46,10 @@ export const authenticateUser = async (req: CustomRequest, res: Response, next: 
       res.status(500).json({ message: 'Server error', error: error.message });
     } else {
       console.error('Unexpected error:', error);
-      res.status(500).json({ message: 'Server error', error: 'An unexpected error occurred' });
+      res.status(500).json({
+        message: 'Server error',
+        error: 'An unexpected error occurred',
+      });
     }
   }
 };

@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { FC } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 // Define prop types
 interface RatingProps {
@@ -13,13 +13,13 @@ const Rating: FC<RatingProps> = ({ value, text }) => {
       {[1, 2, 3, 4, 5].map((rate) => (
         <span key={uuidv4()}>
           <i
-            style={{ color: "#0080FF" }}
+            style={{ color: '#0080FF' }}
             className={
               value + 1 === rate + 0.5
-                ? "fas fa-star-half-alt"
+                ? 'fas fa-star-half-alt'
                 : value >= rate
-                ? "fas fa-star"
-                : "far fa-star"
+                  ? 'fas fa-star'
+                  : 'far fa-star'
             }
           ></i>
         </span>

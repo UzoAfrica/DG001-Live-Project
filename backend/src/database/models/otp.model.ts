@@ -34,4 +34,3 @@ const OTP = sequelize.define(
 );
 
 export default OTP;
- 

@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const CartBackground = styled.div` 
+export const CartBackground = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: #f8f8f8;

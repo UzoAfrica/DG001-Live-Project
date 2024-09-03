@@ -9,9 +9,9 @@ declare module 'express-session' {
 }
 
 declare global {
-    namespace Express {
-      interface Request {
-        files?: FileArray; 
-      }
+  namespace Express {
+    interface Request {
+      files?: FileArray;
     }
   }
+}

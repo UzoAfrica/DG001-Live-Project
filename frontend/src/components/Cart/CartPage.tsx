@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   CartBackground,
@@ -21,7 +21,7 @@ import {
   FooterButtons,
   ClearCartButton,
   CheckoutButton,
-} from "./CartStyled"; 
+} from './CartStyled';
 
 interface CartProps {
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,7 +36,7 @@ interface Item {
 }
 
 const Cart: FC<CartProps> = ({ setOpenCart }) => {
-  const [items, setItems] = useState<Item[]>([]); 
+  const [items, setItems] = useState<Item[]>([]);
   const [cartTotal, setCartTotal] = useState<number>(0);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -65,66 +65,80 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
   return (
     <>
-  <Title>Cart</Title>
-    <CartBackground>
-      <CartContainer>
-        <CartHeader>
-          <i
-            style={{ cursor: "pointer" }}
-            className="fa fa-times"
-            aria-hidden="true"
-            onClick={() => setOpenCart(false)}
-          ></i>
-        </CartHeader>
-        
-        {items.length === 0 ? (
-          <EmptyCartMessage>Your shopping cart is empty</EmptyCartMessage>
-        ) : (
-          <>
-            <CartTable>
-              <tbody>
-                {items.map((item, index) => (
-                  <CartItem key={index}>
-                    <td>
-                      <ItemImage src={item.image} alt={item.title} />
-                    </td>
-                    <ItemTitle>{item.title}</ItemTitle>
-                    <ItemPrice>{item.price} €</ItemPrice>
-                    <ItemQuantity>
-                      <QuantityButton
-                        onClick={() => {/* Update item quantity logic here */}}
-                      >
-                        &minus;
-                      </QuantityButton>
-                      <Quantity>{item.quantity || 0}</Quantity>
-                      <QuantityButton
-                        onClick={() => {/* Update item quantity logic here */}}
-                      >
-                        &#43;
-                      </QuantityButton>
-                    </ItemQuantity>
-                    <td>
-                      <RemoveButton onClick={() => {/* Remove item logic here */}}>
-                        <i className="fa fa-trash" aria-hidden="true" />
-                      </RemoveButton>
-                    </td>
-                  </CartItem>
-                ))}
-              </tbody>
-            </CartTable>
+      <Title>Cart</Title>
+      <CartBackground>
+        <CartContainer>
+          <CartHeader>
+            <i
+              style={{ cursor: 'pointer' }}
+              className="fa fa-times"
+              aria-hidden="true"
+              onClick={() => setOpenCart(false)}
+            ></i>
+          </CartHeader>
 
-            <CartFooter>
-              <TotalItems>Number of item(s): {totalItems}</TotalItems>
-              <TotalAmount>Total: {cartTotal} €</TotalAmount>
-              <FooterButtons>
-                <ClearCartButton onClick={() => {/* Empty cart logic here */}}>Empty Cart</ClearCartButton>
-                <CheckoutButton type="submit">Checkout</CheckoutButton>
-              </FooterButtons>
-            </CartFooter>
-          </>
-        )}
-      </CartContainer>
-    </CartBackground>
+          {items.length === 0 ? (
+            <EmptyCartMessage>Your shopping cart is empty</EmptyCartMessage>
+          ) : (
+            <>
+              <CartTable>
+                <tbody>
+                  {items.map((item, index) => (
+                    <CartItem key={index}>
+                      <td>
+                        <ItemImage src={item.image} alt={item.title} />
+                      </td>
+                      <ItemTitle>{item.title}</ItemTitle>
+                      <ItemPrice>{item.price} €</ItemPrice>
+                      <ItemQuantity>
+                        <QuantityButton
+                          onClick={() => {
+                            /* Update item quantity logic here */
+                          }}
+                        >
+                          &minus;
+                        </QuantityButton>
+                        <Quantity>{item.quantity || 0}</Quantity>
+                        <QuantityButton
+                          onClick={() => {
+                            /* Update item quantity logic here */
+                          }}
+                        >
+                          &#43;
+                        </QuantityButton>
+                      </ItemQuantity>
+                      <td>
+                        <RemoveButton
+                          onClick={() => {
+                            /* Remove item logic here */
+                          }}
+                        >
+                          <i className="fa fa-trash" aria-hidden="true" />
+                        </RemoveButton>
+                      </td>
+                    </CartItem>
+                  ))}
+                </tbody>
+              </CartTable>
+
+              <CartFooter>
+                <TotalItems>Number of item(s): {totalItems}</TotalItems>
+                <TotalAmount>Total: {cartTotal} €</TotalAmount>
+                <FooterButtons>
+                  <ClearCartButton
+                    onClick={() => {
+                      /* Empty cart logic here */
+                    }}
+                  >
+                    Empty Cart
+                  </ClearCartButton>
+                  <CheckoutButton type="submit">Checkout</CheckoutButton>
+                </FooterButtons>
+              </CartFooter>
+            </>
+          )}
+        </CartContainer>
+      </CartBackground>
     </>
   );
 };

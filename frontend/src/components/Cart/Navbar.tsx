@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Nav,
@@ -16,7 +16,7 @@ import {
   SearchInput,
   SearchIcon,
   CancelIcon,
-} from "./StyledNavbar";
+} from './StyledNavbar';
 
 interface NavbarProps {
   userProfile: {
@@ -25,7 +25,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
-  const [userImage, setUserImage] = useState<string | undefined>("");
+  const [userImage, setUserImage] = useState<string | undefined>('');
   const [notificationCount, setNotificationCount] = useState<number>(0);
 
   useEffect(() => {
@@ -37,7 +37,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   useEffect(() => {
     const fetchNotificationCount = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/notifications/count');
+        const response = await axios.get(
+          'http://localhost:5001/api/notifications/count'
+        );
         setNotificationCount(response.data.count);
       } catch (error) {
         console.error('Error fetching notification count:', error);
@@ -58,7 +60,12 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
         <SearchInputWrapper>
           <SearchInput type="text" placeholder="Search..." />
           <SearchIcon className="fas fa-search" />
-          <CancelIcon className="fa fa-times" onClick={() => {/* Clear search logic here */}} />
+          <CancelIcon
+            className="fa fa-times"
+            onClick={() => {
+              /* Clear search logic here */
+            }}
+          />
         </SearchInputWrapper>
       </NavMiddle>
 
