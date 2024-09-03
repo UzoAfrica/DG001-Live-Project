@@ -10,14 +10,14 @@ interface CustomRequest extends Request {
     isVerified: boolean;
   };
   files?: {
-    videos?: Express.Multer.File[]; // Correctly using Express.Multer.File
-    images?: Express.Multer.File[]; // Correctly using Express.Multer.File
+    videos?: Express.Multer.File[];
+    images?: Express.Multer.File[];
   };
 }
 
 // Create a shop
 export const createShop: RequestHandler = async (req: Request, res: Response) => {
-  const customReq = req as CustomRequest; // Type assertion
+  const customReq = req as CustomRequest;
   const { name, isOpen, description, currency, category, legalBusinessAddress, securityFeatures } = customReq.body;
   const user = customReq.user;
 
@@ -33,7 +33,6 @@ export const createShop: RequestHandler = async (req: Request, res: Response) =>
       return res.status(403).json({ message: 'User is not verified to create a shop.' });
     }
 
-    // Upload videos and images and get URLs
     const videoUrls = customReq.files?.videos ? await Promise.all(customReq.files.videos.map(uploadVideo)) : [];
     const imageUrls = customReq.files?.images ? await Promise.all(customReq.files.images.map(uploadImage)) : [];
 
@@ -45,7 +44,7 @@ export const createShop: RequestHandler = async (req: Request, res: Response) =>
       category,
       legalBusinessAddress,
       securityFeatures,
-      coverImage: imageUrls[0] || null, // Assume the first image is the cover image
+      coverImage: imageUrls[0] || null,
       ownerId,
       ratings: 0,
       videoUrls,
@@ -62,7 +61,7 @@ export const createShop: RequestHandler = async (req: Request, res: Response) =>
 
 // Update a shop
 export const updateShop: RequestHandler = async (req: Request, res: Response) => {
-  const customReq = req as CustomRequest; // Type assertion
+  const customReq = req as CustomRequest;
   const { id } = customReq.params;
   const { name, isOpen, description, currency, category, legalBusinessAddress, securityFeatures } = customReq.body;
   const user = customReq.user;
@@ -84,7 +83,6 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
       return res.status(403).json({ message: 'Unauthorized to update this shop.' });
     }
 
-    // Update video and image URLs if new files are uploaded
     const videoUrls = customReq.files?.videos ? await Promise.all(customReq.files.videos.map(uploadVideo)) : shop.getDataValue('videoUrls');
     const imageUrls = customReq.files?.images ? await Promise.all(customReq.files.images.map(uploadImage)) : shop.getDataValue('imageUrls');
 
@@ -96,7 +94,7 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
       category,
       legalBusinessAddress,
       securityFeatures,
-      coverImage: imageUrls[0] || shop.getDataValue('coverImage'), // Update cover image if provided
+      coverImage: imageUrls[0] || shop.getDataValue('coverImage'),
       videoUrls,
       imageUrls,
     });
@@ -111,7 +109,7 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
 
 // Delete a shop
 export const deleteShop: RequestHandler = async (req: Request, res: Response) => {
-  const customReq = req as CustomRequest; // Type assertion
+  const customReq = req as CustomRequest;
   const { id } = customReq.params;
   const user = customReq.user;
 
@@ -135,7 +133,6 @@ export const deleteShop: RequestHandler = async (req: Request, res: Response) =>
     const videoUrls = shop.getDataValue('videoUrls');
     const imageUrls = shop.getDataValue('imageUrls');
 
-    // Delete videos and images from Cloudinary
     await deleteResources([...videoUrls, ...imageUrls]);
 
     await shop.destroy();
