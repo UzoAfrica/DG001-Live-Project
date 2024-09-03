@@ -14,9 +14,52 @@ const TShop = sequelize.define('TShop', {
     allowNull: false,
     unique: true,
   },
+  currency: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'NGN',
+  },
+  category: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   shopAddress: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  isOpen: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
+  description: {
+    type: DataTypes.STRING,
+  },
+  coverImage: {
+    type: DataTypes.STRING,
+  },
+  ownerId: {
+    type: DataTypes.UUID,
+    allowNull: true,
+  },
+  ratings: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  securityFeatures: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
+  legalBusinessAddress: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
+  videoUrls: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true, // Field to store video URLs
+  },
+  imageUrls: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true, // Field to store image URLs
   },
 });
 
@@ -27,4 +70,3 @@ TShop.hasMany(Product, {
 Product.belongsTo(TShop);
 
 export default TShop;
- 
