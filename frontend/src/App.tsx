@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
+import CreateShop from './components/CreateShop/index';
 
 const MainPage: React.FC = () => (
   <>
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         <Route path="signup" element={<SignUp />} />
         <Route path="reset" element={<Reset />} />
         <Route path="otp" element={<ReSend />} />
+        <Route path="create-shop" element={<CreateShop />} />
         {/* <Route path="*" element={<NoPage />} /> */}
       </Routes>
     </BrowserRouter>
