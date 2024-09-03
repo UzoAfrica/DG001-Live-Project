@@ -51,7 +51,7 @@ app.use('/', authRoutes);
 
 // Synchronize Database and start the server
 sequelize
-  .sync({ logging: false, alter: false })
+  .sync({ logging: false, alter: true })
   .then(() => {
     console.log('Database synchronized successfully.');
 
@@ -64,4 +64,3 @@ sequelize
   .catch((error) => {
     console.error(`Database synchronization error: ${error}`);
   });
- 

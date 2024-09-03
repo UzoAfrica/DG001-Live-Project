@@ -1,8 +1,8 @@
-import express from 'express';
-import { sendOTP } from '../controllers/otp.controller';
+// import express from 'express';
+// import { sendOTP } from '../controllers/otp.controller';
 
-const router = express.Router();
+// const router = express.Router();
 
-router.post('/send-otp', sendOTP);
+// router.post('/send-otp', sendOTP);
 
-export default router;
+// export default router;

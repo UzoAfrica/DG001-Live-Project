@@ -1,16 +1,18 @@
-import { createContext, useContext, useState, FC, ReactNode } from 'react';
+import { createContext, useState, FC, ReactNode } from 'react';
 
-// Define the shape of cart items
-interface CartItem {
+// In CartProvider.tsx
+export interface CartItem {
   id: string;
-  title: string;
   price: number;
   quantity: number;
-  image: string;
+  name: string; // Remove optional (?) to ensure it is always a string
+  description: string; // Remove optional (?) to ensure it is always a string
+  // Remove the index signature or make sure it aligns exactly with the react-use-cart expectations
+  [key: string]: string | number;
 }
 
 // Define the shape of the cart context
-interface CartContextProps {
+export interface CartContextProps {
   items: CartItem[];
   totalItems: number;
   cartTotal: number;
@@ -21,16 +23,9 @@ interface CartContextProps {
 }
 
 // Create a context with a default value
-const CartContext = createContext<CartContextProps | undefined>(undefined);
-
-// Custom hook to use the Cart context
-export const useCart = (): CartContextProps => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
+export const CartContext = createContext<CartContextProps | undefined>(
+  undefined
+);
 
 // CartProvider component
 export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -65,14 +60,25 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const updateCartState = () => {
     const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
-    const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const total = items.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
     setTotalItems(totalItems);
     setCartTotal(total);
   };
 
   return (
     <CartContext.Provider
-      value={{ items, totalItems, cartTotal, addItem, removeItem, updateItemQuantity, clearCart }}
+      value={{
+        items,
+        totalItems,
+        cartTotal,
+        addItem,
+        removeItem,
+        updateItemQuantity,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>

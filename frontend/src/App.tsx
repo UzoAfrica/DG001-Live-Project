@@ -1,5 +1,10 @@
 import { useState, Dispatch, SetStateAction, FC } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet, useOutletContext } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useOutletContext,
+} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from '../src/components/Cart/CartProvider';

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import {
   BackImg,
   ResetPass,
+  StyleImg,
   StyledDiv,
   StyledIcon,
   StyledOne,
@@ -11,9 +12,13 @@ import {
   StyledString,
   StyledTwo,
 } from '../StyleCompo';
+import Logo from '../../images/logo-removebg-preview.png';
 import { useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
-import { otpResendFunction, otpVerificationFunction } from '../../axiosFolder/functions/userAuth';
+import {
+  otpResendFunction,
+  otpVerificationFunction,
+} from '../../axiosFolder/functions/userAuth';
 
 // import axios from 'axios';
 
@@ -23,7 +28,8 @@ export default function ResentOtp() {
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const [resetLoading, setResetLoading] = useState(false);
-  const [resetVerificationLoading, setResetVerificationLoading] = useState(false); 
+  const [resetVerificationLoading, setResetVerificationLoading] =
+    useState(false);
 
   // Handler for key up events
   const handleOtpChange = (
@@ -58,7 +64,7 @@ export default function ResentOtp() {
 
   const navigate = useNavigate();
   // Handler for form submit
-  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // Handle the OTP submission
     e.preventDefault();
     try {
@@ -69,19 +75,19 @@ export default function ResentOtp() {
         return showErrorToast('Please enter a valid OTP');
       }
       const newOTP = otp.join('');
-      const response = await otpVerificationFunction({otp: newOTP})
+      const response = await otpVerificationFunction({ otp: newOTP });
 
-       if(response.status !== 200) {
+      if (response.status !== 200) {
         setResetVerificationLoading(false);
         setOtp(Array(4).fill(''));
         return showErrorToast(response.data.message);
-       }
-        setResetVerificationLoading(false);
-        showSuccessToast(response.data.message);
-        setOtp(Array(4).fill(''));
-        return navigate('/login');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err:any) {
+      }
+      setResetVerificationLoading(false);
+      showSuccessToast(response.data.message);
+      setOtp(Array(4).fill(''));
+      return navigate('/login');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       console.error('Error verifying OTP', err);
       setResetVerificationLoading(false);
       setOtp(Array(4).fill(''));
@@ -89,20 +95,20 @@ export default function ResentOtp() {
     }
   };
 
-  const handleResend = async (e:React.FormEvent<HTMLFormElement>) => {
+  const handleResend = async (e: React.FormEvent<HTMLFormElement>) => {
     // Handle the OTP submission
     e.preventDefault();
     try {
       setResetLoading(true);
       const email = localStorage.getItem('email');
-      const response = await otpResendFunction({email: email})
-      if(response.status !== 200) {
+      const response = await otpResendFunction({ email: email });
+      if (response.status !== 200) {
         setResetLoading(false);
         return showErrorToast(response.data.message);
-       }
+      }
 
-       setResetLoading(false);
-       return showSuccessToast(response.data.message);
+      setResetLoading(false);
+      return showSuccessToast(response.data.message);
     } catch (err) {
       console.error('Error verifying OTP', err);
       return setResetLoading(false);
@@ -122,6 +128,7 @@ export default function ResentOtp() {
   return (
     <BackImg>
       <StyledResetContainer>
+        <StyleImg src={Logo} alt="logotraidr" />
         <StyledIcon />
         <StyledString>Enter OTP</StyledString>
         <ResetPass>
@@ -141,12 +148,17 @@ export default function ResentOtp() {
             ))}
           </StyledOtpFlex>
           <StyledDiv>
-            { /*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-            <StyledOne onClick={(e:any)=> handleSubmit(e)} disabled={isButtonDisabled}>
-              {resetVerificationLoading ? "Loading..." : "Submit OTP"}
+            {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+            <StyledOne
+              onClick={(e: any) => handleSubmit(e)}
+              disabled={isButtonDisabled}
+            >
+              {resetVerificationLoading ? 'Loading...' : 'Submit OTP'}
             </StyledOne>
-            { /*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-            <StyledTwo onClick={(e:any)=> handleResend(e)}>{resetLoading ? "Loading..." : "Resend OTP"}</StyledTwo>
+            {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+            <StyledTwo onClick={(e: any) => handleResend(e)}>
+              {resetLoading ? 'Loading...' : 'Resend OTP'}
+            </StyledTwo>
           </StyledDiv>
         </ResetPass>
       </StyledResetContainer>

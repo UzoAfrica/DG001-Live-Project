@@ -1,16 +1,16 @@
-import { FC } from "react";
-import { useCart } from "react-use-cart";
-import "./itemCard.css";
-import Rating from "./Reviews";
+import { FC } from 'react';
+import { useCart } from 'react-use-cart';
+import './itemCard.css';
+import Rating from './Reviews';
+import { CartItem } from '../Cart/CartProvider'; // Ensure this path is correct
 
-// Define prop types
 interface ItemCardProps {
   image: string;
   title: string;
   price: number;
   rating: number;
   numReviews: number;
-  item: any; 
+  item: CartItem; // Use the corrected CartItem type
 }
 
 const ItemCard: FC<ItemCardProps> = (props) => {

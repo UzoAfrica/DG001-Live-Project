@@ -1,6 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
-import { Request } from 'express';
 
 // Cloudinary configuration
 cloudinary.config({
@@ -14,7 +13,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Function to upload an image to Cloudinary
-export const uploadImage = async (file: Express.Multer.File): Promise<string> => {
+export const uploadImage = async (
+  file: Express.Multer.File
+): Promise<string> => {
   if (!file) {
     throw new Error('No file provided');
   }
@@ -30,7 +31,9 @@ export const uploadImage = async (file: Express.Multer.File): Promise<string> =>
 };
 
 // Function to upload a video to Cloudinary
-export const uploadVideo = async (file: Express.Multer.File): Promise<string> => {
+export const uploadVideo = async (
+  file: Express.Multer.File
+): Promise<string> => {
   if (!file) {
     throw new Error('No file provided');
   }

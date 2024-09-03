@@ -10,29 +10,24 @@ const Review = sequelize.define(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    userName: {
-        type: DataTypes.STRING,
-        allowNull: true,
+    comment: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    text: {
-        type: DataTypes.STRING,
-        allowNull: true, 
-    },
-    stars: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
+    rating: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
     indexes: [
-      // Create index on userName field
+      // Create composite unique index on UserId and ProductId column
       {
         unique: true,
-        fields: ['userName'],
+        fields: ['UserId', 'ProductId'],
       },
     ],
   }
 );
 
 export default Review;
- 
