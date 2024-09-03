@@ -1,6 +1,7 @@
 import NavBar from './NavBar';
 import ProgressBar from './ProgressBar';
 import { Container } from './styles/Index';
+import MultiStepForm from './MultiStepForm';
 
 const CreateShop = () => {
   return (
@@ -25,6 +26,7 @@ const CreateShop = () => {
           className="create-shop-body-container"
         >
           <ProgressBar />
+          <MultiStepForm></MultiStepForm>
         </Container>
       </Container>
     </>

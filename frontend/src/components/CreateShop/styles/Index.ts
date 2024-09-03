@@ -27,6 +27,19 @@ export const Container = styled.div<AdditionalProps>`
   box-shadow: ${(props) => props.$boxShadow || ''};
   margin: ${(props) => props.$margin || ''};
 `;
+// Turn ordinary container to desktop container
+export const DesktopContainer = styled(Container)<AdditionalProps>`
+  /* Dektop screen */
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    max-width: 800px;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 1440px) {
+    max-width: 1000px;
+  }
+`;
 
 // General purpose <image> element
 export const Image = styled.img<AdditionalProps>`
@@ -41,4 +54,39 @@ export const Paragraph = styled.p<AdditionalProps>`
   font-weight: ${(props) => props.$fontWeight || 'normal'};
   font-family: ${(props) => props.$fontFamily || "'Outfit', sans-serif"};
   color: ${(props) => props.$color || ''};
+`;
+
+// General purpose <form> element
+export const Form = styled.form<AdditionalProps>`
+  display: ${(props) => props.$display || ''};
+  flex-direction: ${(props) => props.$flexDirection || ''};
+  justify-content: ${(props) => props.$justifyContent || ''};
+  align-items: ${(props) => props.$alignItems || ''};
+  row-gap: ${(props) => props.$rowGap || ''};
+  column-gap: ${(props) => props.$columnGap || ''};
+  padding: ${(props) => props.$padding || ''};
+  background-color: ${(props) => props.$backgroundColor || ''};
+`;
+
+// General purpose <button> element
+export const Button = styled.button<AdditionalProps>`
+  color: ${(props) => props.$color || ''};
+  font-family: ${(props) => props.$fontFamily || "'Outfit', sans-serif"};
+  font-weight: ${(props) => props.$fontWeight || 'normal'};
+  font-size: ${(props) => props.$fontSize || ''};
+  border: ${(props) => props.$border || ''};
+  border-radius: ${(props) => props.$borderRadius || ''};
+  background-color: ${(props) => props.$backgroundColor || ''};
+  padding: ${(props) => props.$padding || ''};
+  max-width: ${(props) => props.$maxWidth || ''};
+  width: ${(props) => props.$width || '288px'};
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  /* Dektop screen */
+  @media screen and (min-width: 768px) {
+    width: 200px;
+  }
 `;
