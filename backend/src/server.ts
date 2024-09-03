@@ -64,3 +64,4 @@ sequelize
   .catch((error) => {
     console.error(`Database synchronization error: ${error}`);
   });
+ 

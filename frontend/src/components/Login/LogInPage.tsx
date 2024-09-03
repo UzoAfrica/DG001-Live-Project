@@ -129,9 +129,10 @@ const LogIn: React.FC = () => {
               <SeparatorSpan>OR</SeparatorSpan>
               <SeparatorHr />
             </Separator>
+
+            {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <img src={googleLogo} alt="Google Logo" />
-              Log in with Google
+              <GoogleLoginButton action="login" />
             </GoogleSignUp>
             <SignUpButton type="submit">{loading ? "Loading" : "Sign Up here"}</SignUpButton>
           </form>

@@ -81,3 +81,4 @@ Product.belongsToMany(User, { through: UserProducts });
 User.belongsToMany(Product, { through: UserProducts });
 
 export default User;
+ 
