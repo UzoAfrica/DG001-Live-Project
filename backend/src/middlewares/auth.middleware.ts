@@ -9,7 +9,7 @@ interface CustomRequest extends Request {
 }
 
 export const authenticateUser = async (req: CustomRequest, res: Response, next: NextFunction) => {
-  const userId = req.session.userId; // Now, `userId` is correctly recognized
+  const userId = req.session?.userId; // Ensure `req.session` exists
 
   if (!userId) {
     return res.status(401).json({ message: 'User not authenticated' });
@@ -35,8 +35,13 @@ export const authenticateUser = async (req: CustomRequest, res: Response, next: 
 
     next();
   } catch (error) {
-    console.error('Error authenticating user:', error);
-    res.status(500).json({ message: 'Server error' });
+    if (error instanceof Error) {
+      console.error('Error authenticating user:', error.message);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    } else {
+      console.error('Unexpected error:', error);
+      res.status(500).json({ message: 'Server error', error: 'An unexpected error occurred' });
+    }
   }
 };
 
