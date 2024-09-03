@@ -4,6 +4,7 @@ import Joi from 'joi';
 import { Op } from 'sequelize';
 import cloudinary from 'cloudinary';
 import upload from '../config/multer.config'; // Import multer configuration
+import { getSpecificProductSchema } from '../validators/product.validator'; // Import product validation schema
 
 // Cloudinary configuration
 cloudinary.v2.config({
@@ -216,19 +217,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-// Ensure all controllers are exported
-export default {
-  addProduct,
-  getAllProducts,
-  getTrendingSales,
-  getProductById,
-  updateProduct,
-  deleteProduct,
-};
-import { Request, Response } from 'express';
-import Product from '../database/models/product.model';
-import { getSpecificProductSchema } from '../validators/product.validator';
-
+// Controller to get a specific product
 export const getSpecificProduct = async (req: Request, res: Response) => {
   // Validation Error
   const validationResult = getSpecificProductSchema.validate(req.params.id);
@@ -247,10 +236,10 @@ export const getSpecificProduct = async (req: Request, res: Response) => {
         .json({ message: 'Product ID does not exist', data: null });
 
     /**
-     * Because typescript can't implicitly recognize sequelize association mixins.
+     * Because TypeScript can't implicitly recognize Sequelize association mixins.
      * See https://github.com/sequelize/sequelize/issues/14302
      */
-    // @ts-expect-error: typescript can't implicitly recognize sequelize association mixins.
+    // @ts-expect-error: TypeScript can't implicitly recognize Sequelize association mixins.
     const shopInfo = await product.getTShop();
 
     return res
@@ -266,4 +255,15 @@ export const getSpecificProduct = async (req: Request, res: Response) => {
       });
     }
   }
+};
+
+// Ensure all controllers are exported
+export default {
+  addProduct,
+  getAllProducts,
+  getTrendingSales,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+  getSpecificProduct,
 };
