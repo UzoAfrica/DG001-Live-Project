@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
+import Review from './review.model';
 
 // Product model
 const Product = sequelize.define('Product', {
@@ -47,6 +48,14 @@ const Product = sequelize.define('Product', {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
-});
+  {
+    indexes: [
+      // Create index on email field
+      {
+        fields: ['userEmail'],
+      },
+    ],
+  }
+);
 
 export default Product;

@@ -37,7 +37,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       const newUserOTP = await OTP.create({
         userEmail: email,
         otp: generateOTP(4),
-        expiresAt: generateExpiryDate(50),
+        expiresAt: generateExpiryDate(120),
         UserId: user.getDataValue('id'),
       });
 
@@ -59,7 +59,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       const newUserOTP = await OTP.create({
         userEmail: email,
         otp: generateOTP(4),
-        expiresAt: generateExpiryDate(50),
+        expiresAt: generateExpiryDate(120),
         UserId: user.getDataValue('id'),
       });
 
@@ -122,6 +122,9 @@ export const verifyOTP = async (req: Request, res: Response) => {
       where: { email: userOTP.getDataValue('userEmail') },
     });
     await user?.update({ isVerified: true });
+
+    // Delete previous OTP
+    await userOTP.destroy();
 
     // Create token for Reset Password Page
     const resetToken = jwt.sign(

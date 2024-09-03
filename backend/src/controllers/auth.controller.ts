@@ -9,7 +9,7 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const { name, email, password, referralSource } = req.body;
 
-    console.log(req.body);
+    console.log(req.body);;
 
     // Check if all required fields are provided
     if (!name || !email || !password || !referralSource) {
@@ -59,11 +59,11 @@ export const signup = async (req: Request, res: Response) => {
       text: `Your OTP for email verification is: ${generatedOtp}. It will expire in 10 minutes.`,
     });
 
-    // Respond with success
-    return res.status(201).json({
-      success: true,
-      message:
-        'User registered successfully. An OTP has been sent to your email address. Please input it in the OTP page.',
+    // await sendVerificationEmail(email, generatedOtp);
+
+    res.status(201).json({
+      success: false,
+      message: 'User registered successfully, an OTP has been sent to your email address. Please input it in the OTP page.',
       user: newUser,
     });
   } catch (error) {
