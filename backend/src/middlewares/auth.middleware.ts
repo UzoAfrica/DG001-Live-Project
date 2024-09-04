@@ -33,7 +33,7 @@ export const authenticateToken: RequestHandler = async (
     // Properly type the callback in `jwt.verify`
     jwt.verify(
       token,
-      (user as any).jwtSecretKey, // Assert the type here
+      (user as any).jwtSecretKey,
       (err: jwt.VerifyErrors | null, decodedUser: any) => {
         if (err) return res.status(403).json({ message: 'Invalid access token' });
         req.user = decodedUser;
