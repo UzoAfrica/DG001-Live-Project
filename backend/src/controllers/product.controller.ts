@@ -3,8 +3,8 @@ import Product from '../database/models/product.model';
 import Joi from 'joi';
 import { Op } from 'sequelize';
 import cloudinary from 'cloudinary';
-import upload from '../config/multer.config'; // Import multer configuration
-import { getSpecificProductSchema } from '../validators/product.validator'; // Import product validation schema
+import upload from '../config/multer.config'; 
+import { getSpecificProductSchema } from '../validators/product.validator'; 
 
 // Cloudinary configuration
 cloudinary.v2.config({
@@ -18,7 +18,7 @@ const addProductSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
   price: Joi.number().required(),
-  imageUrl: Joi.array().items(Joi.string().uri()).optional(), // Optional as video might replace images
+  imageUrl: Joi.array().items(Joi.string().uri()).optional(), 
   videoUrl: Joi.string().optional(),
   quantity: Joi.number().required(),
   userId: Joi.number().required(),
