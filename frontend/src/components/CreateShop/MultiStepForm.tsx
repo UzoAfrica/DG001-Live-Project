@@ -1,12 +1,47 @@
 import { Container, Button, Form, DesktopContainer } from './styles/Index';
-// import StepOne from './StepOne';
-// import StepTwo from './StepTwo';
-// import StepThree from './StepThree';
+import StepOne from './StepOne';
+import StepTwo from './StepTwo';
+import StepThree from './StepThree';
 import StepFour from './StepFour';
-// import { useState } from 'react';
+import ProgressBar from './ProgressBar';
+import { useState } from 'react';
+
+const steps = [
+  'Name your Shop',
+  'Stock Your Shop',
+  "How you'll get paid",
+  'Shop Security',
+];
 
 const MultiStepForm = () => {
-  //   const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return <StepOne />;
+      case 1:
+        return <StepTwo />;
+      case 2:
+        return <StepThree />;
+      case 3:
+        return <StepFour />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -15,6 +50,9 @@ const MultiStepForm = () => {
         $margin="1.5rem 0 0 0"
         className="multistep-form-container"
       >
+        {/* Progress Bar */}
+        <ProgressBar step={currentStep} steps={steps} />
+
         <Form
           $display="flex"
           $flexDirection="column"
@@ -22,10 +60,8 @@ const MultiStepForm = () => {
           className="multistep-form"
         >
           {/* Individual steps */}
-          {/* <StepOne /> */}
-          {/* <StepTwo /> */}
-          {/* <StepThree /> */}
-          <StepFour />
+          {/* Render individual steps here */}
+          {renderStep()}
 
           {/* Buttons */}
           <DesktopContainer
@@ -45,6 +81,7 @@ const MultiStepForm = () => {
               $fontSize="1rem"
               $backgroundColor="transparent"
               $color="#E04F16"
+              onClick={handlePrevious}
               className="form-button-left"
             >
               Cancel
@@ -56,6 +93,7 @@ const MultiStepForm = () => {
               $fontSize="1rem"
               $backgroundColor="#E04F16"
               $color="white"
+              onClick={handleNext}
               className="form-button-right"
             >
               Save and continue
