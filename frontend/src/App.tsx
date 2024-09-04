@@ -22,10 +22,11 @@ import SignUp from './components/SignUp/SignUpPage';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 
-// Cart and Wishlist Components
+// Product, Cart, and Wishlist Components
 import Wishlist from './components/Cart/wishlist/WishlistPage';
 import CartPage from './components/Cart/CartPage';
 import Navbar from './components/Cart/Navbar';
+import Product from './components/Cart/productInfo/ProductInfoPage';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -47,7 +48,7 @@ const CartWrapper: FC = () => {
 
 // Layout component that includes Navbar and accepts userProfile as a prop
 const MainLayout: FC<MainLayoutProps> = ({ userProfile }) => {
-  const [, setCartOpen] = useState<boolean>(false);
+  const [setCartOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -85,35 +86,40 @@ const MainPage: FC = () => (
 // Define the router configuration
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <MainPage />,
+  },
+  {
+    path: '/login',
+    element: <LogIn />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
+  },
+  {
+    path: '/reset',
+    element: <Reset />,
+  },
+  {
+    path: '/otp',
+    element: <ReSend />,
+  },
+  {
+    path: '/', // Base path for the main layout with Navbar
     element: <MainLayout userProfile={userProfile} />, // Main layout with Navbar
     children: [
       {
-        path: '/',
-        element: <MainPage />,
-      },
-      {
-        path: '/login',
-        element: <LogIn />,
-      },
-      {
-        path: '/signup',
-        element: <SignUp />,
-      },
-      {
-        path: '/reset',
-        element: <Reset />,
-      },
-      {
-        path: '/otp',
-        element: <ReSend />,
-      },
-      {
-        path: '/wishlist',
+        path: 'wishlist',
         element: <Wishlist />,
       },
       {
-        path: '/cart',
+        path: 'cart',
         element: <CartWrapper />,
+      },
+      {
+        path: 'product',
+        element: <Product />,
       },
       {
         path: '*',
@@ -133,3 +139,4 @@ const App: FC = () => {
 };
 
 export default App;
+

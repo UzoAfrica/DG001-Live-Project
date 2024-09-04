@@ -1,10 +1,6 @@
 import { Router, RequestHandler } from 'express';
-import {
-  createShop,
-  updateShop,
-  deleteShop,
-} from '../controllers/shop.controller';
-import authenticateUser from '../middlewares/auth.middleware';
+import { createShop, updateShop, deleteShop } from '../controllers/shop.controller';
+import { authenticateToken } from '../middlewares/auth.middleware'; // Updated to match the correct export
 import upload from '../utils/upload'; // Import upload middleware
 
 const router = Router();
@@ -12,7 +8,7 @@ const router = Router();
 // Route to create a shop with file upload
 router.post(
   '/shops',
-  authenticateUser as RequestHandler, // Changed from `any` to `RequestHandler`
+  authenticateToken as RequestHandler, 
   upload.fields([
     { name: 'videos', maxCount: 5 },
     { name: 'images', maxCount: 5 },
@@ -23,7 +19,7 @@ router.post(
 // Route to update a shop with file upload
 router.put(
   '/shops/:id',
-  authenticateUser as RequestHandler, // Changed from `any` to `RequestHandler`
+  authenticateToken as RequestHandler, 
   upload.fields([
     { name: 'videos', maxCount: 5 },
     { name: 'images', maxCount: 5 },
@@ -34,7 +30,7 @@ router.put(
 // Route to delete a shop
 router.delete(
   '/shops/:id',
-  authenticateUser as RequestHandler, // Changed from `any` to `RequestHandler`
+  authenticateToken as RequestHandler, // Corrected export from middleware
   deleteShop
 );
 

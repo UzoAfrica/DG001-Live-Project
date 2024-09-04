@@ -55,11 +55,11 @@ const TShop = sequelize.define('TShop', {
   },
   videoUrls: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: true, // Field to store video URLs
+    allowNull: true, 
   },
   imageUrls: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: true, // Field to store image URLs
+    allowNull: true, 
   },
 });
 
