@@ -16,7 +16,7 @@ const ProgressContainer = styled.div`
 const ProgressStep = styled.div<{ isActive: boolean }>`
   width: 20%;
   text-align: center;
-  position: relative;
+  /* position: relative; */
   color: ${({ isActive }) => (isActive ? '#E04F16' : '#8C8C8C')};
   font-weight: ${({ isActive }) => (isActive ? 'bold' : 'normal')};
 `;
