@@ -12,105 +12,173 @@ import CeramicCups from '../../assets/images/ceramics.png';
 import Wooden from '../../assets/images/wooden.png';
 import Microwave from '../../assets/images/microwave.png';
 import Utensil from '../../assets/images/utensil.png';
-import image4 from '../../assets/images/redBlender.png';
-import pillow from '../../assets/images/pillow.png';
+import { useNavigate } from 'react-router-dom';
+
 import {
   TrendingSalesSection,
   Title,
   SalesGrid,
   SaleItem,
-  SaleImage,
-  SaleText,
+  ImageContainer,
+  ProductImage,
+  WriteUp
 } from './StyledTrending';
 
+
 const TrendingSales: React.FC = () => {
+
+   const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/login');
+  };
   return (
     <TrendingSalesSection>
       <Title>Trending Sales</Title>
       <SalesGrid>
+      <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Iron} alt="Iron" />
-          <SaleText>Iron</SaleText>
-          <SaleText>NGN 20,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Iron} alt="Iron" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Iron</p>
+            <p>NGN 20,000</p>
+          </WriteUp>
         </SaleItem>
+   </div>
 
+   <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Blender} alt="Blender" />
-          <SaleText>Blender</SaleText>
-          <SaleText>NGN 30,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Blender} alt="Blender" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Blender</p>
+            <p>NGN 30,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Washing} alt="Washing Machine" />
-          <SaleText>Washing-machine</SaleText>
-          <SaleText>NGN 250,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Washing} alt="Washing Machine" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Washing-machine</p>
+            <p>NGN 250,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Wood} alt="Wooden Chair" />
-          <SaleText>Chair</SaleText>
-          <SaleText>NGN 25,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Wood} alt="Chair" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Chair</p>
+            <p>NGN 25,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Cups} alt="Cups" />
-          <SaleText>Cups</SaleText>
-          <SaleText>NGN 20,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Cups} alt="Cups" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Cups</p>
+            <p>NGN 20,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Mixer} alt="Mixer" />
-          <SaleText>Mixer</SaleText>
-          <SaleText>NGN 20,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Mixer} alt="Mixer" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Mixer</p>
+            <p>NGN 20,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={PillowChair} alt="Pillow Chair" />
-          <SaleText>Pillow Chair</SaleText>
-          <SaleText>NGN 10,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={PillowChair} alt="Pillow Chair" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Pillow Chair</p>
+            <p>NGN 10,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Kitchen} alt="Kitchen Appliances" />
-          <SaleText>Kitchen Appliances</SaleText>
-          <SaleText>NGN 80,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Kitchen} alt="Kitchen Appliances" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Kitchen Appliances</p>
+            <p>NGN 80,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={CeramicCups} alt="Ceramic Cups" />
-          <SaleText>Colour Cups</SaleText>
-          <SaleText>NGN 20,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={CeramicCups} alt="Colour Cups" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Colour Cups</p>
+            <p>NGN 20,000</p>
+          </WriteUp>
         </SaleItem>
+</div>
 
+<div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Microwave} alt="Microwave" />
-          <SaleText>Microwave</SaleText>
-          <SaleText>NGN 28,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Microwave} alt="Microwave" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Microwave</p>
+            <p>NGN 28,000</p>
+          </WriteUp>
         </SaleItem>
+        </div>
 
+        <div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Wooden} alt="Wooden Chair 2" />
-          <SaleText>Wooden Chair 2</SaleText>
-          <SaleText>NGN 200,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Wooden} alt="Wooden Chair 2" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Wooden Chair 2</p>
+            <p>NGN 200,000</p>
+          </WriteUp>
         </SaleItem>
+</div>
 
+<div onClick={handleClick} style={{ cursor: 'pointer' }}>
         <SaleItem>
-          <SaleImage src={Utensil} alt="Utensil" />
-          <SaleText>Utensil</SaleText>
-          <SaleText>NGN 20,000</SaleText>
+          <ImageContainer>
+            <ProductImage src={Utensil} alt="Utensil" />
+          </ImageContainer>
+          <WriteUp>
+            <p>Utensil</p>
+            <p>NGN 20,000</p>
+          </WriteUp>
         </SaleItem>
-
-        <SaleItem>
-          <SaleImage src={image4} alt="Image " />
-          <SaleText>Blender</SaleText>
-          <SaleText>NGN 10,000</SaleText>
-        </SaleItem>
-
-        <SaleItem>
-          <SaleImage src={pillow} alt="Image " />
-          <SaleText>Pillow</SaleText>
-          <SaleText>NGN 17,000</SaleText>
-        </SaleItem>
+</div>
       </SalesGrid>
     </TrendingSalesSection>
   );

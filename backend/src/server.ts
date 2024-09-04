@@ -55,6 +55,7 @@ sequelize
   .then(() => {
     console.log('Database synchronized successfully.');
 
+
     // Start API
     const port = appEnvironmentVariables.port || 5001;
     app.listen(port, () => {

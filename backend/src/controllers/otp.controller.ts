@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import OTP from '../database/models/otp.model'; // Adjust the import path based on your directory structure
-import sendEmail from '../utils/email.util'; // Assuming you have a utility function for sending emails
+import OTP from '../database/models/otp.model';
+import sendEmail from '../utils/email.util'; 
 
 // Define the sendOTP function
 export const sendOTP = async (
@@ -23,14 +23,14 @@ export const sendOTP = async (
     await OTP.create({
       userEmail: email,
       otp: generatedOtp,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000), // OTP expires in 10 minutes
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000), 
     });
 
     // Send OTP via email
     await sendEmail(res, {
       to: email,
       subject: 'Your OTP',
-      text: `Your OTP is: ${generatedOtp}. It will expire in 10 minutes.`, // Corrected template literal syntax
+      text: `Your OTP is: ${generatedOtp}. It will expire in 10 minutes.`, 
     });
 
     return res.status(200).json({

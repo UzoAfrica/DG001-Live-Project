@@ -1,49 +1,13 @@
 import { Request, Response } from 'express';
 import Product from '../database/models/product.model';
-import Joi from 'joi';
 import { Op } from 'sequelize';
-import cloudinary from 'cloudinary';
-import upload from '../config/multer.config'; // Import multer configuration
-import { getSpecificProductSchema } from '../validators/product.validator'; // Import product validation schema
-
-// Cloudinary configuration
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Define a validation schema for adding a product
-const addProductSchema = Joi.object({
-  name: Joi.string().required(),
-  description: Joi.string().required(),
-  price: Joi.number().required(),
-  imageUrl: Joi.array().items(Joi.string().uri()).optional(), // Optional as video might replace images
-  videoUrl: Joi.string().optional(),
-  quantity: Joi.number().required(),
-  userId: Joi.number().required(),
-  shopId: Joi.number().required(),
-  isAvailable: Joi.boolean().required(),
-  noOfSales: Joi.number().optional(),
-});
-
-// Define a validation schema for updating a product
-const updateProductSchema = Joi.object({
-  name: Joi.string().optional(),
-  description: Joi.string().optional(),
-  price: Joi.number().optional(),
-  imageUrl: Joi.array().items(Joi.string().uri()).optional(),
-  videoUrl: Joi.string().optional(),
-  quantity: Joi.number().optional(),
-  userId: Joi.number().optional(),
-  shopId: Joi.number().optional(),
-  isAvailable: Joi.boolean().optional(),
-  noOfSales: Joi.number().optional(),
-});
+import cloudinary from '../config/cloudinary.config';
+import upload from '../config/multer.config'; 
+import { addProductSchema, updateProductSchema, getSpecificProductSchema } from '../validators/product.validator';
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
-  upload.single('video')(req, res, async (err) => {
+  upload.single('video')(req, res, async (err: any) => {
     if (err) {
       return res.status(400).json({ error: err.message });
     }
@@ -116,7 +80,7 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     minPrice,
     maxPrice,
     colour,
-  } = req.query; // Corrected color to colour
+  } = req.query; 
 
   const queryConditions: any = {};
 
@@ -136,7 +100,7 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     queryConditions.price = { [Op.lte]: Number(maxPrice) };
   }
   if (colour) {
-    queryConditions.colours = { [Op.contains]: [colour] }; // Updated to check for array contents
+    queryConditions.colours = { [Op.contains]: [colour] };
   }
 
   try {
@@ -235,11 +199,7 @@ export const getSpecificProduct = async (req: Request, res: Response) => {
         .status(400)
         .json({ message: 'Product ID does not exist', data: null });
 
-    /**
-     * Because TypeScript can't implicitly recognize Sequelize association mixins.
-     * See https://github.com/sequelize/sequelize/issues/14302
-     */
-    // @ts-expect-error: TypeScript can't implicitly recognize Sequelize association mixins.
+    
     const shopInfo = await product.getTShop();
 
     return res
