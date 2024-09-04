@@ -12,8 +12,8 @@ import { addReview } from '../controllers/review.controller';
 import {
   authenticateToken,
   AuthenticatedRequest,
-} from '../middlewares/auth.middleware'; // Ensure this path is correct
-import upload from '../config/multer.config'; // Import multer configuration for file upload
+} from '../middlewares/auth.middleware';
+import upload from '../config/multer.config'; 
 
 const router = Router();
 
@@ -42,9 +42,6 @@ router.get('/', authenticateToken, asyncHandler(getAllProducts));
 
 // Route to get trending sales products with filters and pagination
 router.get('/trending', authenticateToken, asyncHandler(getTrendingSales));
-
-// Route to get a specific product by ID
-router.get('/:id', authenticateToken, asyncHandler(getSpecificProduct));
 
 // Route to get a product by ID
 router.get('/product/:id', authenticateToken, asyncHandler(getProductById));
