@@ -57,6 +57,8 @@ export const Paragraph = styled.p<AdditionalProps>`
   color: ${(props) => props.$color || ''};
   text-align: ${(props) => props.$textAlign || ''};
   margin: ${(props) => props.$margin || ''};
+  border: ${(props) => props.$border || ''};
+  max-width: ${(props) => props.$maxWidth || ''};
 `;
 
 // General purpose <form> element
