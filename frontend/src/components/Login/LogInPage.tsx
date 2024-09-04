@@ -17,19 +17,16 @@ import {
   Footer,
 } from './StyledLogIn';
 import { Link, useNavigate } from 'react-router-dom';
-import googleLogo from '../../images/download.png';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
+import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton'; 
 
 const LogIn: React.FC = () => {
-
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  })
+    email: '',
+    password: '',
+  });
   const [loading, setLoading] = useState(false);
-
-  // const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (
@@ -50,35 +47,32 @@ const LogIn: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-
     try {
       event.preventDefault();
       setLoading(true);
 
-    const payload = {
-      email: formData.email,
-      password: formData.password,
-    };
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+      };
 
       const response = await loginFunction(payload);
 
       if (response.status !== 200) {
         setLoading(false);
-        return showErrorToast(response.data.message)
+        return showErrorToast(response.data.message);
       }
       setLoading(false);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
-      showSuccessToast(response.data.message)
+      showSuccessToast(response.data.message);
 
       return navigate('/dashboard');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
+    } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);
       return showErrorToast(error.message);
-      // setErrorMessage('Invalid username or password');
     }
   };
 
@@ -98,7 +92,7 @@ const LogIn: React.FC = () => {
                 type="text"
                 id="username"
                 placeholder="Enter your username"
-                name='email'
+                name="email"
                 value={formData.email}
                 onChange={handleInputChange}
               />
@@ -109,7 +103,7 @@ const LogIn: React.FC = () => {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                name='password'
+                name="password"
                 value={formData.password}
                 onChange={handleInputChange}
               />
@@ -129,13 +123,15 @@ const LogIn: React.FC = () => {
               <SeparatorSpan>OR</SeparatorSpan>
               <SeparatorHr />
             </Separator>
+
+            {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <img src={googleLogo} alt="Google Logo" />
-              Log in with Google
+              <GoogleLoginButton action="login" />
             </GoogleSignUp>
-            <SignUpButton type="submit">{loading ? "Loading" : "Sign Up here"}</SignUpButton>
+            <SignUpButton type="submit">
+              {loading ? 'Loading' : 'Log In'}
+            </SignUpButton>
           </form>
-          {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Don't have an account?{' '}
             <a href="/signup" onClick={handleSignUpLinkClick}>

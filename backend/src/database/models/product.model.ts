@@ -1,7 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
+import Review from './review.model';
 
-// OTP model
+// Product model
 const Product = sequelize.define(
   'Product',
   {
@@ -9,6 +10,10 @@ const Product = sequelize.define(
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
+    },
+    shopId: {
+      type: DataTypes.UUID,
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -19,11 +24,11 @@ const Product = sequelize.define(
       allowNull: false,
     },
     isAvailable: {
-      type: DataTypes.DATE,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     description: {
@@ -31,30 +36,38 @@ const Product = sequelize.define(
       allowNull: false,
     },
     imageUrl: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
     },
-    ownerId: {
-        type: DataTypes.UUID,
-        allowNull: false,
+    video: {
+      type: DataTypes.STRING, 
+      allowNull: true, 
     },
-    shopId: {
-        type: DataTypes.UUID,
-        allowNull: false,
+    colours: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true, 
+    },
+    deals: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true, 
     },
     noOfSales: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   },
   {
+    modelName: 'Product',
+    tableName: 'products', 
     indexes: [
-      // Create index on email field
       {
-        fields: ['userEmail'],
+        fields: ['name'], 
       },
     ],
   }
 );
+// Association
+Product.hasMany(Review, { foreignKey: 'ProductId' });
+Review.belongsTo(Product, { foreignKey: 'ProductId' });
 
 export default Product;

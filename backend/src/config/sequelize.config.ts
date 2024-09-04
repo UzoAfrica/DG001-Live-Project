@@ -8,3 +8,4 @@ const sequelize = new Sequelize(appEnvironmentVariables.databaseURI, {
 });
 
 export default sequelize;
+ 

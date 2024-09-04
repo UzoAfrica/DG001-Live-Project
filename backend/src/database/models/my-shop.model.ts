@@ -3,38 +3,65 @@ import sequelize from '../../config/sequelize.config';
 import Product from './product.model';
 
 // Shop model
-const TShop = sequelize.define(
-  'TShop',
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
-    },
-    shopName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    shopAddress: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    currency: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+const TShop = sequelize.define('TShop', {
+  id: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
   },
-  {
-    indexes: [
-      // Create index on email field
-      {
-        unique: true,
-        fields: ['shopName'],
-      },
-    ],
-  }
-);
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  currency: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'NGN',
+  },
+  category: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  shopAddress: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  isOpen: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
+  description: {
+    type: DataTypes.STRING,
+  },
+  coverImage: {
+    type: DataTypes.STRING,
+  },
+  ownerId: {
+    type: DataTypes.UUID,
+    allowNull: true,
+  },
+  ratings: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  securityFeatures: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
+  legalBusinessAddress: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
+  videoUrls: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true, 
+  },
+  imageUrls: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true, 
+  },
+});
 
 // One-to-Many relationship between shop and product
 TShop.hasMany(Product, {

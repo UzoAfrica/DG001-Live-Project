@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import productRouter from './product.route';
 import registerRouter from './register';
 import resetRouter from './reset.route';
 
@@ -14,5 +15,8 @@ indexRouter.use('/reset', resetRouter);
 
 /* Register routes. */
 indexRouter.use('', registerRouter);
+
+/* Product routes. */
+indexRouter.use('/products', productRouter);
 
 export default indexRouter;
