@@ -21,9 +21,10 @@ export const FooterInfo = styled.div`
 `;
 
 export const FooterLogo = styled.h3`
-  color: orange;
+  color: coral;
   font-size: 24px;
   margin-bottom: 10px;
+  text-align: left;
 `;
 
 export const FooterDescription = styled.p`
@@ -57,7 +58,7 @@ export const FooterLinks = styled.div`
 
 export const LinksGroup = styled.div`
   h4 {
-    color: orange;
+    color: coral;
     margin-bottom: 10px;
     text-align: center;
   }
