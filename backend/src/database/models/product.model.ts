@@ -11,6 +11,10 @@ const Product = sequelize.define(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
+    shopId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -36,16 +40,16 @@ const Product = sequelize.define(
       allowNull: false,
     },
     video: {
-      type: DataTypes.STRING, // Assuming the video field stores a URL or path to the video file
-      allowNull: true, // This field is optional
+      type: DataTypes.STRING, 
+      allowNull: true, 
     },
     colours: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true, // Optional field
+      allowNull: true, 
     },
     deals: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true, // Optional field
+      allowNull: true, 
     },
     noOfSales: {
       type: DataTypes.INTEGER,
@@ -54,13 +58,16 @@ const Product = sequelize.define(
   },
   {
     modelName: 'Product',
-    tableName: 'products', // Explicit table name declaration
+    tableName: 'products', 
     indexes: [
       {
-        fields: ['name'], // Example index on 'name' field
+        fields: ['name'], 
       },
     ],
   }
 );
+// Association
+Product.hasMany(Review, { foreignKey: 'ProductId' });
+Review.belongsTo(Product, { foreignKey: 'ProductId' });
 
 export default Product;
