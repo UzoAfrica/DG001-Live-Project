@@ -8,8 +8,8 @@ import { useState } from 'react';
 
 const steps = [
   'Name your Shop',
-  'Stock Your Shop',
-  "How you'll get paid",
+  'Stock your Shop',
+  'How to get paid',
   'Shop Security',
 ];
 
