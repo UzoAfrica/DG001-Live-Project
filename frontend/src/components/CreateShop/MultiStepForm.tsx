@@ -1,6 +1,13 @@
 import { Container, Button, Form, DesktopContainer } from './styles/Index';
+// import StepOne from './StepOne';
+import StepTwo from './StepTwo';
+// import StepThree from './StepThree';
+// import StepFour from './StepFour';
+// import { useState } from 'react';
 
 const MultiStepForm = () => {
+  //   const [currentStep, setCurrentStep] = useState(1);
+
   return (
     <>
       <Container
@@ -14,14 +21,18 @@ const MultiStepForm = () => {
           $rowGap="2rem"
           className="multistep-form"
         >
-          multistep form
           {/* Individual steps */}
+          {/* <StepOne /> */}
+          <StepTwo />
+
+          {/* Buttons */}
           <DesktopContainer
             $display="flex"
             $flexDirection="column"
             $alignItems="center"
             $rowGap="1rem"
             $width="100%"
+            $margin="0 auto 1rem auto"
             className="form-buttons-container"
           >
             <Button
