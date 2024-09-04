@@ -13,6 +13,9 @@ const CreateShop = () => {
           $alignItems="center"
           $padding="0 1rem"
           $boxShadow="0px 4px 8px 0px rgba(0, 0, 0, 0.1)"
+          $position="sticky"
+          $top="0px"
+          $backgroundColor="white"
           className="navbar-container"
         >
           <NavBar />
