@@ -18,6 +18,8 @@ const appEnvironmentVariables = {
   frontendVerifyOTPPage: process.env.VERIFY_OTP_PAGE as string,
   resetTokenSecretKey: process.env.RESET_TOKEN_SECRET_KEY as string,
   resetTokenExpiresIn: process.env.RESET_TOKEN_EXPIRES_IN as string,
+  jwtSecretkey: process.env.JWT_SECRET_KEY as string,
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN as string,
 };
 
 export default appEnvironmentVariables;
