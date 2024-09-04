@@ -1,8 +1,8 @@
 import { Container, Button, Form, DesktopContainer } from './styles/Index';
 // import StepOne from './StepOne';
 // import StepTwo from './StepTwo';
-import StepThree from './StepThree';
-// import StepFour from './StepFour';
+// import StepThree from './StepThree';
+import StepFour from './StepFour';
 // import { useState } from 'react';
 
 const MultiStepForm = () => {
@@ -24,7 +24,8 @@ const MultiStepForm = () => {
           {/* Individual steps */}
           {/* <StepOne /> */}
           {/* <StepTwo /> */}
-          <StepThree />
+          {/* <StepThree /> */}
+          <StepFour />
 
           {/* Buttons */}
           <DesktopContainer
