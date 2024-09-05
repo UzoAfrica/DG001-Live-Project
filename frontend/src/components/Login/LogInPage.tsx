@@ -69,6 +69,7 @@ const LogIn: React.FC = () => {
       showSuccessToast(response.data.message);
 
       return navigate('/dashboard');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);

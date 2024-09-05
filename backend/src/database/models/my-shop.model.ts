@@ -1,9 +1,19 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Product from './product.model';
-
+ 
+enum category {
+  ELECTRONICS = "ELECTRONICS",
+  FASHION = "FASHION",
+  FOOD = "FOOD",
+  HEALTH = "HEALTH",
+  HOME = "HOME",
+  SPORTS = "SPORTS",
+  CHILDREN = "CHILDREN",
+  OTHERS = "OTHERS",
+}
 // Shop model
-const TShop = sequelize.define('TShop', {
+const MyShop = sequelize.define('MyShop', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -20,7 +30,7 @@ const TShop = sequelize.define('TShop', {
     defaultValue: 'NGN',
   },
   category: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM(category.ELECTRONICS, category.FASHION, category.FOOD, category.HEALTH, category.HOME, category.SPORTS, category.CHILDREN, category.OTHERS),
     allowNull: true,
   },
   shopAddress: {
@@ -49,24 +59,49 @@ const TShop = sequelize.define('TShop', {
     type: DataTypes.JSON,
     allowNull: true,
   },
-  legalBusinessAddress: {
-    type: DataTypes.JSON,
+  country: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  street: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  state: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  shippingAddress: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  shippingPrices: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  shippingServices: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  zip: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
   videoUrls: {
     type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: true, 
+    allowNull: true,
   },
-  imageUrls: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: true, 
-  },
+  // imageUrls: {
+  //   type: DataTypes.ARRAY(DataTypes.STRING),
+  //   allowNull: true,
+  // },
 });
-
+ 
 // One-to-Many relationship between shop and product
-TShop.hasMany(Product, {
+MyShop.hasMany(Product, {
   foreignKey: { allowNull: false },
 });
-Product.belongsTo(TShop);
+Product.belongsTo(MyShop);
+ 
+export default MyShop;
 
-export default TShop;

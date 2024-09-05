@@ -33,7 +33,7 @@ router.get(
   (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate(
       'google',
-      (err: Error | null, user: Express.User | false, info: any) => {
+      (err: Error | null, user: Express.User | false) => {
         if (err) {
           return next(err);
         }
@@ -74,7 +74,7 @@ router.get('/logout', (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-router.get('/home', (req: Request, res: Response, next: NextFunction) => {
+router.get('/home', (req: Request, res: Response) => {
   res.send('Hello World');
 });
 

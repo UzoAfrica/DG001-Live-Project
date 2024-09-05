@@ -1,12 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
-
-// Cloudinary configuration
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import '../config/cloudinary.config';
 
 // Multer configuration for handling file uploads
 const storage = multer.memoryStorage();
@@ -23,10 +17,10 @@ export const uploadImage = async (
     const result = await cloudinary.uploader.upload(file.path, {
       folder: 'ecommerce/images',
     });
-    return result.secure_url; // Return the uploaded image URL
+    return result.secure_url;
   } catch (error) {
     console.error('Error uploading image to Cloudinary:', error);
-    throw error; // Throw error to ensure a consistent return type
+    throw error;
   }
 };
 
@@ -42,10 +36,10 @@ export const uploadVideo = async (
       resource_type: 'video',
       folder: 'ecommerce/videos',
     });
-    return result.secure_url; // Return the uploaded video URL
+    return result.secure_url;
   } catch (error) {
     console.error('Error uploading video to Cloudinary:', error);
-    throw error; // Throw error to ensure a consistent return type
+    throw error; 
   }
 };
 
@@ -53,13 +47,13 @@ export const uploadVideo = async (
 export const deleteResources = async (publicIds: string[]): Promise<void> => {
   if (!publicIds || publicIds.length === 0) {
     console.warn('No resources provided for deletion');
-    return; // Exit early if no public IDs are provided
+    return;
   }
   try {
     await cloudinary.api.delete_resources(publicIds);
   } catch (error) {
     console.error('Error deleting resources from Cloudinary:', error);
-    throw error; // Throw error to ensure a consistent return type
+    throw error;
   }
 };
 
