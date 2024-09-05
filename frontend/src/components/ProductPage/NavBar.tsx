@@ -15,7 +15,7 @@ export default function NavBar() {
           <StyledButton>
             <StyledIoMdNotificationsOutline />
             <img src={Profile} alt="" />
-            <Btn>Start Selling</Btn>
+            <Btn href="/profile" >Start Selling</Btn>
           </StyledButton>
         </Nav>
       </div>

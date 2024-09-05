@@ -1,5 +1,5 @@
-import NavProfile from './NavProfile'
-import UserSettings from './UserSettings'
+import NavProfile from './NavProfile';
+import UserSettings from './UserSettings';
 
 export default function Accountprofile() {
   return (
@@ -7,5 +7,5 @@ export default function Accountprofile() {
       <NavProfile />
       <UserSettings />
     </>
-  )
+  );
 }

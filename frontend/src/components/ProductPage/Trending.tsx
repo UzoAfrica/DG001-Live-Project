@@ -10,16 +10,16 @@ const Trending: React.FC = () => {
   const fetchSortedProducts = async (sortOption: string) => {
     try {
       const response = await fetch(`/api/products?sort=${sortOption}`);
-      if (response.ok) {
-        const data = await response.json();
-        setSortedProducts(data);
-      } else {
+      if (!response.ok) {
         throw new Error('No Network response');
       }
+      const data = await response.json();
+      setSortedProducts(data);
     } catch (error) {
       console.error('Error fetching sorted products:', error);
     }
   };
+
 
   useEffect(() => {
     fetchSortedProducts('mostRelevant'); // Default sort option
