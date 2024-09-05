@@ -1,4 +1,4 @@
-import NavBar from '../CreateShop/NavBar';
+// import NavBar from '../CreateShop/NavBar';
 import { Container } from '../CreateShop/styles/Index';
 import ShopHome from './ShopHome';
 
@@ -17,7 +17,7 @@ const CreateShop = () => {
           $backgroundColor="white"
           className="navbar-container"
         >
-          <NavBar />
+          {/* <NavBar /> */}
         </Container>
 
         <Container
