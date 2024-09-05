@@ -4,7 +4,7 @@ import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import StepFour from './StepFour';
 import ProgressBar from './ProgressBar';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const steps = [
   'Name your Shop',
@@ -15,6 +15,7 @@ const steps = [
 
 const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  console.log(currentStep);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -43,6 +44,11 @@ const MultiStepForm = () => {
     }
   };
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert('tried to submit form');
+  };
+
   return (
     <>
       <Container
@@ -58,6 +64,7 @@ const MultiStepForm = () => {
           $flexDirection="column"
           $rowGap="2rem"
           className="multistep-form"
+          onSubmit={handleFormSubmit}
         >
           {/* Individual steps */}
           {/* Render individual steps here */}
@@ -89,6 +96,7 @@ const MultiStepForm = () => {
             </Button>
             <Button
               type="button"
+              // type={currentStep === steps.length - 1 ? 'submit' : 'button'}
               className="form-button-right"
               onClick={handleNext}
               $padding="0.65rem 2.2rem"
@@ -98,7 +106,9 @@ const MultiStepForm = () => {
               $backgroundColor="#E04F16"
               $color="white"
             >
-              Save and continue
+              {currentStep === steps.length - 1
+                ? 'Open your Shop'
+                : 'Save and continue'}
             </Button>
           </DesktopContainer>
         </Form>
