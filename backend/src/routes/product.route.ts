@@ -1,4 +1,4 @@
-import express, { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import {
   addProduct,
   getAllProducts,
@@ -6,7 +6,6 @@ import {
   getProductById,
   updateProduct,
   deleteProduct,
-  getSpecificProduct,
 } from '../controllers/product.controller';
 import { addReview } from '../controllers/review.controller';
 import {
@@ -24,7 +23,7 @@ const asyncHandler =
       req: AuthenticatedRequest,
       res: Response,
       next: NextFunction
-    ) => Promise<any>
+    ) => Promise<unknown>
   ) =>
   (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req as AuthenticatedRequest, res, next)).catch(next);

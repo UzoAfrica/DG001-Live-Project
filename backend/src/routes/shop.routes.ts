@@ -9,7 +9,7 @@ const router = Router();
 
 // Route to create a shop with file upload and validation
 router.post(
-  '/shops',
+  '/create-shop',
   authenticateToken as RequestHandler,
   upload.fields([
     { name: 'videos', maxCount: 5 },
@@ -21,7 +21,7 @@ router.post(
 
 // Route to update a shop with file upload, validation, and ownership check
 router.put(
-  '/shops/:id',
+  '/update-shop/:id',
   authenticateToken as RequestHandler,
   checkShopExists, // Check if shop exists
   checkShopOwner, // Check if the user is the owner
@@ -35,7 +35,7 @@ router.put(
 
 // Route to delete a shop with ownership check
 router.delete(
-  '/shops/:id',
+  '/delete-shop/:id',
   authenticateToken as RequestHandler,
   checkShopExists, // Check if shop exists
   checkShopOwner, // Check if the user is the owner
