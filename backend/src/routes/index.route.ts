@@ -5,6 +5,7 @@ import loginRouter from './login';
 import productRouter from './product.route';
 import registerRouter from './register';
 import resetRouter from './reset.route';
+import shopRouter from './shop.routes'
 
 const indexRouter = express.Router();
 
@@ -29,5 +30,8 @@ indexRouter.use(
   roleMiddleware(['user']),
   productRouter
 );
+
+// Shop Routes
+indexRouter.use('/shop', shopRouter);
 
 export default indexRouter;

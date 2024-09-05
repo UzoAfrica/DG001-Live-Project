@@ -51,9 +51,10 @@ app.use('/', authRoutes);
 
 // Synchronize Database and start the server
 sequelize
-  .sync({ logging: false, alter: true })
+  .sync({ logging: true, alter: true })
   .then(() => {
     console.log('Database synchronized successfully.');
+
 
     // Start API
     const port = appEnvironmentVariables.port || 5001;
@@ -64,3 +65,4 @@ sequelize
   .catch((error) => {
     console.error(`Database synchronization error: ${error}`);
   });
+ 

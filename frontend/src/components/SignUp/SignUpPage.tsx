@@ -159,6 +159,8 @@ const SignUpPage: React.FC = () => {
               <SeparatorSpan>OR</SeparatorSpan>
               <SeparatorHr />
             </Separator>
+
+            {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
               Sign up with Google
