@@ -78,6 +78,7 @@ const StepOne = () => {
                 name="currency"
                 id="currency"
                 placeholder="NGN"
+                required
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -106,6 +107,7 @@ const StepOne = () => {
               <Select
                 name="category"
                 id="category"
+                required
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
