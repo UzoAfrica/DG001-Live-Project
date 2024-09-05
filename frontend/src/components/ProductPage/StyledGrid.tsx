@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Component } from 'react';
-import {products} from "./product.ts";
+
 
 const Grid = styled.div`
   display: grid;
@@ -44,6 +44,7 @@ const ProductPrice = styled.p`
   color: #0f600f;
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 class StyledGrid extends Component<{ products: any }> {
   render() {
     const { products } = this.props;
