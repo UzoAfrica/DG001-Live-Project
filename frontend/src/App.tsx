@@ -32,6 +32,9 @@ import Product from './components/Cart/productInfo/ProductInfoPage';
 import CreateShop from './components/CreateShop/index';
 import Shop from './components/Shop/index';
 
+// getAllProducts
+import ProductPage from './components/ProductPage/ProductPage';
+
 // Define an interface for MainLayout props
 interface MainLayoutProps {
   userProfile: {
@@ -108,6 +111,10 @@ const router = createBrowserRouter([
   {
     path: '/otp',
     element: <ReSend />,
+  },
+  {
+    path:'product-page' ,
+    element: < ProductPage/>,
   },
   {
     path: '/', // Base path for the main layout with Navbar
