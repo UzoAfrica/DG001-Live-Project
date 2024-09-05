@@ -214,6 +214,11 @@ export const StyledUserOptions = styled.div`
 
 
 text-align: center;
+
+@media (max-width: 800px){
+  margin: auto;
+}
+
 `
 
 export const StyledProfileSet = styled.a`
@@ -234,6 +239,9 @@ export const StyledProfileSet = styled.a`
     color: #e04f16;
     border-bottom: 2.5px solid #e04f16;
   }
+  @media (max-width: 800px){
+    width: 100px;
+  }
 `;
 
 export const StyledPassWord = styled.a`
@@ -253,6 +261,9 @@ export const StyledPassWord = styled.a`
   &:active {
     color: #e04f16;
     border-bottom: 2.5px solid #e04f16;
+  }
+  @media (max-width: 800px){
+    
   }
 `;
 
@@ -297,11 +308,15 @@ export const StyledVerify = styled.a`
 `;
 
 export const StyledLineDiv = styled.div`
-
+font-weight: bold;
+font-size: small;
 display: flex;
 margin: 20px auto 0 300px;
 gap: 5px;
-
+@media (max-width: 800px){
+  margin: auto;
+  
+}
 `
 // export const StyledUserProfile = styled.img`
 
@@ -312,6 +327,10 @@ export const StyledImgBut =styled.div`
 display: flex;
 margin-top: 20px;
 gap: 100px;
+@media (max-width: 800px){
+  margin: 20px auto;
+  gap: 20px;
+}
 
 
 `
@@ -334,6 +353,14 @@ export const StyledDisFlex = styled.div`
 display: flex;
 gap: 200px;
 
+
+@media (max-width: 800px){
+flex-direction: column;
+gap: 100px;
+margin: auto 20px;
+
+}
+
 `
 
 export const StyledBox = styled.div`
@@ -352,7 +379,14 @@ display: flex;
 margin: 20px 300px 0px 300px;
 flex-direction: column;
 gap: 10px;
+
+@media (max-width: 800px){
+  margin: auto;
+  
+}
 ` 
+
+
 
 export const StyledpTag = styled.p`
 color: gray;
@@ -371,23 +405,5 @@ border-bottom: 0.5px solid #e04f16;
 
 `
 
-export const SimpleB = styled.div`
-border: 2px solid ;
-width: 300px;
-height: 400px;
-`
 
-export const ColoredDiv = styled.div`
-background-color: #e04f16;
-display: flex;
-padding-left: 10px;
 
-`
-
-export const StyleDark = styled.p`
-color: black;
-`
-export const StylendAtag = styled.a`
-display: flex;
-gap: 20px;
-`

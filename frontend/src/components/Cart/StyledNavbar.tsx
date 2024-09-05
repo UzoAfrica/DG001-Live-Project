@@ -69,6 +69,11 @@ export const SearchInput = styled.input`
     outline: none;
     border-color: #d35d2c;
   }
+
+  @media (max-width: 800px){
+    width: 45%;
+    margin-left: 15px;
+  }
 `;
 
 export const SearchIcon = styled.i`

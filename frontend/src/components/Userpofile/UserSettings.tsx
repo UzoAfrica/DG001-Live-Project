@@ -1,7 +1,7 @@
 
 import { StyledProfileSet,StyledNotify,StyledVerify, StyledLineDiv, StyledPassWord, StyledUserOptions, StyledImgBut, StyledFlexbutton, StyledOne, StyledTwo, StyledProfileBox, StyledDisFlex, StyledBox, Styledinput, FloatLeft, STyledStartSelling, StyledTwin, PassForm, Styledp, Styledfield, Styledli, SimpleB, ColoredDiv, StyleDark, StylendAtag } from "../StyleCompo";
 import ProfilePic from '../../images/profilepic.png'
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // import { BsFillPersonLinesFill } from "react-icons/bs";
 // import { BiCartDownload } from "react-icons/bi";
 // import { FaBasketShopping } from "react-icons/fa6";
@@ -115,7 +115,7 @@ export default function UserSettings() {
 
     {activeTab === "password" && ( <StyledDisFlex>
             <form action="">  
-          
+            
            
                 <PassForm>
                   <legend>Passsword</legend>
@@ -166,58 +166,7 @@ export default function UserSettings() {
                     
       </>
 
-      {/* <SimpleB>
-        <ColoredDiv>
-          <img src={ProfilePic} alt="" />
-            <div>
-              <StyleDark>Babalola </StyleDark>
-              <p>visit your Profile</p>
-            </div>
-        
-        </ColoredDiv>
-        <div>
-          
-          <li>
-            <StylendAtag href="">
-            <BsFillPersonLinesFill />
-              <p>Edit Profile</p>
-            </StylendAtag>
-          </li>
-          <li>
-            <StylendAtag href="">
-            <BiCartDownload />
-              <p>My Shop</p>
-            </StylendAtag>
-          </li>
-          <li>
-            <StylendAtag href="">
-            <FaBasketShopping />
-              <p>Cart</p>
-            </StylendAtag>
-          </li>
-          <li>
-            <StylendAtag href="">
-            <TiMessageTyping />
-              <p>Messaging</p>
-            </StylendAtag>
-          </li>
-          <li>
-            <StylendAtag href="">
-            <LiaQuestionSolid />
-              <p>Help</p>
-            </StylendAtag>
-          </li>
-          <li>
-            <StylendAtag href="">
-              <IoExitOutline />
-              <p>Logout</p>
-            </StylendAtag>
-          </li>
-        </div>
-        
-      </SimpleB>
-     */}
-
+     
     </div>
   )
 }
