@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../database/models/user.model';
-import appEnvironmentVariables from '../config/app-environment-variables.config';
 
 // Define the AuthenticatedRequest type to include user property
 export interface AuthenticatedRequest extends Request {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user?: any;
 }
 
@@ -18,28 +18,26 @@ export const authenticateToken: RequestHandler = async (
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'Access token missing' });
+    return res.status(401).json({ message: 'You are not authorised to access this resource' });
   }
 
   try {
-    // Decode the token to get the user ID
+
     const decoded = jwt.decode(token) as { id: string };
+
+    if (!decoded) {
+      return res.status(403).json({ message: 'Please login again' });
+    }
+
     const user = await User.findByPk(decoded.id);
 
     if (!user) {
-      return res.status(403).json({ message: 'Invalid access token' });
+      return res.status(403).json({ message: 'User does not exist' });
     }
 
-    // Properly type the callback in `jwt.verify`
-    jwt.verify(
-      token,
-      (user as any).jwtSecretKey,
-      (err: jwt.VerifyErrors | null, decodedUser: any) => {
-        if (err) return res.status(403).json({ message: 'Invalid access token' });
-        req.user = decodedUser;
+        req.user = user;
         next();
-      }
-    );
+
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(500).json({ message: 'Internal server error' });

@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
-
+ 
 // OTP model
 const OTP = sequelize.define(
   'OTP',
@@ -32,6 +32,5 @@ const OTP = sequelize.define(
     ],
   }
 );
-
-export default OTP;
  
+export default OTP;

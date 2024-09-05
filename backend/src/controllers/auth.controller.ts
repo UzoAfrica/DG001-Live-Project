@@ -4,6 +4,9 @@ import OTP from '../database/models/otp.model';
 import User from '../database/models/user.model';
 import sendEmail from '../utils/email.util';
 import { generateExpiryDate } from '../utils/reset.util';
+import jwt from 'jsonwebtoken';
+import appEnvironmentVariables from '../config/app-environment-variables.config';
+import { loginSchema } from '../validators/auth.validator';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -76,3 +79,59 @@ export const signup = async (req: Request, res: Response) => {
       .json({ success: false, message: 'Internal server error' });
   }
 };
+
+
+
+
+export const login = async (req: Request, res: Response) => {
+
+  const { error } = loginSchema.validate(req.body);
+
+  if (error) return res.status(400).json({ error: error.details[0].message });
+
+  const { email, password } = req.body;
+  try {
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user)
+      
+      return res.status(400).json({ message: 'Invalid Email or Password' });
+
+    const validPassword = await bcrypt.compare(
+      password,
+      user.getDataValue('password')
+    );
+    if (!validPassword)
+      return res.status(400).json({ message: 'Invalid Email or Password' });
+
+    const token = jwt.sign(
+      {
+        id: user.getDataValue('id'),
+        role: user.getDataValue('role'),
+        name: user.getDataValue('name'),
+        isVerified: user.getDataValue('isVerified'),
+      },
+      appEnvironmentVariables.jwtSecretkey as string,
+      {
+        expiresIn: appEnvironmentVariables.jwtExpiresIn,
+      }
+    );
+
+    res.header('Authorization', token).json({
+      message: 'Logged in successfully',
+      data: { token, role: user.getDataValue('role') },
+    });
+
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+
+      return res.status(500).json({
+        message: 'Failed login',
+        data: null,
+      });
+    }
+  }
+};
+ 
