@@ -48,6 +48,30 @@ const User = sequelize.define(
     avatarURL: {
       type: DataTypes.STRING,
     },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    gender:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  shopName:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  mobileNumber:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  address:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  profileImage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     indexes: [
