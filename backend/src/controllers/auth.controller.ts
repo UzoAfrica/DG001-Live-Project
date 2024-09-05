@@ -76,3 +76,4 @@ export const signup = async (req: Request, res: Response) => {
       .json({ success: false, message: 'Internal server error' });
   }
 };
+
