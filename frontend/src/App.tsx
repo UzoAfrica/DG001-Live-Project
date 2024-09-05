@@ -105,6 +105,7 @@ const router = createBrowserRouter([
     path: '/otp',
     element: <ReSend />,
   },
+  
   {
     path: '/', // Base path for the main layout with Navbar
     element: <MainLayout userProfile={userProfile} />, // Main layout with Navbar
