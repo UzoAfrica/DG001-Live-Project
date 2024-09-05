@@ -1,4 +1,4 @@
-import NavBar from './NavBar';
+// import NavBar from './NavBar';
 import { Container } from './styles/Index';
 import MultiStepForm from './MultiStepForm';
 
@@ -17,7 +17,7 @@ const CreateShop = () => {
           $backgroundColor="white"
           className="navbar-container"
         >
-          <NavBar />
+          {/* <NavBar /> */}
         </Container>
 
         <Container

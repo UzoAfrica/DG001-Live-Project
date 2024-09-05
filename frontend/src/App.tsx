@@ -22,12 +22,15 @@ import SignUp from './components/SignUp/SignUpPage';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 
-
 // Product, Cart, and Wishlist Components
 import Wishlist from './components/Cart/wishlist/WishlistPage';
 import CartPage from './components/Cart/CartPage';
 import Navbar from './components/Cart/Navbar';
 import Product from './components/Cart/productInfo/ProductInfoPage';
+
+// Shop components
+import CreateShop from './components/CreateShop/index';
+import Shop from './components/Shop/index';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -123,6 +126,14 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
+        path: 'create-shop',
+        element: <CreateShop />,
+      },
+      {
+        path: 'shop',
+        element: <Shop />,
+      },
+      {
         path: '*',
         element: <NotFound />,
       },
@@ -140,4 +151,3 @@ const App: FC = () => {
 };
 
 export default App;
-
