@@ -9,8 +9,24 @@ import {
 import PlusSVG from '../../images/plus.svg';
 import BlenderSVG from '../../images/blender.svg';
 import { SecondDesktopContainer } from '../CreateShop/styles/StepTwo';
+import React, { useState, useRef } from 'react';
 
 const ShopHome = () => {
+  const [shopPhoto, setShopPhoto] = useState<File | null>(null);
+  const shopPhotoInputRef = useRef<HTMLInputElement>(null);
+
+  const handleShopPhotoChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      setShopPhoto(event.target.files[0]);
+    }
+  };
+
+  const triggerShopPhotoUpload = () => {
+    shopPhotoInputRef.current?.click();
+  };
+
   return (
     <>
       <Container
@@ -41,16 +57,35 @@ const ShopHome = () => {
             $width="70%"
             $padding="1rem"
             $maxWidth="275px"
+            onClick={triggerShopPhotoUpload}
+            style={{ cursor: 'pointer' }}
           >
-            <Image src={PlusSVG} alt="plus" />
-            <Paragraph> Add a photo </Paragraph>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleShopPhotoChange}
+              ref={shopPhotoInputRef}
+              style={{ display: 'none' }}
+            />
+            {shopPhoto ? (
+              <Image
+                src={URL.createObjectURL(shopPhoto)}
+                alt="Shop photo"
+                style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+              />
+            ) : (
+              <>
+                <Image src={PlusSVG} alt="plus" />
+                <Paragraph>Add a photo</Paragraph>
+              </>
+            )}
           </Container>
           <Container>
             <Paragraph> Empress Ki Stores </Paragraph>
           </Container>
         </Container>
 
-        {/* Botom container */}
+        {/* Bottom container */}
         <SecondDesktopContainer
           $display="flex"
           $flexDirection="column"
@@ -111,7 +146,11 @@ const ShopHome = () => {
             $maxWidth="615px"
             $padding="0 0.4rem"
           >
-            <Container $display="flex" $flexDirection="column" className="ggg">
+            <Container
+              $display="flex"
+              $flexDirection="column"
+              className="blender-container"
+            >
               <Image
                 src={BlenderSVG}
                 alt="blender"
@@ -140,6 +179,7 @@ const ShopHome = () => {
             $backgroundColor="#E04F16"
             $color="white"
             className="form-button-left"
+            type="button"
           >
             Upload Item
           </Button>
