@@ -14,8 +14,34 @@ import {
 } from './styles/StepTwo';
 import CameraSVG from '../../images/camera.svg';
 import VideoCameraSVG from '../../images/videocam.svg';
+import React, { useState, useRef } from 'react';
 
 const StepTwo = () => {
+  const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedPhoto(event.target.files[0]);
+    }
+  };
+
+  const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedVideo(event.target.files[0]);
+    }
+  };
+
+  const triggerPhotoUpload = () => {
+    photoInputRef.current?.click();
+  };
+
+  const triggerVideoUpload = () => {
+    videoInputRef.current?.click();
+  };
+
   return (
     <>
       <Container className="step-two">
@@ -103,19 +129,39 @@ const StepTwo = () => {
               $borderRadius="8px"
               $padding="10px 0"
               $maxWidth="300px"
+              onClick={triggerPhotoUpload}
+              style={{ cursor: 'pointer' }}
             >
-              <Image
-                src={CameraSVG}
-                alt="camera icon"
-                width="117px"
-                height="117px"
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                ref={photoInputRef}
+                style={{ display: 'none' }}
               />
+              {selectedPhoto ? (
+                <Image
+                  src={URL.createObjectURL(selectedPhoto)}
+                  alt="Selected photo"
+                  width="217px"
+                  height="217px"
+                  style={{ objectFit: 'cover' }}
+                />
+              ) : (
+                <Image
+                  src={CameraSVG}
+                  alt="camera icon"
+                  width="117px"
+                  height="117px"
+                />
+              )}
+
               <Paragraph
                 $fontSize="0.9rem"
                 $fontWeight="500"
                 $margin="0 0 0 4px"
               >
-                Add a Photo
+                {selectedPhoto ? 'Change Photo' : 'Add a Photo'}
               </Paragraph>
             </Container>
           </StepTwoDesktopContainer>
@@ -187,19 +233,38 @@ const StepTwo = () => {
               $borderRadius="8px"
               $padding="10px 0"
               $maxWidth="300px"
+              onClick={triggerVideoUpload}
+              style={{ cursor: 'pointer' }}
             >
-              <Image
-                src={VideoCameraSVG}
-                alt="camera icon"
-                width="117px"
-                height="117px"
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoChange}
+                ref={videoInputRef}
+                style={{ display: 'none' }}
               />
+              {selectedVideo ? (
+                <video width="217" height="217" controls>
+                  <source
+                    src={URL.createObjectURL(selectedVideo)}
+                    type={selectedVideo.type}
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <Image
+                  src={VideoCameraSVG}
+                  alt="camera icon"
+                  width="117px"
+                  height="117px"
+                />
+              )}
               <Paragraph
                 $fontSize="0.9rem"
                 $fontWeight="500"
                 $margin="0 0 0 4px"
               >
-                Add a Video
+                {selectedVideo ? 'Change Video' : 'Add a Video'}
               </Paragraph>
             </Container>
           </StepTwoDesktopContainer>
