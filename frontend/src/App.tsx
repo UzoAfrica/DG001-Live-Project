@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/LandingPage/Header';
 import Hero from './components/LandingPage/Hero';
@@ -12,6 +12,8 @@ import { ToastContainer } from 'react-toastify';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 import UserProfile from './components/Userpofile/UserProfile';
+
+
 
 const MainPage: React.FC = () => (
   <>
@@ -34,6 +36,7 @@ const App: React.FC = () => {
         <Route path="reset" element={<Reset />} />
         <Route path="otp" element={<ReSend />} />
         <Route path="profile" element={<UserProfile />} />
+
         {/* <Route path="*" element={<NoPage />} /> */}
       </Routes>
     </BrowserRouter>
