@@ -74,6 +74,9 @@ const MultiStepForm = () => {
             className="form-buttons-container"
           >
             <Button
+              type="button"
+              className="form-button-left"
+              onClick={handlePrevious}
               $padding="0.65rem 2.2rem"
               $border="1px solid #E04F16"
               $borderRadius="5px"
@@ -81,20 +84,19 @@ const MultiStepForm = () => {
               $fontSize="1rem"
               $backgroundColor="transparent"
               $color="#E04F16"
-              onClick={handlePrevious}
-              className="form-button-left"
             >
               Cancel
             </Button>
             <Button
+              type="button"
+              className="form-button-right"
+              onClick={handleNext}
               $padding="0.65rem 2.2rem"
               $borderRadius="5px"
               $fontWeight="500"
               $fontSize="1rem"
               $backgroundColor="#E04F16"
               $color="white"
-              onClick={handleNext}
-              className="form-button-right"
             >
               Save and continue
             </Button>
