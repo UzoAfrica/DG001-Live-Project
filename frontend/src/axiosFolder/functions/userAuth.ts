@@ -42,7 +42,7 @@ export const otpResendFunction = async (email: any) => {
 
 export const loginFunction = async (body: any) => {
   try {
-    const response = await axios.post('/api/reset/resend-otp', body, {
+    const response = await axios.post('/api/login', body, {
       headers: {
         'Content-Type': 'application/json',
       },

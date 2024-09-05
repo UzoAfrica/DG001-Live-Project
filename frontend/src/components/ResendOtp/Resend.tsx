@@ -20,52 +20,36 @@ import {
   otpVerificationFunction,
 } from '../../axiosFolder/functions/userAuth';
 
-// import axios from 'axios';
-
 export default function ResentOtp() {
-  // State to track OTP values
   const [otp, setOtp] = useState<string[]>(Array(4).fill(''));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
-
   const [resetLoading, setResetLoading] = useState(false);
   const [resetVerificationLoading, setResetVerificationLoading] =
     useState(false);
 
-  // Handler for key up events
+  const navigate = useNavigate();
+
   const handleOtpChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const target = event.target as HTMLInputElement;
-    let value = target.value;
-    // Only allow digits
-    // Only allow digits
+    let value = event.target.value;
     if (!/^\d$/.test(value)) {
-      value = ''; // Clear if input is not a digit
+      value = '';
     }
-    // Clear if input is not a digit
 
-    // Update OTP state
     const updatedOtp = [...otp];
     updatedOtp[index] = value;
     setOtp(updatedOtp);
 
-    // Move to next input if current value has a length of 1
     if (value.length === 1 && index < otpRefs.current.length - 1) {
       otpRefs.current[index + 1]?.focus();
     } else if (value.length === 0 && index > 0) {
       otpRefs.current[index - 1]?.focus();
     }
   };
-  //   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     const value = parseInt(event.target.value);
-  //     setAmount(value);
-  // };
 
-  const navigate = useNavigate();
-  // Handler for form submit
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    // Handle the OTP submission
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       setResetVerificationLoading(true);
@@ -86,17 +70,22 @@ export default function ResentOtp() {
       showSuccessToast(response.data.message);
       setOtp(Array(4).fill(''));
       return navigate('/login');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // Changed 'any' to 'unknown'
       console.error('Error verifying OTP', err);
       setResetVerificationLoading(false);
       setOtp(Array(4).fill(''));
-      return showErrorToast(err.message);
+
+      // Check if 'err' is an instance of Error before accessing 'message'
+      if (err instanceof Error) {
+        return showErrorToast(err.message);
+      } else {
+        return showErrorToast('An unexpected error occurred');
+      }
     }
   };
 
-  const handleResend = async (e: React.FormEvent<HTMLFormElement>) => {
-    // Handle the OTP submission
+  const handleResend = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       setResetLoading(true);
@@ -111,19 +100,11 @@ export default function ResentOtp() {
       return showSuccessToast(response.data.message);
     } catch (err) {
       console.error('Error verifying OTP', err);
-      return setResetLoading(false);
-      // setErrorMessage('Error verifying OTP. Please try again.');
+      setResetLoading(false);
     }
   };
 
-  // Check if all OTP fields are filled
   const isButtonDisabled = otp.some((value) => value.length === 0);
-
-  // const fetchDate = async()=>{
-  //   axios.post("http://localhost:5001/api/reset/resend-otp").then(response =>{
-  //     console.log()
-  //   })
-  // }
 
   return (
     <BackImg>
@@ -139,8 +120,6 @@ export default function ResentOtp() {
                 ref={(el) => (otpRefs.current[index] = el)}
                 type="text"
                 maxLength={1}
-                max={1}
-                // onChange={}
                 onChange={(event) => handleOtpChange(event, index)}
                 value={otp[index]}
                 disabled={false}
@@ -148,15 +127,19 @@ export default function ResentOtp() {
             ))}
           </StyledOtpFlex>
           <StyledDiv>
-            {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
             <StyledOne
-              onClick={(e: any) => handleSubmit(e)}
+              onClick={(e: React.FormEvent<HTMLButtonElement>) =>
+                handleSubmit(e)
+              }
               disabled={isButtonDisabled}
             >
               {resetVerificationLoading ? 'Loading...' : 'Submit OTP'}
             </StyledOne>
-            {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-            <StyledTwo onClick={(e: any) => handleResend(e)}>
+            <StyledTwo
+              onClick={(e: React.FormEvent<HTMLButtonElement>) =>
+                handleResend(e)
+              }
+            >
               {resetLoading ? 'Loading...' : 'Resend OTP'}
             </StyledTwo>
           </StyledDiv>

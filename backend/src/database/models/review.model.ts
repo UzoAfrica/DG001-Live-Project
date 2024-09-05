@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
+import Product from './product.model';
 
-// Review model
 const Review = sequelize.define(
   'Review',
   {
@@ -12,16 +12,31 @@ const Review = sequelize.define(
     },
     comment: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     rating: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
+    ProductId: {  
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: Product,  
+        key: 'id'
+      }
+    },
+    UserId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
+    }
   },
   {
     indexes: [
-      // Create composite unique index on UserId and ProductId column
       {
         unique: true,
         fields: ['UserId', 'ProductId'],

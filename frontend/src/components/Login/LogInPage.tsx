@@ -17,9 +17,9 @@ import {
   Footer,
 } from './StyledLogIn';
 import { Link, useNavigate } from 'react-router-dom';
-import googleLogo from '../../images/download.png';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
+import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton'; 
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -27,8 +27,6 @@ const LogIn: React.FC = () => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
-
-  // const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (
@@ -71,12 +69,11 @@ const LogIn: React.FC = () => {
       showSuccessToast(response.data.message);
 
       return navigate('/dashboard');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);
       return showErrorToast(error.message);
-      // setErrorMessage('Invalid username or password');
     }
   };
 
@@ -127,15 +124,15 @@ const LogIn: React.FC = () => {
               <SeparatorSpan>OR</SeparatorSpan>
               <SeparatorHr />
             </Separator>
+
+            {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <img src={googleLogo} alt="Google Logo" />
-              Log in with Google
+              <GoogleLoginButton action="login" />
             </GoogleSignUp>
             <SignUpButton type="submit">
-              {loading ? 'Loading' : 'Sign Up here'}
+              {loading ? 'Loading' : 'Log In'}
             </SignUpButton>
           </form>
-          {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Don't have an account?{' '}
             <a href="/signup" onClick={handleSignUpLinkClick}>
