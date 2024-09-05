@@ -2,24 +2,38 @@ import React from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 
-const GoogleLoginButton: React.FC = () => {
+interface GoogleLoginButtonProps {
+  action: 'login' | 'signup';
+}
+
+const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ action }) => {
   const navigate = useNavigate();
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
-      // Send the credential to the backend for verification and user creation
-      const response = await fetch('/auth/google', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: credentialResponse.credential }),
-      });
+      // Determine the API endpoint based on the action
+      const endpoint =
+        action === 'login'
+          ? 'http://localhost:5001/auth/google/login'
+          : 'http://localhost:5001/auth/google/signup';
 
-      if (response.ok) {
-        navigate('/'); // Redirect to homepage or dashboard
-      } else {
-        console.error('Failed to login with Google');
+      try {
+        // Send the credential to the backend for verification and user creation
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: credentialResponse.credential }),
+        });
+
+        if (response.ok) {
+          navigate('/'); // Redirect to homepage or dashboard after successful authentication
+        } else {
+          console.error('Failed to authenticate with Google');
+        }
+      } catch (error) {
+        console.error('Error during authentication:', error);
       }
     } else {
       console.error('No credential response received from Google');
@@ -27,12 +41,16 @@ const GoogleLoginButton: React.FC = () => {
   };
 
   const handleError = () => {
-    console.error('Google login failed');
+    console.error('Google authentication failed');
   };
 
   return (
     <div>
-      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={handleError}
+        ux_mode="popup" // Optionally use popup mode for a better user experience
+      />
     </div>
   );
 };

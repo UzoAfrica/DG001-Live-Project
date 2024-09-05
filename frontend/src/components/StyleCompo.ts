@@ -171,28 +171,27 @@ export const StyledString = styled.p`
   justify-content: center;
 `;
 export const StyledHeader = styled.header`
-height: 70px;
-padding: 0;
-margin: 0;
-border-bottom: 0.5px solid black;
-box-sizing: border-box;
-`
+  height: 70px;
+  padding: 0;
+  margin: 0;
+  border-bottom: 0.5px solid black;
+  box-sizing: border-box;
+`;
 
 export const StyledNav = styled.nav`
-display: flex;
-justify-content: space-between;
-margin-left: 100px;
-margin-right: 250px;
-
-`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 100px;
+  margin-right: 250px;
+`;
 export const STyledIMGNav = styled.img`
- width: 100px;
-`
+  width: 100px;
+`;
 
 export const StyledRightDiv = styled.div`
-display: flex;
-gap: 10px;
-`
+  display: flex;
+  gap: 10px;
+`;
 
 export  const STyledStartSelling = styled.button`
  width: 150px;
@@ -210,109 +209,92 @@ color: white;
 `
 
 export const StyledUserOptions = styled.div`
-margin-left:300px ;
-margin-top: 30px;
+  margin-left: 300px;
+  margin-top: 30px;
 
 
 text-align: center;
 `
 
 export const StyledProfileSet = styled.a`
-padding-right: 20px;
-padding-left: 20px;
-padding-top: 10px;
-padding-bottom: 10px;
-color: #60635f;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #60635f;
 
-width: 150px ;
+  width: 150px;
 
-
-&:hover{
-  transition-duration :1s;
-  cursor: pointer;
-  border-bottom: #e04f16 solid 2px;
- 
-}
-&:active{
-  color: #e04f16;
-  border-bottom: 2.5px solid #e04f16 ;
- 
-}
-
-`
+  &:hover {
+    transition-duration: 1s;
+    cursor: pointer;
+    border-bottom: #e04f16 solid 2px;
+  }
+  &:active {
+    color: #e04f16;
+    border-bottom: 2.5px solid #e04f16;
+  }
+`;
 
 export const StyledPassWord = styled.a`
-padding-right: 20px;
-padding-left: 20px;
-padding-top: 10px;
-padding-bottom: 10px;
-color: gray;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: gray;
 
-width: 150px ;
+  width: 150px;
 
-&:hover{
-  transition-duration :1s;
-  cursor: pointer;
-  border-bottom: #e04f16 solid 2px;
- 
-}
-&:active{
-  color: #e04f16;
-  border-bottom: 2.5px solid #e04f16 ;
- 
-}
-`
+  &:hover {
+    transition-duration: 1s;
+    cursor: pointer;
+    border-bottom: #e04f16 solid 2px;
+  }
+  &:active {
+    color: #e04f16;
+    border-bottom: 2.5px solid #e04f16;
+  }
+`;
 
 export const StyledNotify = styled.a`
-padding-right: 20px;
-padding-left: 20px;
-padding-top: 10px;
-padding-bottom: 10px;
-color: gray;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: gray;
 
-width: 150px ;
+  width: 150px;
 
-
-&:hover{
-  transition-duration :1s;
-  cursor: pointer;
-  border-bottom: #e04f16 solid 2px;
- 
-}
-&:active{
-  color: #e04f16;
-  border-bottom: 2.5px solid #e04f16 ;
- 
-}
-`
-
-
-
+  &:hover {
+    transition-duration: 1s;
+    cursor: pointer;
+    border-bottom: #e04f16 solid 2px;
+  }
+  &:active {
+    color: #e04f16;
+    border-bottom: 2.5px solid #e04f16;
+  }
+`;
 
 export const StyledVerify = styled.a`
-padding-right: 20px;
-padding-left: 20px;
-padding-top: 10px;
-padding-bottom: 10px;
-color: gray;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: gray;
 
-width: 150px ;
+  width: 150px;
 
-&:hover{
-  transition-duration :1s;
-  cursor: pointer;
-  border-bottom: #e04f16 solid 2px;
- 
-}
-&:active{
-  color: #e04f16;
-  border-bottom: 2.5px solid #e04f16 ;
- 
-}
-`
-
-
-
+  &:hover {
+    transition-duration: 1s;
+    cursor: pointer;
+    border-bottom: #e04f16 solid 2px;
+  }
+  &:active {
+    color: #e04f16;
+    border-bottom: 2.5px solid #e04f16;
+  }
+`;
 
 export const StyledLineDiv = styled.div`
 
@@ -322,7 +304,6 @@ gap: 5px;
 
 `
 // export const StyledUserProfile = styled.img`
-
 
 // `
 
