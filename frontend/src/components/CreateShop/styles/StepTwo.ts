@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container } from './index';
+import { Container } from './Index';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AdditionalProps = Record<string, any>;
@@ -38,4 +38,3 @@ export const SecondDesktopContainer = styled(Container)<AdditionalProps>`
     max-width: 1000px;
   }
 `;
- 

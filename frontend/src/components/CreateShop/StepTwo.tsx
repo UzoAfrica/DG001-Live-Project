@@ -7,7 +7,7 @@ import {
   LI,
   Image,
   TextArea,
-} from './styles/index';
+} from './styles/Index';
 import {
   StepTwoDesktopContainer,
   SecondDesktopContainer,

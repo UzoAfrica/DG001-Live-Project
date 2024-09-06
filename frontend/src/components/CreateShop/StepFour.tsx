@@ -1,4 +1,4 @@
-import { Container, Paragraph } from './styles/index';
+import { Container, Paragraph } from './styles/Index';
 import { SecondDesktopContainer } from './styles/StepTwo';
 
 const StepFour = () => {

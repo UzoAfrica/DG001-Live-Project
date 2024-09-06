@@ -49,4 +49,3 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ step, steps }) => {
 };
 
 export default ProgressBar;
- 

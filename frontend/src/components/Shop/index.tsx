@@ -1,6 +1,6 @@
-// import NavBar from './NavBar';
-import { Container } from './styles/Index';
-import MultiStepForm from './MultiStepForm';
+// import NavBar from '../CreateShop/NavBar';
+import { Container } from '../CreateShop/styles/Index';
+import ShopHome from './ShopHome';
 
 const CreateShop = () => {
   return (
@@ -25,9 +25,9 @@ const CreateShop = () => {
           $flexDirection="column"
           $alignItems="center"
           $padding="0 1rem"
-          className="create-shop-body-container"
+          className="shop-container"
         >
-          <MultiStepForm></MultiStepForm>
+          <ShopHome></ShopHome>
         </Container>
       </Container>
     </>

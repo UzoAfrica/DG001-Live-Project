@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Image, Paragraph } from './styles/index';
+import { Container, Image, Paragraph } from './styles/Index';
 import LogoSVG from '../../images/logo.svg';
 import BellSVG from '../../images/bell-icon.svg';
 import DefaultAvatarImage from '../../images/default-avatar.png';

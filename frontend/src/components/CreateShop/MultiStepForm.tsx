@@ -1,4 +1,4 @@
-import { Container, Button, Form, DesktopContainer } from './styles/index';
+import { Container, Button, Form, DesktopContainer } from './styles/Index';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 import StepThree from './StepThree';
@@ -118,4 +118,3 @@ const MultiStepForm = () => {
 };
 
 export default MultiStepForm;
- 
