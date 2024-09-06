@@ -28,6 +28,13 @@ import CartPage from './components/Cart/CartPage';
 import Navbar from './components/Cart/Navbar';
 import Product from './components/Cart/productInfo/ProductInfoPage';
 
+// Shop components
+import CreateShop from './components/CreateShop/index';
+import Shop from './components/Shop/index';
+
+// getAllProducts
+import ProductPage from './components/ProductPage/ProductPage';
+
 // Define an interface for MainLayout props
 interface MainLayoutProps {
   userProfile: {
@@ -106,6 +113,10 @@ const router = createBrowserRouter([
     element: <ReSend />,
   },
   {
+    path:'product-page' ,
+    element: < ProductPage/>,
+  },
+  {
     path: '/', // Base path for the main layout with Navbar
     element: <MainLayout userProfile={userProfile} />, // Main layout with Navbar
     children: [
@@ -120,6 +131,14 @@ const router = createBrowserRouter([
       {
         path: 'product',
         element: <Product />,
+      },
+      {
+        path: 'create-shop',
+        element: <CreateShop />,
+      },
+      {
+        path: 'shop',
+        element: <Shop />,
       },
       {
         path: '*',
@@ -139,4 +158,3 @@ const App: FC = () => {
 };
 
 export default App;
-

@@ -50,7 +50,7 @@ app.use((req: Request, res: Response, next) => {
 // General error handler
 app.use((err: HttpError, req: Request, res: Response) => {
   // Removed 'next' parameter
-  console.error('Error: ', err.message); // Log error details for debugging
+  console.error('Error: ', err.message);
 
   // Set locals, only providing error details in development
   res.locals.message = err.message;
