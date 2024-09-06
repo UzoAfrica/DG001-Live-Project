@@ -45,8 +45,47 @@ const User = sequelize.define(
       defaultValue: false,
       allowNull: false,
     },
-    avatarURL: {
+    lastName: {
       type: DataTypes.STRING,
+    },
+    gender: {
+      type: DataTypes.STRING,
+    },
+    shopName: {
+      type: DataTypes.STRING,
+    },
+    mobileNumber: {
+      type: DataTypes.STRING,
+    },
+    address: {
+      type: DataTypes.STRING,
+    },
+    profileImage: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    gender:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  shopName:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  mobileNumber:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  address:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  profileImage: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

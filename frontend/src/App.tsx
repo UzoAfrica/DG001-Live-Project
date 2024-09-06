@@ -28,6 +28,10 @@ import CartPage from './components/Cart/CartPage';
 import Navbar from './components/Cart/Navbar';
 import Product from './components/Cart/productInfo/ProductInfoPage';
 
+// Shop components
+import CreateShop from './components/CreateShop/index';
+import Shop from './components/Shop/index';
+
 // Define an interface for MainLayout props
 interface MainLayoutProps {
   userProfile: {
@@ -122,6 +126,14 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
+        path: 'create-shop',
+        element: <CreateShop />,
+      },
+      {
+        path: 'shop',
+        element: <Shop />,
+      },
+      {
         path: '*',
         element: <NotFound />,
       },
@@ -139,4 +151,3 @@ const App: FC = () => {
 };
 
 export default App;
-
