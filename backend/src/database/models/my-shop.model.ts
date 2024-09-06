@@ -44,9 +44,9 @@ const MyShop = sequelize.define('MyShop', {
   description: {
     type: DataTypes.STRING,
   },
-  coverImage: {
-    type: DataTypes.STRING,
-  },
+  // coverImage: {
+  //   type: DataTypes.STRING,
+  // },
   ownerId: {
     type: DataTypes.UUID,
     allowNull: true,
@@ -91,15 +91,15 @@ const MyShop = sequelize.define('MyShop', {
     type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
   },
-  // imageUrls: {
-  //   type: DataTypes.ARRAY(DataTypes.STRING),
-  //   allowNull: true,
-  // },
+  imageUrls: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: true,
+  },
 });
  
 // One-to-Many relationship between shop and product
 MyShop.hasMany(Product, {
-  foreignKey: { allowNull: false },
+  foreignKey: { allowNull: true },
 });
 Product.belongsTo(MyShop);
  

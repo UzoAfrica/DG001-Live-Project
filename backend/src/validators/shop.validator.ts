@@ -13,16 +13,39 @@ const shopSchema = Joi.object({
     'string.max': 'Description should not exceed 500 characters.',
   }),
   currency: Joi.string().max(10).optional().default('NGN'),
-  category: Joi.string().optional().messages({
+  category: Joi.string().optional().valid('ELECTRONICS', 'FASHION', 'FOOD', 'HEALTH', 'HOME', 'SPORTS', 'CHILDREN', 'OTHERS').messages({
     'string.empty': 'Category cannot be empty.',
+    'any.only': 'Category must be one of ELECTRONICS, FASHION, FOOD, HEALTH, HOME, SPORTS, CHILDREN, or OTHERS.',
   }),
-  legalBusinessAddress: Joi.object().optional(),
-  securityFeatures: Joi.object().optional(),
   shopAddress: Joi.string().min(10).required().messages({
     'string.empty': 'Shop address cannot be empty.',
     'string.min': 'Shop address should have a minimum length of 10.',
     'any.required': 'Shop address is required.',
   }),
+  securityFeatures: Joi.string().optional(),
+  coverImage: Joi.string().uri().optional().allow(null),
+  country: Joi.string().max(100).optional().messages({
+    'string.max': 'Country name should not exceed 100 characters.',
+  }),
+  street: Joi.string().max(100).optional().messages({
+    'string.max': 'Street name should not exceed 100 characters.',
+  }),
+  state: Joi.string().max(100).optional().messages({
+    'string.max': 'State name should not exceed 100 characters.',
+  }),
+  shippingAddress: Joi.string().max(200).optional().messages({
+    'string.max': 'Shipping address should not exceed 200 characters.',
+  }),
+  shippingPrices: Joi.string().max(50).optional().messages({
+    'string.max': 'Shipping prices description should not exceed 50 characters.',
+  }),
+  shippingServices: Joi.string().max(100).optional().messages({
+    'string.max': 'Shipping services description should not exceed 100 characters.',
+  }),
+  zip: Joi.string().max(20).optional().messages({
+    'string.max': 'ZIP code should not exceed 20 characters.',
+  }),
+  videoUrls: Joi.array().items(Joi.string().uri()).optional(),
 });
 
 // Middleware to validate shop data

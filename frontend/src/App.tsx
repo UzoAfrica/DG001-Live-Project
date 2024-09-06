@@ -27,6 +27,7 @@ import Wishlist from './components/Cart/wishlist/WishlistPage';
 import CartPage from './components/Cart/CartPage';
 import Navbar from './components/Cart/Navbar';
 import Product from './components/Cart/productInfo/ProductInfoPage';
+import CreateShop from './components/CreateShop/index';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -83,6 +84,8 @@ const MainPage: FC = () => (
   </>
 );
 
+// const 
+
 // Define the router configuration
 const router = createBrowserRouter([
   {
@@ -120,6 +123,10 @@ const router = createBrowserRouter([
       {
         path: 'product',
         element: <Product />,
+      },
+      {
+        path: 'create-shop',
+        element: <CreateShop />,
       },
       {
         path: '*',
