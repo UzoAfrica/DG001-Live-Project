@@ -187,7 +187,3 @@ export const LI = styled.li<AdditionalProps>`
   width: ${(props) => props.$width || ''};
   list-style-type: disc;
 `;
-<<<<<<< HEAD
- 
-=======
->>>>>>> dev
