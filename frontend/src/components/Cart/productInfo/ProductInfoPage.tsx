@@ -1,20 +1,25 @@
 import { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { 
-  Container, 
-  ProductImage, 
-  ProductDetails, 
-  ProductName, 
-  ProductDescription, 
-  ProductPrice, 
-  ButtonContainer, 
-  WishlistButton, 
-  CartButton, 
-  SimilarProductsSection, 
-  SimilarProductItem, 
-  SimilarProductImage 
+import {
+  Container,
+  ProductImage,
+  ProductDetails,
+  ProductName,
+  ProductDescription,
+  ProductPrice,
+  ButtonContainer,
+  WishlistButton,
+  CartButton,
+  SimilarProductsSection,
+  SimilarProductItem,
+  SimilarProductImage,
 } from '../productInfo/productInfoStyled';
-import { getProductById, getProducts, addToCart, addToWishlist } from '../../../axiosFolder/functions/productFunction';
+import {
+  getProductById,
+  getProducts,
+  addToCart,
+  addToWishlist,
+} from '../../../axiosFolder/functions/productFunction';
 
 interface Product {
   id: string;
@@ -22,7 +27,7 @@ interface Product {
   description: string;
   price: number;
   imageUrl: string;
-  type: string; 
+  type: string;
 }
 
 const ProductInfoPage: FC = () => {
@@ -35,52 +40,54 @@ const ProductInfoPage: FC = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        if (!productId) return; 
-        const response = await getProductById(productId); 
-        setProduct(response.data); 
-        fetchSimilarProducts(response.data.type); 
+        if (!productId) return;
+        const response = await getProductById(productId);
+        setProduct(response.data);
+        fetchSimilarProducts(response.data.type);
       } catch (error) {
-        setError('Error fetching product details'); 
+        setError('Error fetching product details');
         console.error('Error fetching product details:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     const fetchSimilarProducts = async (type: string) => {
       try {
-        const response = await getProducts(); 
-        const filteredProducts = response.data.filter((p: Product) => p.type === type); 
-        setSimilarProducts(filteredProducts); 
+        const response = await getProducts();
+        const filteredProducts = response.data.filter(
+          (p: Product) => p.type === type
+        );
+        setSimilarProducts(filteredProducts);
       } catch (error) {
         console.error('Error fetching similar products:', error);
       }
     };
 
-    fetchProduct(); 
+    fetchProduct();
   }, [productId]);
 
   const handleAddToWishlist = async () => {
     try {
       if (product) {
-        const userId = 'yourUserId'; 
-        await addToWishlist(userId, product.id); 
-        alert('Product added to wishlist!'); 
+        const userId = 'yourUserId';
+        await addToWishlist(userId, product.id);
+        alert('Product added to wishlist!');
       }
     } catch (error) {
-      console.error('Error adding product to wishlist:', error); 
+      console.error('Error adding product to wishlist:', error);
     }
   };
 
   const handleAddToCart = async () => {
     try {
       if (product) {
-        const userId = 'yourUserId'; 
-        await addToCart(userId, product.id); 
+        const userId = 'yourUserId';
+        await addToCart(userId, product.id);
         alert('Product added to cart!');
       }
     } catch (error) {
-      console.error('Error adding product to cart:', error); 
+      console.error('Error adding product to cart:', error);
     }
   };
 
@@ -97,17 +104,22 @@ const ProductInfoPage: FC = () => {
             <ProductDescription>{product.description}</ProductDescription>
             <ProductPrice>₦{product.price.toLocaleString()}</ProductPrice>
             <ButtonContainer>
-              <WishlistButton onClick={handleAddToWishlist}>Add to Wishlist</WishlistButton>
+              <WishlistButton onClick={handleAddToWishlist}>
+                Add to Wishlist
+              </WishlistButton>
               <CartButton onClick={handleAddToCart}>Add to Cart</CartButton>
             </ButtonContainer>
           </ProductDetails>
-          
+
           <SimilarProductsSection>
             <h3>Similar Products</h3>
             <div>
               {similarProducts.map((similarProduct) => (
                 <SimilarProductItem key={similarProduct.id}>
-                  <SimilarProductImage src={similarProduct.imageUrl} alt={similarProduct.name} />
+                  <SimilarProductImage
+                    src={similarProduct.imageUrl}
+                    alt={similarProduct.name}
+                  />
                   <p>{similarProduct.name}</p>
                   <p>₦{similarProduct.price.toLocaleString()}</p>
                 </SimilarProductItem>
