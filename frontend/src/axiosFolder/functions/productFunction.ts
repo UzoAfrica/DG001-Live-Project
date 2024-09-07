@@ -15,7 +15,7 @@ export const getProducts = () => customAxios.get('/products');
 
 // Get a specific product by ID
 export const getProductById = (productId: string) =>
-  customAxios.get(`/products/product/${productId}`);
+  customAxios.get(`/products/${productId}`);
 
 // Get trending sales products with filters and pagination
 export const getTrendingProducts = (filters: Record<string, any>) =>
