@@ -1,18 +1,16 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import appEnvironmentVariables from '../config/app-environment-variables.config';
 import OTP from '../database/models/otp.model';
 import User from '../database/models/user.model';
 import sendEmail from '../utils/email.util';
 import { generateExpiryDate } from '../utils/reset.util';
-import jwt from 'jsonwebtoken';
-import appEnvironmentVariables from '../config/app-environment-variables.config';
 import { loginSchema } from '../validators/auth.validator';
 
 export const signup = async (req: Request, res: Response) => {
   try {
     const { name, email, password, referralSource } = req.body;
-
-    console.log(req.body);;
 
     // Check if all required fields are provided
     if (!name || !email || !password || !referralSource) {
@@ -51,7 +49,7 @@ export const signup = async (req: Request, res: Response) => {
     await OTP.create({
       userEmail: email,
       otp: generatedOtp,
-      expiresAt: generateExpiryDate(10), // OTP expires in 10 minutes
+      expiresAt: generateExpiryDate(120), // OTP expires in 10 minutes
       UserId: newUser.getDataValue('id'),
     });
 
@@ -66,7 +64,8 @@ export const signup = async (req: Request, res: Response) => {
 
     res.status(201).json({
       success: false,
-      message: 'User registered successfully, an OTP has been sent to your email address. Please input it in the OTP page.',
+      message:
+        'User registered successfully, an OTP has been sent to your email address. Please input it in the OTP page.',
       user: newUser,
     });
   } catch (error) {
@@ -80,22 +79,16 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-
-
-
 export const login = async (req: Request, res: Response) => {
-
   const { error } = loginSchema.validate(req.body);
 
   if (error) return res.status(400).json({ error: error.details[0].message });
 
   const { email, password } = req.body;
   try {
-
     const user = await User.findOne({ where: { email } });
 
     if (!user)
-      
       return res.status(400).json({ message: 'Invalid Email or Password' });
 
     const validPassword = await bcrypt.compare(
@@ -120,9 +113,8 @@ export const login = async (req: Request, res: Response) => {
 
     res.header('Authorization', token).json({
       message: 'Logged in successfully',
-      data: { token, user},
+      data: { token, role: user.getDataValue('role'), user },
     });
-
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -134,4 +126,3 @@ export const login = async (req: Request, res: Response) => {
     }
   }
 };
- 

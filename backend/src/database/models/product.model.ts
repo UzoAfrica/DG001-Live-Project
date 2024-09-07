@@ -58,7 +58,7 @@ const Product = sequelize.define(
   },
   {
     modelName: 'Product',
-    tableName: 'products',
+    tableName: 'Products',
     indexes: [
       {
         fields: ['name'],
