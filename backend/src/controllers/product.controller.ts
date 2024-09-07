@@ -1,13 +1,9 @@
 import { Request, Response } from 'express';
+import Product from '../database/models/product.model';
 import { Op } from 'sequelize';
 import cloudinary from '../config/cloudinary.config';
-import upload from '../config/multer.config';
-import Product from '../database/models/product.model';
-import {
-  addProductSchema,
-  getSpecificProductSchema,
-  updateProductSchema,
-} from '../validators/product.validator';
+import { addProductSchema, reviewSchema, updateProductSchema } from '../validators/product.validator';
+import Review from '../database/models/review.model';
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
@@ -27,19 +23,29 @@ export const addProduct = async (req: Request, res: Response) => {
     isAvailable,
   } = req.body;
 
-    let videoUploadUrl = null;
+  let videoUploadUrl = null;
+  let imageUploadUrls: string[] = [];
 
-    try {
-      // Handle video upload to Cloudinary if a file is included
-      if (req.file) {
-        const uploadResponse = await cloudinary.v2.uploader.upload(
-          req.file.path,
-          {
-            resource_type: 'video',
-          }
-        );
-        videoUploadUrl = uploadResponse.secure_url;
-      }
+  try {
+    // Ensure req.files is correctly typed
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    // Handle image uploads to Cloudinary
+    if (files && files['image']) {
+      const imageUploadPromises = files['image'].map(file =>
+        cloudinary.v2.uploader.upload(file.path, { resource_type: 'image' })
+      );
+      const imageUploadResponses = await Promise.all(imageUploadPromises);
+      imageUploadUrls = imageUploadResponses.map(response => response.secure_url);
+    }
+
+    // Handle video upload to Cloudinary if a file is included
+    if (files && files['video'] && files['video'][0]) {
+      const uploadResponse = await cloudinary.v2.uploader.upload(files['video'][0].path, {
+        resource_type: 'video',
+      });
+      videoUploadUrl = uploadResponse.secure_url;
+    }
 
     const product = await Product.create({
       name,
@@ -54,14 +60,11 @@ export const addProduct = async (req: Request, res: Response) => {
       noOfSales: 0,
     });
 
-      res
-        .status(201)
-        .json({ message: 'Product created successfully', product });
-    } catch (err) {
-      console.error('Error adding product:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
+    res.status(201).json({ message: 'Product created successfully', product });
+  } catch (err) {
+    console.error('Error adding product:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 // Controller to get all products
@@ -85,7 +88,7 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     minPrice,
     maxPrice,
     colour,
-  } = req.query;
+  } = req.query; 
 
   const queryConditions: any = {};
 

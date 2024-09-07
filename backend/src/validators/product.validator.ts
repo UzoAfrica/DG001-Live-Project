@@ -7,7 +7,6 @@ export const addProductSchema = Joi.object({
   price: Joi.number().required(),
   imageUrl: Joi.array().items(Joi.string().uri()).optional(),
   videoUrl: Joi.string().uri().optional(),
-  videoUrl: Joi.string().uri().optional(),
   quantity: Joi.number().required(),
   userId: Joi.string().guid({ version: ['uuidv4'] }).required(),
   shopId: Joi.string().guid({ version: ['uuidv4'] }).required(),
