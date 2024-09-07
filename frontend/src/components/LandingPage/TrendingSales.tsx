@@ -30,7 +30,7 @@ const TrendingSales: React.FC = () => {
    const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/login');
+    navigate('/signup');
   };
   return (
     <TrendingSalesSection>

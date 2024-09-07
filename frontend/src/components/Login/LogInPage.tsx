@@ -68,7 +68,7 @@ const LogIn: React.FC = () => {
 
       showSuccessToast(response.data.message);
 
-      return navigate('/dashboard');
+      return navigate('/create-shop');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);

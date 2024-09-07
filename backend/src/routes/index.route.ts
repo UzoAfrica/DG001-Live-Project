@@ -24,3 +24,4 @@ indexRouter.use('/products', productRouter);
 indexRouter.use('/shop', shopRouter);
 
 export default indexRouter;
+ 

@@ -11,25 +11,21 @@ import {
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
-  upload.single('video')(req, res, async (err: any) => {
-    if (err) {
-      return res.status(400).json({ error: err.message });
-    }
+  const { error } = addProductSchema.validate(req.body);
 
-    const { error } = addProductSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
 
-    if (error) return res.status(400).json({ error: error.details[0].message });
-
-    const {
-      name,
-      description,
-      price,
-      imageUrl,
-      quantity,
-      userId,
-      shopId,
-      isAvailable,
-    } = req.body;
+  const {
+    name,
+    description,
+    price,
+    quantity,
+    userId,
+    shopId, 
+    isAvailable,
+  } = req.body;
 
     let videoUploadUrl = null;
 
@@ -45,18 +41,18 @@ export const addProduct = async (req: Request, res: Response) => {
         videoUploadUrl = uploadResponse.secure_url;
       }
 
-      const product = await Product.create({
-        name,
-        description,
-        price,
-        imageUrl,
-        videoUrl: videoUploadUrl,
-        quantity,
-        userId,
-        shopId,
-        isAvailable,
-        noOfSales: 0,
-      });
+    const product = await Product.create({
+      name,
+      description,
+      price,
+      imageUrl: imageUploadUrls,
+      video: videoUploadUrl,
+      quantity,
+      userId,
+      MyShopId: shopId,
+      isAvailable,
+      noOfSales: 0,
+    });
 
       res
         .status(201)
@@ -190,45 +186,35 @@ export const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-// Controller to get a specific product
-export const getSpecificProduct = async (req: Request, res: Response) => {
-  // Validation Error
-  const validationResult = getSpecificProductSchema.validate(req.params.id);
-  if (validationResult.error)
-    return res
-      .status(400)
-      .json({ message: validationResult.error.details[0].message, data: null });
+// Controller to add a review for a product
+// export const addReview = async (req: Request, res: Response) => {
+//   const { error } = reviewSchema.validate(req.body);
+//   if (error) {
+//     return res.status(400).json({ error: error.details[0].message });
+//   }
 
-  try {
-    const productID = req.params.id;
-    // Verify product exists
-    const product = await Product.findByPk(productID);
-    if (!product)
-      return res
-        .status(400)
-        .json({ message: 'Product ID does not exist', data: null });
+//   const { comment, rating } = req.body;
+//   const productId = req.params.id;
 
-    /**
-     * Because typescript can't implicitly recognize sequelize association mixins.
-     * See https://github.com/sequelize/sequelize/issues/14302
-     */
-    // @ts-expect-error: typescript can't implicitly recognize sequelize association mixins.
-    const shopInfo = await product.getShop();
+//   try {
+//     const product = await Product.findByPk(productId);
+//     if (!product) {
+//       return res.status(404).json({ error: 'Product not found' });
+//     }
 
-    return res
-      .status(200)
-      .json({ message: 'Found product', data: { product, shopInfo } });
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
+//     const review = await Review.create({
+//       comment,
+//       rating,
+//       ProductId: productId,
+//     });
 
-      return res.status(500).json({
-        message: 'Failed to get specific product',
-        data: null,
-      });
-    }
-  }
-};
+//     res.status(201).json({ message: 'Review added successfully', review });
+//   } catch (err) {
+//     console.error('Error adding review:', err);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
 
 // Ensure all controllers are exported
 export default {
@@ -238,5 +224,4 @@ export default {
   getProductById,
   updateProduct,
   deleteProduct,
-  getSpecificProduct,
 };
