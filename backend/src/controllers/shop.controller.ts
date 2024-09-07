@@ -1,7 +1,7 @@
-import { Request, Response, RequestHandler } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import Shop from '../database/models/my-shop.model';
 import User from '../database/models/user.model';
-import { uploadImage, uploadVideo, deleteResources } from '../utils/upload';
+import { deleteResources, uploadImage, uploadVideo } from '../utils/upload';
 
 // Define a custom interface for the Request object to include the user and files properties
 interface CustomRequest extends Request {
@@ -36,20 +36,27 @@ export const createShop: RequestHandler = async (
     shippingPrices,
     shippingServices,
     zip,
-    UserId,
   } = customReq.body;
   const user = customReq.user;
 
   if (!user) {
-    return res.status(403).json({ message: 'You are not allowed Please Re-login' });
+    return res
+      .status(403)
+      .json({ message: 'You are not allowed Please Re-login' });
   }
 
-  const ownerId = user.id;
+  const UserId = user.id;
 
   try {
-    const userRecord = (await User.findByPk(ownerId)) as InstanceType<typeof User> | null;
+    const userRecord = (await User.findByPk(UserId)) as InstanceType<
+      typeof User
+    > | null;
     if (!userRecord || !userRecord.getDataValue('isVerified')) {
-      return res.status(403).json({ message: 'You are not allowed create a shop Please Re-login.' });
+      return res
+        .status(403)
+        .json({
+          message: 'You are not allowed create a shop Please Re-login.',
+        });
     }
 
     const videoUrls = customReq.files?.videos
@@ -67,10 +74,11 @@ export const createShop: RequestHandler = async (
       category,
       shopAddress,
       securityFeatures,
-      coverImage: imageUrls[0] || null,
-      ownerId,
+      // coverImage: imageUrls[0] || null,
+      UserId,
       ratings: 0,
       videoUrls,
+      imageUrls,
       country,
       street,
       state,
@@ -78,12 +86,12 @@ export const createShop: RequestHandler = async (
       shippingPrices,
       shippingServices,
       zip,
-      UserId,
     });
 
     res.status(201).json({ message: 'Shop created successfully.', shop });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error creating shop:', error);
     res.status(500).json({
       message: 'An error occurred while creating the shop.',
@@ -92,13 +100,11 @@ export const createShop: RequestHandler = async (
   }
 };
 
-
 // Update a shop
 export const updateShop: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  
   const customReq = req as CustomRequest;
   const { id } = customReq.params;
   const {
@@ -120,12 +126,15 @@ export const updateShop: RequestHandler = async (
   const user = customReq.user;
 
   if (!user) {
-    console.log("not a user");
-    return res.status(403).json({ message: 'You are not allowed to create a shop please Re-login.' });
+    console.log('not a user');
+    return res
+      .status(403)
+      .json({
+        message: 'You are not allowed to create a shop please Re-login.',
+      });
   }
 
-  
-  const ownerId = user.id;
+  const UserId = user.id;
 
   try {
     const shop = (await Shop.findByPk(id)) as InstanceType<typeof Shop> | null;
@@ -134,8 +143,10 @@ export const updateShop: RequestHandler = async (
       return res.status(404).json({ message: 'Shop not found.' });
     }
 
-    if (shop.getDataValue('ownerId') !== ownerId) {
-      return res.status(403).json({ message: 'You are not allowed to update this shop.' });
+    if (shop.getDataValue('UserId') !== UserId) {
+      return res
+        .status(403)
+        .json({ message: 'Unauthorized to update this shop.' });
     }
 
     const videoUrls = customReq.files?.videos
@@ -166,7 +177,8 @@ export const updateShop: RequestHandler = async (
 
     res.status(200).json({ message: 'Shop updated successfully.', shop });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error updating shop:', error);
     res.status(500).json({
       message: 'An error occurred while updating the shop.',
@@ -188,7 +200,7 @@ export const deleteShop: RequestHandler = async (
     return res.status(403).json({ message: 'User is not authenticated.' });
   }
 
-  const ownerId = user.id;
+  const UserId = user.id;
 
   try {
     const shop = (await Shop.findByPk(id)) as InstanceType<typeof Shop> | null;
@@ -197,8 +209,10 @@ export const deleteShop: RequestHandler = async (
       return res.status(404).json({ message: 'Shop not found.' });
     }
 
-    if (shop.getDataValue('ownerId') !== ownerId) {
-      return res.status(403).json({ message: 'Unauthorized to delete this shop.' });
+    if (shop.getDataValue('UserId') !== UserId) {
+      return res
+        .status(403)
+        .json({ message: 'Unauthorized to delete this shop.' });
     }
 
     const videoUrls = shop.getDataValue('videoUrls');
@@ -209,7 +223,8 @@ export const deleteShop: RequestHandler = async (
     await shop.destroy();
     res.status(200).json({ message: 'Shop deleted successfully.' });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error deleting shop:', error);
     res.status(500).json({
       message: 'An error occurred while deleting the shop.',

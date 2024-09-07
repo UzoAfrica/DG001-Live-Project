@@ -1,19 +1,18 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
-import Product from './product.model';
- 
+
 enum category {
-  ELECTRONICS = "ELECTRONICS",
-  FASHION = "FASHION",
-  FOOD = "FOOD",
-  HEALTH = "HEALTH",
-  HOME = "HOME",
-  SPORTS = "SPORTS",
-  CHILDREN = "CHILDREN",
-  OTHERS = "OTHERS",
+  ELECTRONICS = 'ELECTRONICS',
+  FASHION = 'FASHION',
+  FOOD = 'FOOD',
+  HEALTH = 'HEALTH',
+  HOME = 'HOME',
+  SPORTS = 'SPORTS',
+  CHILDREN = 'CHILDREN',
+  OTHERS = 'OTHERS',
 }
 // Shop model
-const MyShop = sequelize.define('MyShop', {
+const Shop = sequelize.define('Shop', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -30,7 +29,16 @@ const MyShop = sequelize.define('MyShop', {
     defaultValue: 'NGN',
   },
   category: {
-    type: DataTypes.ENUM(category.ELECTRONICS, category.FASHION, category.FOOD, category.HEALTH, category.HOME, category.SPORTS, category.CHILDREN, category.OTHERS),
+    type: DataTypes.ENUM(
+      category.ELECTRONICS,
+      category.FASHION,
+      category.FOOD,
+      category.HEALTH,
+      category.HOME,
+      category.SPORTS,
+      category.CHILDREN,
+      category.OTHERS
+    ),
     allowNull: true,
   },
   shopAddress: {
@@ -47,16 +55,16 @@ const MyShop = sequelize.define('MyShop', {
   // coverImage: {
   //   type: DataTypes.STRING,
   // },
-  ownerId: {
-    type: DataTypes.UUID,
-    allowNull: true,
-  },
+  // ownerId: {
+  //   type: DataTypes.UUID,
+  //   allowNull: true,
+  // },
   ratings: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
   securityFeatures: {
-    type: DataTypes.JSON,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   country: {
@@ -96,12 +104,11 @@ const MyShop = sequelize.define('MyShop', {
     allowNull: true,
   },
 });
- 
-// One-to-Many relationship between shop and product
-MyShop.hasMany(Product, {
-  foreignKey: { allowNull: true },
-});
-Product.belongsTo(MyShop);
- 
-export default MyShop;
 
+// One-to-Many relationship between shop and product
+// Shop.hasMany(Product, {
+//   foreignKey: { allowNull: true },
+// });
+// Product.belongsTo(Shop);
+
+export default Shop;
