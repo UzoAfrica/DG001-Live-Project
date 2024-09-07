@@ -1,6 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import Shop from '../database/models/my-shop.model';
-import User from '../database/models/user.model';
 
 // Middleware to check if the shop exists
 export const checkShopExists = async (req: Request, res: Response, next: NextFunction) => {
@@ -25,7 +24,7 @@ export const checkShopOwner = async (req: Request, res: Response, next: NextFunc
 
   try {
     const shop = await Shop.findByPk(id);
-    if (shop && shop.getDataValue('ownerId') !== user.id) {
+    if (shop && shop.getDataValue('UserId') !== user.id) {
       return res.status(403).json({ message: 'Unauthorized to modify this shop.' });
     }
     next();

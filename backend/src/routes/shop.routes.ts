@@ -1,9 +1,16 @@
-import { Router, RequestHandler } from 'express';
-import { createShop, updateShop, deleteShop } from '../controllers/shop.controller';
+import { RequestHandler, Router } from 'express';
+import {
+  createShop,
+  deleteShop,
+  updateShop,
+} from '../controllers/shop.controller';
 import { authenticateToken } from '../middlewares/auth.middleware';
+import {
+  checkShopExists,
+  checkShopOwner,
+} from '../middlewares/shop.middleware'; // Import the middleware
 import upload from '../utils/upload';
 import { validateShop } from '../validators/shop.validator'; // Import the validator
-import { checkShopExists, checkShopOwner } from '../middlewares/shop.middleware'; // Import the middleware
 
 const router = Router();
 
@@ -29,7 +36,6 @@ router.put(
     { name: 'videos', maxCount: 5 },
     { name: 'images', maxCount: 5 },
   ]),
-  validateShop, // Add validation middleware
   updateShop
 );
 

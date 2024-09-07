@@ -1,7 +1,7 @@
-import { Request, Response, RequestHandler } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import Shop from '../database/models/my-shop.model';
 import User from '../database/models/user.model';
-import { uploadImage, uploadVideo, deleteResources } from '../utils/upload';
+import { deleteResources, uploadImage, uploadVideo } from '../utils/upload';
 
 // Define a custom interface for the Request object to include the user and files properties
 interface CustomRequest extends Request {
@@ -27,8 +27,15 @@ export const createShop: RequestHandler = async (
     description,
     currency,
     category,
-    legalBusinessAddress,
+    shopAddress,
     securityFeatures,
+    country,
+    street,
+    state,
+    shippingAddress,
+    shippingPrices,
+    shippingServices,
+    zip,
   } = customReq.body;
   const user = customReq.user;
 
@@ -36,10 +43,10 @@ export const createShop: RequestHandler = async (
     return res.status(403).json({ message: 'User is not authenticated.' });
   }
 
-  const ownerId = user.id;
+  const UserId = user.id;
 
   try {
-    const userRecord = (await User.findByPk(ownerId)) as InstanceType<
+    const userRecord = (await User.findByPk(UserId)) as InstanceType<
       typeof User
     > | null;
     if (!userRecord || !userRecord.getDataValue('isVerified')) {
@@ -61,13 +68,20 @@ export const createShop: RequestHandler = async (
       description,
       currency,
       category,
-      legalBusinessAddress,
+      shopAddress,
       securityFeatures,
-      coverImage: imageUrls[0] || null,
-      ownerId,
+      // coverImage: imageUrls[0] || null,
+      UserId,
       ratings: 0,
       videoUrls,
       imageUrls,
+      country,
+      street,
+      state,
+      shippingAddress,
+      shippingPrices,
+      shippingServices,
+      zip,
     });
 
     res.status(201).json({ message: 'Shop created successfully.', shop });
@@ -104,7 +118,7 @@ export const updateShop: RequestHandler = async (
     return res.status(403).json({ message: 'User is not authenticated.' });
   }
 
-  const ownerId = user.id;
+  const UserId = user.id;
 
   try {
     const shop = (await Shop.findByPk(id)) as InstanceType<typeof Shop> | null;
@@ -113,7 +127,7 @@ export const updateShop: RequestHandler = async (
       return res.status(404).json({ message: 'Shop not found.' });
     }
 
-    if (shop.getDataValue('ownerId') !== ownerId) {
+    if (shop.getDataValue('UserId') !== UserId) {
       return res
         .status(403)
         .json({ message: 'Unauthorized to update this shop.' });
@@ -164,7 +178,7 @@ export const deleteShop: RequestHandler = async (
     return res.status(403).json({ message: 'User is not authenticated.' });
   }
 
-  const ownerId = user.id;
+  const UserId = user.id;
 
   try {
     const shop = (await Shop.findByPk(id)) as InstanceType<typeof Shop> | null;
@@ -173,7 +187,7 @@ export const deleteShop: RequestHandler = async (
       return res.status(404).json({ message: 'Shop not found.' });
     }
 
-    if (shop.getDataValue('ownerId') !== ownerId) {
+    if (shop.getDataValue('UserId') !== UserId) {
       return res
         .status(403)
         .json({ message: 'Unauthorized to delete this shop.' });

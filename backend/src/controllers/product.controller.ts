@@ -1,9 +1,13 @@
 import { Request, Response } from 'express';
-import Product from '../database/models/product.model';
 import { Op } from 'sequelize';
 import cloudinary from '../config/cloudinary.config';
-import upload from '../config/multer.config'; 
-import { addProductSchema, updateProductSchema, getSpecificProductSchema } from '../validators/product.validator';
+import upload from '../config/multer.config';
+import Product from '../database/models/product.model';
+import {
+  addProductSchema,
+  getSpecificProductSchema,
+  updateProductSchema,
+} from '../validators/product.validator';
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
@@ -32,9 +36,12 @@ export const addProduct = async (req: Request, res: Response) => {
     try {
       // Handle video upload to Cloudinary if a file is included
       if (req.file) {
-        const uploadResponse = await cloudinary.v2.uploader.upload(req.file.path, {
-          resource_type: 'video',
-        });
+        const uploadResponse = await cloudinary.v2.uploader.upload(
+          req.file.path,
+          {
+            resource_type: 'video',
+          }
+        );
         videoUploadUrl = uploadResponse.secure_url;
       }
 
@@ -51,7 +58,9 @@ export const addProduct = async (req: Request, res: Response) => {
         noOfSales: 0,
       });
 
-      res.status(201).json({ message: 'Product created successfully', product });
+      res
+        .status(201)
+        .json({ message: 'Product created successfully', product });
     } catch (err) {
       console.error('Error adding product:', err);
       res.status(500).json({ error: 'Internal server error' });
@@ -80,7 +89,7 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     minPrice,
     maxPrice,
     colour,
-  } = req.query; 
+  } = req.query;
 
   const queryConditions: any = {};
 
@@ -199,8 +208,12 @@ export const getSpecificProduct = async (req: Request, res: Response) => {
         .status(400)
         .json({ message: 'Product ID does not exist', data: null });
 
-    
-    const shopInfo = await product.getTShop();
+    /**
+     * Because typescript can't implicitly recognize sequelize association mixins.
+     * See https://github.com/sequelize/sequelize/issues/14302
+     */
+    // @ts-expect-error: typescript can't implicitly recognize sequelize association mixins.
+    const shopInfo = await product.getShop();
 
     return res
       .status(200)

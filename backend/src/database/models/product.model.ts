@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Review from './review.model';
- 
+
 // Product model
 const Product = sequelize.define(
   'Product',
@@ -58,7 +58,7 @@ const Product = sequelize.define(
   },
   {
     modelName: 'Product',
-    tableName: 'products',
+    tableName: 'Products',
     indexes: [
       {
         fields: ['name'],
@@ -69,5 +69,5 @@ const Product = sequelize.define(
 // Association
 Product.hasMany(Review, { foreignKey: 'ProductId' });
 Review.belongsTo(Product, { foreignKey: 'ProductId' });
- 
+
 export default Product;
