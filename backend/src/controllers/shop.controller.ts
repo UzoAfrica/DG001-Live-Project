@@ -28,7 +28,6 @@ export const createShop: RequestHandler = async (
     currency,
     category,
     shopAddress,
-    shopAddress,
     securityFeatures,
     country,
     street,
@@ -41,7 +40,9 @@ export const createShop: RequestHandler = async (
   const user = customReq.user;
 
   if (!user) {
-    return res.status(403).json({ message: 'You are not allowed Please Re-login' });
+    return res
+      .status(403)
+      .json({ message: 'You are not allowed Please Re-login' });
   }
 
   const UserId = user.id;
@@ -51,7 +52,11 @@ export const createShop: RequestHandler = async (
       typeof User
     > | null;
     if (!userRecord || !userRecord.getDataValue('isVerified')) {
-      return res.status(403).json({ message: 'You are not allowed create a shop Please Re-login.' });
+      return res
+        .status(403)
+        .json({
+          message: 'You are not allowed create a shop Please Re-login.',
+        });
     }
 
     const videoUrls = customReq.files?.videos
@@ -85,7 +90,8 @@ export const createShop: RequestHandler = async (
 
     res.status(201).json({ message: 'Shop created successfully.', shop });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error creating shop:', error);
     res.status(500).json({
       message: 'An error occurred while creating the shop.',
@@ -94,13 +100,11 @@ export const createShop: RequestHandler = async (
   }
 };
 
-
 // Update a shop
 export const updateShop: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  
   const customReq = req as CustomRequest;
   const { id } = customReq.params;
   const {
@@ -122,8 +126,12 @@ export const updateShop: RequestHandler = async (
   const user = customReq.user;
 
   if (!user) {
-    console.log("not a user");
-    return res.status(403).json({ message: 'You are not allowed to create a shop please Re-login.' });
+    console.log('not a user');
+    return res
+      .status(403)
+      .json({
+        message: 'You are not allowed to create a shop please Re-login.',
+      });
   }
 
   const UserId = user.id;
@@ -169,7 +177,8 @@ export const updateShop: RequestHandler = async (
 
     res.status(200).json({ message: 'Shop updated successfully.', shop });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error updating shop:', error);
     res.status(500).json({
       message: 'An error occurred while updating the shop.',
@@ -214,7 +223,8 @@ export const deleteShop: RequestHandler = async (
     await shop.destroy();
     res.status(200).json({ message: 'Shop deleted successfully.' });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error deleting shop:', error);
     res.status(500).json({
       message: 'An error occurred while deleting the shop.',
