@@ -15,7 +15,7 @@ router.post(
     { name: 'videos', maxCount: 5 },
     { name: 'images', maxCount: 5 },
   ]),
-  validateShop, // Add validation middleware
+  // validateShop, // Add validation middleware
   createShop
 );
 
@@ -29,7 +29,7 @@ router.put(
     { name: 'videos', maxCount: 5 },
     { name: 'images', maxCount: 5 },
   ]),
-  validateShop, // Add validation middleware
+  // validateShop, // Add validation middleware
   updateShop
 );
 

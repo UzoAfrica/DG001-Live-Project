@@ -120,7 +120,7 @@ export const login = async (req: Request, res: Response) => {
 
     res.header('Authorization', token).json({
       message: 'Logged in successfully',
-      data: { token, role: user.getDataValue('role') },
+      data: { token, user},
     });
 
   } catch (error) {

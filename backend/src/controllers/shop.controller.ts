@@ -27,25 +27,29 @@ export const createShop: RequestHandler = async (
     description,
     currency,
     category,
-    legalBusinessAddress,
+    shopAddress,
     securityFeatures,
+    country,
+    street,
+    state,
+    shippingAddress,
+    shippingPrices,
+    shippingServices,
+    zip,
+    UserId,
   } = customReq.body;
   const user = customReq.user;
 
   if (!user) {
-    return res.status(403).json({ message: 'User is not authenticated.' });
+    return res.status(403).json({ message: 'You are not allowed Please Re-login' });
   }
 
   const ownerId = user.id;
 
   try {
-    const userRecord = (await User.findByPk(ownerId)) as InstanceType<
-      typeof User
-    > | null;
+    const userRecord = (await User.findByPk(ownerId)) as InstanceType<typeof User> | null;
     if (!userRecord || !userRecord.getDataValue('isVerified')) {
-      return res
-        .status(403)
-        .json({ message: 'User is not verified to create a shop.' });
+      return res.status(403).json({ message: 'You are not allowed create a shop Please Re-login.' });
     }
 
     const videoUrls = customReq.files?.videos
@@ -61,19 +65,25 @@ export const createShop: RequestHandler = async (
       description,
       currency,
       category,
-      legalBusinessAddress,
+      shopAddress,
       securityFeatures,
       coverImage: imageUrls[0] || null,
       ownerId,
       ratings: 0,
       videoUrls,
-      imageUrls,
+      country,
+      street,
+      state,
+      shippingAddress,
+      shippingPrices,
+      shippingServices,
+      zip,
+      UserId,
     });
 
     res.status(201).json({ message: 'Shop created successfully.', shop });
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error creating shop:', error);
     res.status(500).json({
       message: 'An error occurred while creating the shop.',
@@ -82,11 +92,13 @@ export const createShop: RequestHandler = async (
   }
 };
 
+
 // Update a shop
 export const updateShop: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
+  
   const customReq = req as CustomRequest;
   const { id } = customReq.params;
   const {
@@ -95,15 +107,24 @@ export const updateShop: RequestHandler = async (
     description,
     currency,
     category,
-    legalBusinessAddress,
+    shopAddress,
     securityFeatures,
+    country,
+    street,
+    state,
+    shippingAddress,
+    shippingPrices,
+    shippingServices,
+    zip,
   } = customReq.body;
   const user = customReq.user;
 
   if (!user) {
-    return res.status(403).json({ message: 'User is not authenticated.' });
+    console.log("not a user");
+    return res.status(403).json({ message: 'You are not allowed to create a shop please Re-login.' });
   }
 
+  
   const ownerId = user.id;
 
   try {
@@ -114,9 +135,7 @@ export const updateShop: RequestHandler = async (
     }
 
     if (shop.getDataValue('ownerId') !== ownerId) {
-      return res
-        .status(403)
-        .json({ message: 'Unauthorized to update this shop.' });
+      return res.status(403).json({ message: 'You are not allowed to update this shop.' });
     }
 
     const videoUrls = customReq.files?.videos
@@ -132,17 +151,22 @@ export const updateShop: RequestHandler = async (
       description,
       currency,
       category,
-      legalBusinessAddress,
+      shopAddress,
       securityFeatures,
       coverImage: imageUrls[0] || shop.getDataValue('coverImage'),
       videoUrls,
-      imageUrls,
+      country,
+      street,
+      state,
+      shippingAddress,
+      shippingPrices,
+      shippingServices,
+      zip,
     });
 
     res.status(200).json({ message: 'Shop updated successfully.', shop });
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error updating shop:', error);
     res.status(500).json({
       message: 'An error occurred while updating the shop.',
@@ -174,9 +198,7 @@ export const deleteShop: RequestHandler = async (
     }
 
     if (shop.getDataValue('ownerId') !== ownerId) {
-      return res
-        .status(403)
-        .json({ message: 'Unauthorized to delete this shop.' });
+      return res.status(403).json({ message: 'Unauthorized to delete this shop.' });
     }
 
     const videoUrls = shop.getDataValue('videoUrls');
@@ -187,8 +209,7 @@ export const deleteShop: RequestHandler = async (
     await shop.destroy();
     res.status(200).json({ message: 'Shop deleted successfully.' });
   } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An unknown error occurred';
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     console.error('Error deleting shop:', error);
     res.status(500).json({
       message: 'An error occurred while deleting the shop.',
