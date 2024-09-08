@@ -13,6 +13,7 @@ export const addProduct = async (req: Request, res: Response) => {
     }
 
     const { error } = addProductSchema.validate(req.body);
+
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     const {
@@ -24,7 +25,6 @@ export const addProduct = async (req: Request, res: Response) => {
       userId,
       shopId,
       isAvailable,
-      noOfSales,
     } = req.body;
 
     let videoUploadUrl = null;
@@ -48,7 +48,7 @@ export const addProduct = async (req: Request, res: Response) => {
         userId,
         shopId,
         isAvailable,
-        noOfSales: noOfSales || 0,
+        noOfSales: 0,
       });
 
       res.status(201).json({ message: 'Product created successfully', product });

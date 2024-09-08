@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
-import TShop from './my-shop.model';
+import MyShop from './my-shop.model';
 import OTP from './otp.model';
 import Product from './product.model';
 import Review from './review.model';
@@ -48,6 +48,30 @@ const User = sequelize.define(
     avatarURL: {
       type: DataTypes.STRING,
     },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    gender:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  shopName:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  mobileNumber:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  address:{
+      type: DataTypes.STRING,
+      allowNull: true,
+  },
+  profileImage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     indexes: [
@@ -61,14 +85,16 @@ const User = sequelize.define(
 );
 
 // One-To-One relationship between user and otp
-User.hasOne(OTP);
+User.hasOne(OTP, {
+  foreignKey: { allowNull: false },
+});
 OTP.belongsTo(User);
 
 // One-To-One relationship between user and shop
-User.hasOne(TShop, {
+User.hasOne(MyShop, {
   foreignKey: { allowNull: false },
 });
-TShop.belongsTo(User);
+MyShop.belongsTo(User);
 
 // One-to-Many relationship between user and review
 User.hasMany(Review, {
