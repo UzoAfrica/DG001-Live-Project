@@ -13,6 +13,10 @@ const customAxios = axios.create({
 // Get all products (matching the getAllProducts endpoint in the product.route.ts)
 export const getProducts = () => customAxios.get('/products');
 
+// // Modify this to accept an optional config parameter
+// export const getProducts = (config = {}) => customAxios.get('/products', config);
+
+
 // Get a specific product by ID
 export const getProductById = (productId: string) =>
   customAxios.get(`/products/${productId}`);

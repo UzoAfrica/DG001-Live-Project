@@ -37,6 +37,7 @@ const ProductInfoPage: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const userId = localStorage.getItem('userId');
+  // const token = localStorage.getItem('token');
   const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
   
   // Use navigate hook to redirect after payment
@@ -58,6 +59,33 @@ const ProductInfoPage: FC = () => {
 
     fetchProducts();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const token = localStorage.getItem('token'); // Fetch token from localStorage
+  //     try {
+  //       // Call the getProducts function with the headers config
+  //       const response = await getProducts({
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       if (response.data && response.data.length > 0) {
+  //         setMainProduct(response.data[0]);
+  //         setSimilarProducts(response.data.slice(1));
+  //       } else {
+  //         setError('No products found');
+  //       }
+  //     } catch (error) {
+  //       setError('Error fetching products');
+  //       console.error('Error fetching products:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, []);
 
   const handleAddToWishlist = async () => {
     try {
