@@ -27,6 +27,9 @@ const ShopHome = () => {
     shopPhotoInputRef.current?.click();
   };
 
+  const createdShop = JSON.parse(localStorage.getItem('createdShop')!);
+  const createdProduct = JSON.parse(localStorage.getItem('createdProduct')!);
+
   return (
     <>
       <Container
@@ -81,7 +84,10 @@ const ShopHome = () => {
             )}
           </Container>
           <Container>
-            <Paragraph> Empress Ki Stores </Paragraph>
+            <Paragraph>
+              {' '}
+              {createdShop ? createdShop.name : 'Empress Ki Stores'}{' '}
+            </Paragraph>
           </Container>
         </Container>
 
@@ -164,8 +170,18 @@ const ShopHome = () => {
                   $border="1px solid #F2F2F2"
                   $maxWidth="220px"
                 >
-                  Blender
-                  <br />N 20,000
+                  {createdProduct ? (
+                    <>
+                      {createdProduct.name}
+                      <br />
+                      {createdProduct.price}
+                    </>
+                  ) : (
+                    <>
+                      Blender
+                      <br />N 20,000
+                    </>
+                  )}
                 </Paragraph>
               </Container>
             </Container>
