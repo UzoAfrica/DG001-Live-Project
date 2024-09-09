@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
-import Product from '../database/models/product.model';
 import { Op } from 'sequelize';
 import cloudinary from '../config/cloudinary.config';
-import { addProductSchema, reviewSchema, updateProductSchema } from '../validators/product.validator';
-import Review from '../database/models/review.model';
+import Product from '../database/models/product.model';
+import {
+  addProductSchema,
+  updateProductSchema,
+} from '../validators/product.validator';
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
@@ -19,8 +21,9 @@ export const addProduct = async (req: Request, res: Response) => {
     price,
     quantity,
     userId,
-    shopId, 
+    shopId,
     isAvailable,
+    imageUrl,
   } = req.body;
 
   let videoUploadUrl = null;
@@ -47,6 +50,7 @@ export const addProduct = async (req: Request, res: Response) => {
       videoUploadUrl = uploadResponse.secure_url;
     }
 
+    
     const product = await Product.create({
       name,
       description,
@@ -88,7 +92,7 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     minPrice,
     maxPrice,
     colour,
-  } = req.query; 
+  } = req.query;
 
   const queryConditions: any = {};
 
@@ -217,7 +221,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
 //     res.status(500).json({ error: 'Internal server error' });
 //   }
 // };
-
 
 // Ensure all controllers are exported
 export default {
