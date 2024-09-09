@@ -10,15 +10,15 @@ export default function UserSettings() {
   const [PhoneNumber, setPhoneNumber] = useState("")  
   const [valid, setValid] = useState(true);  
   
-  const handleChange = (value) => {  
+  const handleChange = (value :string) => {  
   
    setPhoneNumber(value)  
    setValid(validatePhoneNumber(value));  
   };  
   
-  const validatePhoneNumber = (PhoneNumber) => {  
+  const validatePhoneNumber = (PhoneNumber:string) => {  
   const phoneNumberPattern = /^\d{10}$/;  
-   return phoneNumberPattern.test(PhoneNumber)  
+   return phoneNumberPattern.test(PhoneNumber )  
   }  
   
   return (  

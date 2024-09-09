@@ -1,31 +1,3 @@
-// import axios from 'axios';
-
-// const customAxios = axios.create({
-//   baseURL: 'http://localhost:5001/api',
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// });
-
-// // API Requests
-// export const getProducts = () => customAxios.get('/products');
-// export const getWishlist = (userId: string) =>
-//   customAxios.get(`/user/${userId}/wishlist`);
-// export const addToWishlist = (userId: string, productId: string) =>
-//   customAxios.post(`/user/${userId}/wishlist/${productId}`);
-// export const removeFromWishlist = (userId: string, productId: string) =>
-//   customAxios.delete(`/user/${userId}/wishlist/${productId}`);
-
-// export const getCart = (userId: string) =>
-//   customAxios.get(`/user/${userId}/cart`);
-// export const addToCart = (userId: string, productId: string) =>
-//   customAxios.post(`/user/${userId}/cart/${productId}`);
-// export const removeFromCart = (userId: string, productId: string) =>
-//   customAxios.delete(`/user/${userId}/cart/${productId}`);
-
-// export default customAxios;
-
-
 import axios from 'axios';
 
 // Initialize Axios with a base URL for your API
@@ -38,12 +10,12 @@ const customAxios = axios.create({
 
 // Product API Requests
 
-// Get all products
+// Get all products (matching the getAllProducts endpoint in the product.route.ts)
 export const getProducts = () => customAxios.get('/products');
 
 // Get a specific product by ID
 export const getProductById = (productId: string) =>
-  customAxios.get(`/products/product/${productId}`);
+  customAxios.get(`/products/${productId}`);
 
 // Get trending sales products with filters and pagination
 export const getTrendingProducts = (filters: Record<string, any>) =>

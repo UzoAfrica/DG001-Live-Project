@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import appEnvironmentVariables from '../config/app-environment-variables.config';
@@ -36,7 +37,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       // Create new OTP for user
       const newUserOTP = await OTP.create({
         userEmail: email,
-        otp: generateOTP(4),
+        otp: generateOTP(),
         expiresAt: generateExpiryDate(120),
         UserId: user.getDataValue('id'),
       });
@@ -58,7 +59,7 @@ export const resendOTP = async (req: Request, res: Response) => {
       // Create new OTP for user
       const newUserOTP = await OTP.create({
         userEmail: email,
-        otp: generateOTP(4),
+        otp: generateOTP(),
         expiresAt: generateExpiryDate(120),
         UserId: user.getDataValue('id'),
       });
@@ -123,9 +124,6 @@ export const verifyOTP = async (req: Request, res: Response) => {
     });
     await user?.update({ isVerified: true });
 
-    // Delete previous OTP
-    await userOTP.destroy();
-
     // Create token for Reset Password Page
     const resetToken = jwt.sign(
       { id: userOTP.getDataValue('id') },
@@ -184,8 +182,11 @@ export const changePassword = async (req: Request, res: Response) => {
       });
     }
 
+    // Secure the password by hashing it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Update user password
-    await user?.update({ password });
+    await user?.update({ password: hashedPassword });
 
     // Delete OTP
     await userOTP.destroy();

@@ -1,15 +1,5 @@
-/**
- * Generates 'n' random digits
- * @param n number
- * @returns number
- */
-export function generateOTP(n: number): number {
-  let otp = '';
-  for (let i = 0; i < n; i++) {
-    const randomDigit = Math.floor(Math.random() * 10);
-    otp += randomDigit.toString();
-  }
-  return Number(otp);
+export function generateOTP(): number {
+  return Math.floor(1000 + Math.random() * 9000);
 }
 
 /**
