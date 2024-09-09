@@ -17,7 +17,7 @@ import {
   GoogleSignUp,
   Footer,
 } from './StyledSignUp';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import googleLogo from '../../images/download.png';
 // import api from '../utils/Api';
 import { signup } from '../../axiosFolder/functions/userAuth';
@@ -163,7 +163,7 @@ const SignUpPage: React.FC = () => {
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              Sign up with Google
+              <Link to="http://localhost:5001/auth/google/signup">Sign up with Google </Link>
             </GoogleSignUp>
             <SignUpButton type="submit">
               {loading ? 'Loading...' : 'SIGN UP'}
