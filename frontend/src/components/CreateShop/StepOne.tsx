@@ -1,3 +1,5 @@
+import React from 'react';
+import { FormDataType, handleShopInputChangeType } from './MultiStepForm';
 import {
   Container,
   Paragraph,
@@ -8,7 +10,12 @@ import {
   Option,
 } from './styles/Index';
 
-const StepOne = () => {
+export type StepOneProps = {
+  shopFormData: FormDataType;
+  handleShopInputChange: handleShopInputChangeType;
+};
+
+const StepOne: React.FC<StepOneProps> = ({ shopFormData, handleShopInputChange }) => {
   return (
     <>
       <Container className="step-one">
@@ -54,10 +61,12 @@ const StepOne = () => {
               </Label>
               <Input
                 type="text"
-                name="shopName"
+                name="name"
                 id="shop-name"
                 placeholder="Your shop name"
                 required
+                value={shopFormData.name}
+                onChange={handleShopInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -79,6 +88,8 @@ const StepOne = () => {
                 id="currency"
                 placeholder="NGN"
                 required
+                value={shopFormData.currency}
+                onChange={handleShopInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -108,16 +119,22 @@ const StepOne = () => {
                 name="category"
                 id="category"
                 required
+                value={shopFormData.category}
+                onChange={handleShopInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
                 $fontFamily="inherit"
               >
                 <Option value="">Select</Option>
-                <Option value="electronics">Electronics</Option>
-                <Option value="clothing">Clothing</Option>
-                <Option value="food">Food</Option>
-                <Option value="others">Others</Option>
+                <Option value="ELECTRONICS">Electronics</Option>
+                <Option value="FASHION">Fashion</Option>
+                <Option value="FOOD">Food</Option>
+                <Option value="HEALTH">Health</Option>
+                <Option value="HOME">Home</Option>
+                <Option value="SPORTS">Sports</Option>
+                <Option value="CHILDREN">Children</Option>
+                <Option value="OTHERS">Others</Option>
               </Select>
             </Container>
           </DesktopContainer>

@@ -21,6 +21,7 @@ export const addProduct = async (req: Request, res: Response) => {
     userId,
     shopId, 
     isAvailable,
+    imageUrl
   } = req.body;
 
   let videoUploadUrl = null;
@@ -51,7 +52,8 @@ export const addProduct = async (req: Request, res: Response) => {
       name,
       description,
       price,
-      imageUrl: imageUploadUrls,
+      // imageUrl: imageUploadUrls,
+      imageUrl,
       video: videoUploadUrl,
       quantity,
       userId,

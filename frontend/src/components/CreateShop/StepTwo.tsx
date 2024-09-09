@@ -15,8 +15,21 @@ import {
 import CameraSVG from '../../images/camera.svg';
 import VideoCameraSVG from '../../images/videocam.svg';
 import React, { useState, useRef } from 'react';
+import { FormDataType, handleShopInputChangeType } from './MultiStepForm';
 
-const StepTwo = () => {
+type StepTwoProps = {
+  productFormData: FormDataType;
+  handleProductInputChange: handleShopInputChangeType;
+  shopFormData: FormDataType;
+  handleShopInputChange: handleShopInputChangeType;
+};
+
+const StepTwo: React.FC<StepTwoProps> = ({
+  productFormData,
+  handleProductInputChange,
+  shopFormData,
+  handleShopInputChange,
+}) => {
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
@@ -25,6 +38,7 @@ const StepTwo = () => {
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedPhoto(event.target.files[0]);
+      console.log(selectedPhoto);
     }
   };
 
@@ -298,8 +312,8 @@ const StepTwo = () => {
                 Tell the world all about your item and why they'll love it
               </Paragraph>
 
-              <Label htmlFor="shop-title" $margin="4px 0 0 4px">
-                Title*
+              <Label htmlFor="product-name" $margin="4px 0 0 4px">
+                Product Name*
                 <Paragraph
                   $margin="0.8rem 0 0 0"
                   $fontSize="1rem"
@@ -312,9 +326,11 @@ const StepTwo = () => {
               </Label>
               <Input
                 type="text"
-                name="shopTitle"
-                id="shop-title"
+                name="name"
+                id="product-name"
                 required
+                value={productFormData.name}
+                onChange={handleProductInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -329,8 +345,8 @@ const StepTwo = () => {
               $width="100%"
               $maxWidth="615px"
             >
-              <Label htmlFor="shop-category" $margin="0 0 0 4px">
-                Category*
+              <Label htmlFor="product-price" $margin="0 0 0 4px">
+                Price*
               </Label>
               <Paragraph
                 $margin="0.8rem 0 0 0"
@@ -344,9 +360,11 @@ const StepTwo = () => {
 
               <Input
                 type="text"
-                name="shopCategory"
-                id="shop-category"
+                name="price"
+                id="product-price"
                 required
+                value={productFormData.price}
+                onChange={handleProductInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -361,7 +379,7 @@ const StepTwo = () => {
               $width="100%"
               $maxWidth="615px"
             >
-              <Label htmlFor="shop-description" $margin="0 0 0 4px">
+              <Label htmlFor="product-description" $margin="0 0 0 4px">
                 Description*
               </Label>
               <Paragraph
@@ -386,9 +404,11 @@ const StepTwo = () => {
 
               <TextArea
                 type="textbox"
-                name="shopDescription"
-                id="shop-description"
+                name="description"
+                id="product-description"
                 required
+                value={productFormData.description}
+                onChange={handleProductInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -435,6 +455,8 @@ const StepTwo = () => {
                 type="text"
                 name="shippingAddress"
                 id="shipping-address"
+                value={shopFormData.shippingAddress}
+                onChange={handleShopInputChange}
                 required
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
@@ -450,15 +472,17 @@ const StepTwo = () => {
               $width="100%"
               $maxWidth="615px"
             >
-              <Label htmlFor="shipping-price" $margin="0 0 0 4px">
+              <Label htmlFor="shipping-prices" $margin="0 0 0 4px">
                 Shipping Prices
               </Label>
               <Input
                 type="text"
-                name="shippingPrice"
-                id="shipping-price"
+                name="shippingPrices"
+                id="shipping-prices"
                 placeholder="NGN"
                 required
+                value={shopFormData.shippingPrices}
+                onChange={handleShopInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
@@ -473,14 +497,16 @@ const StepTwo = () => {
               $width="100%"
               $maxWidth="615px"
             >
-              <Label htmlFor="shipping-service" $margin="0 0 0 4px">
+              <Label htmlFor="shipping-services" $margin="0 0 0 4px">
                 Shipping services
               </Label>
               <Input
-                type="textbox"
-                name="shippingService"
-                id="shipping-service"
+                type="text"
+                name="shippingServices"
+                id="shipping-services"
                 required
+                value={shopFormData.shippingServices}
+                onChange={handleShopInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"

@@ -5,6 +5,10 @@ import StepThree from './StepThree';
 import StepFour from './StepFour';
 import ProgressBar from './ProgressBar';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createShop } from '../../axiosFolder/functions/shopFunction';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
+import { addProduct } from '../../axiosFolder/functions/productFunction';
 
 const steps = [
   'Name your Shop',
@@ -13,9 +17,111 @@ const steps = [
   'Shop Security',
 ];
 
+export type FormDataType = {
+  [key: string]: string | number | boolean | Array<string>;
+};
+export type SetFormDataType = (shopFormData: FormDataType) => void;
+
+export type handleShopInputChangeType = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => void;
+
 const MultiStepForm = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  console.log(currentStep);
+  const [shopFormData, setShopFormData] = useState({
+    name: '',
+    isOpen: true,
+    description: 'One-stop shop for all your needs!',
+    currency: '',
+    category: '',
+    shopAddress: 'Lagos',
+    securityFeatures: 'CCTV',
+    country: '',
+    street: '',
+    state: '',
+    shippingAddress: 'Worldwide',
+    shippingPrices: '',
+    shippingServices: '',
+    zip: '',
+    UserId: JSON.parse(localStorage.getItem('user')!).id,
+  });
+  const [productFormData, setProductFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    quantity: 1,
+    userId: JSON.parse(localStorage.getItem('user')!).id,
+    shopId: '',
+    isAvailable: true,
+    imageUrl: [
+      'https://carefortepharm.com/wp-content/uploads/2021/06/aafcdd5075dd7f7ada9b1da4a925b92b16de1b05.jpeg',
+    ],
+  });
+
+  // Handle shop input changes
+  const handleShopInputChange: handleShopInputChangeType = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setShopFormData({
+      ...shopFormData,
+      [name]: value,
+    });
+  };
+
+  // Handle product input changes
+  const handleProductInputChange: handleShopInputChangeType = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setProductFormData({
+      ...productFormData,
+      [name]: value,
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+
+      // Send request to create shop
+      const createShopResponse = await createShop(shopFormData)!;
+      if (createShopResponse.status !== 201) {
+        return showErrorToast(createShopResponse.data.message);
+      }
+      showSuccessToast(createShopResponse.data.message);
+      const createdShop = createShopResponse.data.shop;
+      localStorage.setItem(
+        'createdShop',
+        JSON.stringify(createShopResponse.data.shop)
+      );
+
+      // Update productFormData with the new shopId
+      const updatedProductFormData = {
+        ...productFormData,
+        shopId: createdShop.id,
+      };
+
+      // Send request to create product
+      const addProductResponse = await addProduct(updatedProductFormData)!;
+      if (addProductResponse.status !== 201) {
+        return showErrorToast(addProductResponse.data.message);
+      }
+      showSuccessToast(addProductResponse.data.message);
+      localStorage.setItem(
+        'createdProduct',
+        JSON.stringify(addProductResponse.data.product)
+      );
+
+      // Redirect to shop page
+      return navigate('/shop');
+    } catch (error) {
+      console.error('Error in form submission:', error);
+      showErrorToast('An error occurred while creating your shop and product.');
+    }
+  };
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -29,24 +135,37 @@ const MultiStepForm = () => {
     }
   };
 
+  // Logic to render appropriate shop creation step
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return <StepOne />;
+        return (
+          <StepOne
+            shopFormData={shopFormData}
+            handleShopInputChange={handleShopInputChange}
+          />
+        );
       case 1:
-        return <StepTwo />;
+        return (
+          <StepTwo
+            productFormData={productFormData}
+            handleProductInputChange={handleProductInputChange}
+            shopFormData={shopFormData}
+            handleShopInputChange={handleShopInputChange}
+          />
+        );
       case 2:
-        return <StepThree />;
+        return (
+          <StepThree
+            shopFormData={shopFormData}
+            handleShopInputChange={handleShopInputChange}
+          />
+        );
       case 3:
         return <StepFour />;
       default:
         return null;
     }
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('tried to submit form');
   };
 
   return (
@@ -64,7 +183,7 @@ const MultiStepForm = () => {
           $flexDirection="column"
           $rowGap="2rem"
           className="multistep-form"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSubmit}
         >
           {/* Individual steps */}
           {/* Render individual steps here */}
@@ -96,9 +215,10 @@ const MultiStepForm = () => {
             </Button>
             <Button
               type="button"
-              // type={currentStep === steps.length - 1 ? 'submit' : 'button'}
               className="form-button-right"
-              onClick={handleNext}
+              onClick={
+                currentStep === steps.length - 1 ? handleSubmit : handleNext
+              }
               $padding="0.65rem 2.2rem"
               $borderRadius="5px"
               $fontWeight="500"
