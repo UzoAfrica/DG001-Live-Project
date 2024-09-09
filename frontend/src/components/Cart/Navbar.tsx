@@ -50,6 +50,13 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
     fetchNotificationCount();
   }, []);
 
+  // Define the handleStartSellingLinkClick function
+  const handleStartSellingLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault(); // Prevent default navigation if needed
+    // Custom logic can go here, or you can just allow navigation
+    window.location.href = '/create-shop'; // Navigate to create shop page
+  };
+
   return (
     <Nav>
       <NavLeft>
@@ -88,7 +95,11 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
           )}
         </UserAvatar>
 
-        <StartSellingButton type="submit">Start Selling</StartSellingButton>
+        <StartSellingButton type="submit">
+          <a href="/create-shop" onClick={handleStartSellingLinkClick}>
+            Start Selling
+          </a>
+        </StartSellingButton>
       </NavRight>
     </Nav>
   );

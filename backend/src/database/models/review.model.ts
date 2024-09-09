@@ -18,22 +18,22 @@ const Review = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    ProductId: {  
+    ProductId: {
       type: DataTypes.UUID,
       allowNull: true,
       references: {
-        model: Product,  
-        key: 'id'
-      }
+        model: Product,
+        key: 'id',
+      },
     },
     UserId: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'Users',
-        key: 'id'
-      }
-    }
+        key: 'id',
+      },
+    },
   },
   {
     indexes: [

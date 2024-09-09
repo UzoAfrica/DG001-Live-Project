@@ -1,5 +1,5 @@
 import Joi from 'joi';
-
+ 
 // Validation schema for adding a product
 export const addProductSchema = Joi.object({
   name: Joi.string().required(),
@@ -12,8 +12,10 @@ export const addProductSchema = Joi.object({
   shopId: Joi.string().guid({ version: ['uuidv4'] }).required(),
   isAvailable: Joi.boolean().required(),
   noOfSales: Joi.number().optional().default(0),
+  image: Joi.binary().optional(),
+  video: Joi.binary().optional(),
 });
-
+ 
 // Validation schema for updating a product
 export const updateProductSchema = Joi.object({
   name: Joi.string().optional(),
@@ -27,12 +29,11 @@ export const updateProductSchema = Joi.object({
   isAvailable: Joi.boolean().optional(),
   noOfSales: Joi.number().optional().default(0),
 });
-
+ 
 // Validation schema for getting a specific product by ID
 export const getSpecificProductSchema = Joi.string().guid({ version: ['uuidv4'] }).required();
-
+ 
 export const reviewSchema = Joi.object({
   comment: Joi.string().required(),
   rating: Joi.number().min(1).max(5).required(),
 });
-

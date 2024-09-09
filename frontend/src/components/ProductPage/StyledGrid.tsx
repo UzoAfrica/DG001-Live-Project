@@ -50,7 +50,7 @@ class StyledGrid extends Component<{ products: any }> {
     const { products } = this.props;
     return (
       <Grid>
-        {products.map((product) => (
+        {products.map((product: any) => (
           <ProductItem key={product.id}>
             <ProductImage src={product.image} alt={product.name} />
             <ProductName>{product.name}</ProductName>

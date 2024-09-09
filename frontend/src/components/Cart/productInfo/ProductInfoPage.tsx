@@ -1,20 +1,25 @@
 import { FC, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { 
-  Container, 
-  ProductImage, 
-  ProductDetails, 
-  ProductName, 
-  ProductDescription, 
-  ProductPrice, 
-  ButtonContainer, 
-  WishlistButton, 
-  CartButton, 
-  SimilarProductsSection, 
-  SimilarProductItem, 
-  SimilarProductImage 
+import { useNavigate } from 'react-router-dom';
+import { PaystackButton } from 'react-paystack';
+import {
+  Container,
+  ProductImage,
+  ProductDetails,
+  ProductName,
+  ProductDescription,
+  ProductPrice,
+  ButtonContainer,
+  WishlistButton,
+  CartButton,
+  SimilarProductsSection,
+  SimilarProductItem,
+  SimilarProductImage,
 } from '../productInfo/productInfoStyled';
-import { getProductById, getProducts, addToCart, addToWishlist } from '../../../axiosFolder/functions/productFunction';
+import {
+  getProducts,
+  addToCart,
+  addToWishlist,
+} from '../../../axiosFolder/functions/productFunction';
 
 interface Product {
   id: string;
@@ -22,66 +27,72 @@ interface Product {
   description: string;
   price: number;
   imageUrl: string;
-  type: string; 
+  type: string;
 }
 
 const ProductInfoPage: FC = () => {
-  const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [mainProduct, setMainProduct] = useState<Product | null>(null);
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const userId = localStorage.getItem('userId');
+  const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+  
+  // Use navigate hook to redirect after payment
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProducts = async () => {
       try {
-        if (!productId) return; 
-        const response = await getProductById(productId); 
-        setProduct(response.data); 
-        fetchSimilarProducts(response.data.type); 
+        const response = await getProducts();
+        setMainProduct(response.data[0]);
+        setSimilarProducts(response.data.slice(1));
       } catch (error) {
-        setError('Error fetching product details'); 
-        console.error('Error fetching product details:', error);
+        setError('Error fetching products');
+        console.error('Error fetching products:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    const fetchSimilarProducts = async (type: string) => {
-      try {
-        const response = await getProducts(); 
-        const filteredProducts = response.data.filter((p: Product) => p.type === type); 
-        setSimilarProducts(filteredProducts); 
-      } catch (error) {
-        console.error('Error fetching similar products:', error);
-      }
-    };
-
-    fetchProduct(); 
-  }, [productId]);
+    fetchProducts();
+  }, []);
 
   const handleAddToWishlist = async () => {
     try {
-      if (product) {
-        const userId = 'yourUserId'; 
-        await addToWishlist(userId, product.id); 
-        alert('Product added to wishlist!'); 
+      if (mainProduct && userId) {
+        await addToWishlist(userId, mainProduct.id);
+        alert('Product added to wishlist!');
+      } else {
+        alert('User not logged in or product unavailable.');
       }
     } catch (error) {
-      console.error('Error adding product to wishlist:', error); 
+      console.error('Error adding product to wishlist:', error);
     }
   };
 
   const handleAddToCart = async () => {
     try {
-      if (product) {
-        const userId = 'yourUserId'; 
-        await addToCart(userId, product.id); 
+      if (mainProduct && userId) {
+        await addToCart(userId, mainProduct.id);
         alert('Product added to cart!');
+      } else {
+        alert('User not logged in or product unavailable.');
       }
     } catch (error) {
-      console.error('Error adding product to cart:', error); 
+      console.error('Error adding product to cart:', error);
     }
+  };
+
+  const handlePaymentSuccess = (reference: any) => {
+    console.log('Payment successful:', reference);
+    alert('Payment successful! Reference: ' + reference.reference);
+    navigate('/payment-success');  // Redirect to a success page after payment
+  };
+
+  const handlePaymentClose = () => {
+    alert('Payment window closed.');
   };
 
   if (loading) return <p>Loading...</p>;
@@ -89,25 +100,41 @@ const ProductInfoPage: FC = () => {
 
   return (
     <Container>
-      {product ? (
+      {mainProduct ? (
         <>
-          <ProductImage src={product.imageUrl} alt={product.name} />
+          <ProductImage src={mainProduct.imageUrl} alt={mainProduct.name} />
           <ProductDetails>
-            <ProductName>{product.name}</ProductName>
-            <ProductDescription>{product.description}</ProductDescription>
-            <ProductPrice>₦{product.price.toLocaleString()}</ProductPrice>
+            <ProductName>{mainProduct.name}</ProductName>
+            <ProductDescription>{mainProduct.description}</ProductDescription>
+            <ProductPrice>₦{mainProduct.price.toLocaleString()}</ProductPrice>
             <ButtonContainer>
-              <WishlistButton onClick={handleAddToWishlist}>Add to Wishlist</WishlistButton>
+              <WishlistButton onClick={handleAddToWishlist}>
+                Add to Wishlist
+              </WishlistButton>
               <CartButton onClick={handleAddToCart}>Add to Cart</CartButton>
             </ButtonContainer>
+
+            {/* Paystack Payment Button */}
+            <PaystackButton
+              email={userEmail}
+              amount={mainProduct.price * 100} 
+              publicKey="your_paystack_public_key" 
+              text="Buy Now"
+              onSuccess={handlePaymentSuccess}
+              onClose={handlePaymentClose}
+            />
           </ProductDetails>
-          
+
+          {/* Similar Products Section */}
           <SimilarProductsSection>
             <h3>Similar Products</h3>
             <div>
               {similarProducts.map((similarProduct) => (
                 <SimilarProductItem key={similarProduct.id}>
-                  <SimilarProductImage src={similarProduct.imageUrl} alt={similarProduct.name} />
+                  <SimilarProductImage
+                    src={similarProduct.imageUrl}
+                    alt={similarProduct.name}
+                  />
                   <p>{similarProduct.name}</p>
                   <p>₦{similarProduct.price.toLocaleString()}</p>
                 </SimilarProductItem>
@@ -116,7 +143,7 @@ const ProductInfoPage: FC = () => {
           </SimilarProductsSection>
         </>
       ) : (
-        <p>Product not found.</p>
+        <p>No products found.</p>
       )}
     </Container>
   );
