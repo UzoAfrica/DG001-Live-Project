@@ -43,39 +43,13 @@ const ProductInfoPage: FC = () => {
   // Use navigate hook to redirect after payment
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await getProducts();
-        setMainProduct(response.data[0]);
-        setSimilarProducts(response.data.slice(1));
-      } catch (error) {
-        setError('Error fetching products');
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
   // useEffect(() => {
   //   const fetchProducts = async () => {
-  //     const token = localStorage.getItem('token'); // Fetch token from localStorage
   //     try {
-  //       // Call the getProducts function with the headers config
-  //       const response = await getProducts({
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       if (response.data && response.data.length > 0) {
-  //         setMainProduct(response.data[0]);
-  //         setSimilarProducts(response.data.slice(1));
-  //       } else {
-  //         setError('No products found');
-  //       }
+  //       console.log('Fetching products');
+  //       const response = await getProducts();
+  //       setMainProduct(response.data[0]);
+  //       setSimilarProducts(response.data.slice(1));
   //     } catch (error) {
   //       setError('Error fetching products');
   //       console.error('Error fetching products:', error);
@@ -86,6 +60,33 @@ const ProductInfoPage: FC = () => {
 
   //   fetchProducts();
   // }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const token = localStorage.getItem('token'); 
+      try {
+        // Call the getProducts function with the headers config
+        const response = await getProducts({
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data && response.data.length > 0) {
+          setMainProduct(response.data[0]);
+          setSimilarProducts(response.data.slice(1));
+        } else {
+          setError('No products found');
+        }
+      } catch (error) {
+        setError('Error fetching products');
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleAddToWishlist = async () => {
     try {
@@ -116,7 +117,7 @@ const ProductInfoPage: FC = () => {
   const handlePaymentSuccess = (reference: any) => {
     console.log('Payment successful:', reference);
     alert('Payment successful! Reference: ' + reference.reference);
-    navigate('/payment-success');  // Redirect to a success page after payment
+    navigate('/payment-success'); 
   };
 
   const handlePaymentClose = () => {

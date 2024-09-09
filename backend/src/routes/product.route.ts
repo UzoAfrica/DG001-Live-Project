@@ -40,8 +40,8 @@ router.post(
 );
  
 // Route to get all products
-router.get('/products',  asyncHandler(getAllProducts));
-// authenticateToken,
+router.get('/products', authenticateToken, asyncHandler(getAllProducts));
+
  
 // Route to get trending sales products with filters and pagination
 router.get('/trending', authenticateToken, asyncHandler(getTrendingSales));
