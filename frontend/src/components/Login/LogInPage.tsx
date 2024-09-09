@@ -65,11 +65,13 @@ const LogIn: React.FC = () => {
       setLoading(false);      
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
+      localStorage.setItem('userId', JSON.stringify(response.data.data.userId));
+      localStorage.setItem('userEmail', formData.email);
+      showSuccessToast(response.data.message);
 
       showSuccessToast(response.data.message);
 
-      return navigate('/create-shop');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return navigate('/product-page'); 
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);
@@ -127,7 +129,7 @@ const LogIn: React.FC = () => {
 
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <GoogleLoginButton action="login" />
+              <Link to="http://localhost:5001/auth/google/login">Google Login</Link>
             </GoogleSignUp>
             <SignUpButton type="submit">
               {loading ? 'Loading' : 'Log In'}

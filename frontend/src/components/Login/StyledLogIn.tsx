@@ -124,7 +124,7 @@ export const SeparatorSpan = styled.span`
   font-size: 14px;
 `;
 
-export const GoogleSignUp = styled.button`
+export const GoogleSignUp = styled.div`
   width: 100%;
   padding: 10px;
   background-color: white;

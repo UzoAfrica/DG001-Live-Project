@@ -34,6 +34,7 @@ import Shop from './components/Shop/index';
 
 // getAllProducts
 import ProductPage from './components/ProductPage/ProductPage';
+import CallbackPage from './components/Login/Callback';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <MainPage />,
+  },
+  {
+    path:'/callback',
+    element: <CallbackPage />,
   },
   {
     path: '/login',
