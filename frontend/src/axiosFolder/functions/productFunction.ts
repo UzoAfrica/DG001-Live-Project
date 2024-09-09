@@ -20,7 +20,8 @@ export const addProduct = (formData: any) => {
   try {
     const response = axios.post('/api/products/add-product', formData, {
       headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
     });
     return response;

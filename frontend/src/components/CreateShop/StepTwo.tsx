@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Container,
   Paragraph,
@@ -22,6 +23,7 @@ type StepTwoProps = {
   handleProductInputChange: handleShopInputChangeType;
   shopFormData: FormDataType;
   handleShopInputChange: handleShopInputChangeType;
+  setProductFormData: any;
 };
 
 const StepTwo: React.FC<StepTwoProps> = ({
@@ -38,13 +40,24 @@ const StepTwo: React.FC<StepTwoProps> = ({
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedPhoto(event.target.files[0]);
-      console.log(selectedPhoto);
+
+      // Add the uploaded image to the form data -- Friday can help to fix
+      // setProductFormData({
+      //   ...productFormData,
+      //   image: event.target.files[0],
+      // });
     }
   };
 
   const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedVideo(event.target.files[0]);
+
+      // Add the uploaded image to the form data -- Friday can help to fix
+      // setProductFormData({
+      //   ...productFormData,
+      //   video: event.target.files[0],
+      // });
     }
   };
 

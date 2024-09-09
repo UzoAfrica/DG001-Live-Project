@@ -18,7 +18,7 @@ const steps = [
 ];
 
 export type FormDataType = {
-  [key: string]: string | number | boolean | Array<string>;
+  [key: string]: string | number | boolean | Array<string> | File;
 };
 export type SetFormDataType = (shopFormData: FormDataType) => void;
 
@@ -152,6 +152,7 @@ const MultiStepForm = () => {
             handleProductInputChange={handleProductInputChange}
             shopFormData={shopFormData}
             handleShopInputChange={handleShopInputChange}
+            setProductFormData={setProductFormData}
           />
         );
       case 2:
