@@ -106,6 +106,10 @@ export const BrandLogo = styled.span`
   font-weight: bold;
   color: #d35d2c;
   white-space: nowrap;
+  text-decoration: none !important;
+
+   &:hover {
+    text-decoration: none !important;
 `;
 
 export const NotificationIcon = styled.div`
@@ -169,9 +173,11 @@ export const StartSellingButton = styled.button`
   cursor: pointer;
   font-size: 12px;
   white-space: nowrap;
+  text-decoration: none !important;
 
   &:hover {
     background-color: #b04a22;
+    text-decoration: none !important;
   }
 
   @media (max-width: 768px) {

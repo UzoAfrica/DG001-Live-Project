@@ -19,7 +19,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
-import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton';
+// import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton';
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -62,16 +62,15 @@ const LogIn: React.FC = () => {
         setLoading(false);
         return showErrorToast(response.data.message);
       }
-      setLoading(false);      
+      setLoading(false);
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
       localStorage.setItem('userId', JSON.stringify(response.data.data.userId));
       localStorage.setItem('userEmail', formData.email);
-      showSuccessToast(response.data.message);
 
       showSuccessToast(response.data.message);
 
-      return navigate('/product-page'); 
+      return navigate('/product-page');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
@@ -130,7 +129,9 @@ const LogIn: React.FC = () => {
 
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <Link to="http://localhost:5001/auth/google/login">Google Login</Link>
+              <Link to="http://localhost:5001/auth/google/login">
+                Google Login
+              </Link>
             </GoogleSignUp>
             <SignUpButton type="submit">
               {loading ? 'Loading' : 'Log In'}

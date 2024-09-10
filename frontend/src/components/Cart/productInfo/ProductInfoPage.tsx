@@ -14,6 +14,7 @@ import {
   SimilarProductsSection,
   SimilarProductItem,
   SimilarProductImage,
+  StyledPaystackButton,
 } from '../productInfo/productInfoStyled';
 import {
   getProducts,
@@ -37,17 +38,46 @@ const ProductInfoPage: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const userId = localStorage.getItem('userId');
+  // const token = localStorage.getItem('token');
   const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
   
   // Use navigate hook to redirect after payment
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       console.log('Fetching products');
+  //       const response = await getProducts();
+  //       setMainProduct(response.data[0]);
+  //       setSimilarProducts(response.data.slice(1));
+  //     } catch (error) {
+  //       setError('Error fetching products');
+  //       console.error('Error fetching products:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, []);
+
   useEffect(() => {
     const fetchProducts = async () => {
+      const token = localStorage.getItem('token'); 
       try {
-        const response = await getProducts();
-        setMainProduct(response.data[0]);
-        setSimilarProducts(response.data.slice(1));
+        // Call the getProducts function with the headers config
+        const response = await getProducts({
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data && response.data.length > 0) {
+          setMainProduct(response.data[0]);
+          setSimilarProducts(response.data.slice(1));
+        } else {
+          setError('No products found');
+        }
       } catch (error) {
         setError('Error fetching products');
         console.error('Error fetching products:', error);
@@ -88,7 +118,7 @@ const ProductInfoPage: FC = () => {
   const handlePaymentSuccess = (reference: any) => {
     console.log('Payment successful:', reference);
     alert('Payment successful! Reference: ' + reference.reference);
-    navigate('/payment-success');  // Redirect to a success page after payment
+    navigate('/payment-success'); 
   };
 
   const handlePaymentClose = () => {
@@ -115,14 +145,16 @@ const ProductInfoPage: FC = () => {
             </ButtonContainer>
 
             {/* Paystack Payment Button */}
+            <StyledPaystackButton>
             <PaystackButton
               email={userEmail}
               amount={mainProduct.price * 100} 
-              publicKey="your_paystack_public_key" 
+              publicKey="pk_test_365b14bccecb9ddf2893e6f2b9b74ade5940935f" 
               text="Buy Now"
               onSuccess={handlePaymentSuccess}
               onClose={handlePaymentClose}
             />
+            </StyledPaystackButton>
           </ProductDetails>
 
           {/* Similar Products Section */}

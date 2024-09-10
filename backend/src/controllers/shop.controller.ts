@@ -1,7 +1,6 @@
 import { Request, RequestHandler, Response } from 'express';
 import Shop from '../database/models/my-shop.model';
 import User from '../database/models/user.model';
-import { deleteResources, uploadImage, uploadVideo } from '../utils/upload';
 
 // Define a custom interface for the Request object to include the user and files properties
 interface CustomRequest extends Request {
@@ -14,6 +13,45 @@ interface CustomRequest extends Request {
     images?: Express.Multer.File[];
   };
 }
+
+// Get all shops
+export const getAllShops: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const shops = await Shop.findAll(); // Fetch all shops from the database
+    res.status(200).json({ message: 'Shops retrieved successfully', shops });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error('Error retrieving shops:', error);
+    res.status(500).json({
+      message: 'An error occurred while retrieving shops.',
+      error: errorMessage,
+    });
+  }
+};
+
+// Get a single shop by ID
+export const getShop: RequestHandler = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const shop = await Shop.findByPk(id); // Find the shop by primary key (ID)
+
+    if (!shop) {
+      return res.status(404).json({ message: 'Shop not found.' });
+    }
+
+    res.status(200).json({ message: 'Shop retrieved successfully', shop });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error('Error retrieving shop:', error);
+    res.status(500).json({
+      message: 'An error occurred while retrieving the shop.',
+      error: errorMessage,
+    });
+  }
+};
 
 // Create a shop
 export const createShop: RequestHandler = async (
@@ -52,19 +90,20 @@ export const createShop: RequestHandler = async (
       typeof User
     > | null;
     if (!userRecord || !userRecord.getDataValue('isVerified')) {
-      return res
-        .status(403)
-        .json({
-          message: 'You are not allowed create a shop Please Re-login.',
-        });
+      return res.status(403).json({
+        message: 'You are not allowed create a shop Please Re-login.',
+      });
     }
 
-    const videoUrls = customReq.files?.videos
-      ? await Promise.all(customReq.files.videos.map(uploadVideo))
-      : [];
-    const imageUrls = customReq.files?.images
-      ? await Promise.all(customReq.files.images.map(uploadImage))
-      : [];
+    // const videoUrls = customReq.files?.videos
+    //   ? await Promise.all(customReq.files.videos.map(uploadVideo))
+    //   : [];
+    // const imageUrls = customReq.files?.images
+    //   ? await Promise.all(customReq.files.images.map(uploadImage))
+    //   : [];
+
+    const videoUrls: [] = [];
+    const imageUrls: [] = [];
 
     const shop = await Shop.create({
       name,
@@ -127,11 +166,9 @@ export const updateShop: RequestHandler = async (
 
   if (!user) {
     console.log('not a user');
-    return res
-      .status(403)
-      .json({
-        message: 'You are not allowed to create a shop please Re-login.',
-      });
+    return res.status(403).json({
+      message: 'You are not allowed to create a shop please Re-login.',
+    });
   }
 
   const UserId = user.id;
@@ -149,12 +186,15 @@ export const updateShop: RequestHandler = async (
         .json({ message: 'Unauthorized to update this shop.' });
     }
 
-    const videoUrls = customReq.files?.videos
-      ? await Promise.all(customReq.files.videos.map(uploadVideo))
-      : shop.getDataValue('videoUrls');
-    const imageUrls = customReq.files?.images
-      ? await Promise.all(customReq.files.images.map(uploadImage))
-      : shop.getDataValue('imageUrls');
+    // const videoUrls = customReq.files?.videos
+    //   ? await Promise.all(customReq.files.videos.map(uploadVideo))
+    //   : shop.getDataValue('videoUrls');
+    // const imageUrls = customReq.files?.images
+    //   ? await Promise.all(customReq.files.images.map(uploadImage))
+    //   : shop.getDataValue('imageUrls');
+
+    const videoUrls: [] = [];
+    const imageUrls: [] = [];
 
     await shop.update({
       name,
@@ -164,7 +204,7 @@ export const updateShop: RequestHandler = async (
       category,
       shopAddress,
       securityFeatures,
-      coverImage: imageUrls[0] || shop.getDataValue('coverImage'),
+      coverImage: imageUrls || shop.getDataValue('coverImage'),
       videoUrls,
       country,
       street,
@@ -215,10 +255,10 @@ export const deleteShop: RequestHandler = async (
         .json({ message: 'Unauthorized to delete this shop.' });
     }
 
-    const videoUrls = shop.getDataValue('videoUrls');
-    const imageUrls = shop.getDataValue('imageUrls');
+    // const videoUrls = shop.getDataValue('videoUrls');
+    // const imageUrls = shop.getDataValue('imageUrls');
 
-    await deleteResources([...videoUrls, ...imageUrls]);
+    // await deleteResources([...videoUrls, ...imageUrls]);
 
     await shop.destroy();
     res.status(200).json({ message: 'Shop deleted successfully.' });
