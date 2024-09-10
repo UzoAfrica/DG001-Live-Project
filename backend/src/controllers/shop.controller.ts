@@ -14,6 +14,45 @@ interface CustomRequest extends Request {
   };
 }
 
+// Get all shops
+export const getAllShops: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const shops = await Shop.findAll(); // Fetch all shops from the database
+    res.status(200).json({ message: 'Shops retrieved successfully', shops });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error('Error retrieving shops:', error);
+    res.status(500).json({
+      message: 'An error occurred while retrieving shops.',
+      error: errorMessage,
+    });
+  }
+};
+
+// Get a single shop by ID
+export const getShop: RequestHandler = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const shop = await Shop.findByPk(id); // Find the shop by primary key (ID)
+
+    if (!shop) {
+      return res.status(404).json({ message: 'Shop not found.' });
+    }
+
+    res.status(200).json({ message: 'Shop retrieved successfully', shop });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error('Error retrieving shop:', error);
+    res.status(500).json({
+      message: 'An error occurred while retrieving the shop.',
+      error: errorMessage,
+    });
+  }
+};
+
 // Create a shop
 export const createShop: RequestHandler = async (
   req: Request,
