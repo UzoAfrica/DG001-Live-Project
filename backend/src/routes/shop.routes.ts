@@ -11,7 +11,7 @@ import {
   checkShopExists,
   checkShopOwner,
 } from '../middlewares/shop.middleware'; 
-import upload from '../utils/upload';
+import upload from '../middlewares/multer';
 import { validateShop } from '../validators/shop.validator'; 
 
 const router = Router();
