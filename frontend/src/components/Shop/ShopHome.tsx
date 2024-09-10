@@ -158,7 +158,7 @@ const ShopHome = () => {
               className="blender-container"
             >
               <Image
-                src={BlenderSVG}
+                src={createdProduct ? createdProduct.imageUrl[0] : BlenderSVG}
                 alt="blender"
                 width="220px"
                 $border="1px solid #F2F2F2"

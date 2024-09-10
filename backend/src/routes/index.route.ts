@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import paymentRouter from './payment.route';
 import productRouter from './product.route';
 import registerRouter from './register';
 import resetRouter from './reset.route';
@@ -22,6 +23,9 @@ indexRouter.use('/products', productRouter);
 
 // Shop Routes
 indexRouter.use('/shop', shopRouter);
+
+// Payment Routes
+indexRouter.use('/payment', paymentRouter);
 
 // Notification Route
 indexRouter.get('/notifications/count', (req: Request, res: Response) => {
