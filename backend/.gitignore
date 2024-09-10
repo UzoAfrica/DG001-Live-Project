@@ -139,3 +139,5 @@ src/config/my-email.config.ts
 src/utils/my-email.util.ts
 src/config/my-email.config.ts
 src/database/models/my-shop.model.ts.DS_Store
+.DS_Store
+.DS_Store
