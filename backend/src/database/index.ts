@@ -1,4 +1,4 @@
-import sequelize from '../../src/config/sequelize.config';
+import sequelize from '../config/sequelize.config';
 import OTP from '../database/models/otp.model';
 import Product from '../database/models/product.model';
 import User from '../database/models/user.model';

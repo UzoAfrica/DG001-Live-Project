@@ -86,7 +86,7 @@ export const login = async (req: Request, res: Response) => {
 
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ where: { email } });
+    const user : any = await User.findOne({ where: { email } });
 
     if (!user)
       return res.status(400).json({ message: 'Invalid Email or Password' });
@@ -97,6 +97,7 @@ export const login = async (req: Request, res: Response) => {
     );
     if (!validPassword)
       return res.status(400).json({ message: 'Invalid Email or Password' });
+
 
     const token = jwt.sign(
       {

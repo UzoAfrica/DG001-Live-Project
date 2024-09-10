@@ -1,8 +1,9 @@
 import User from '../database/models/user.model';
 import cloudinary from '../config/cloudinary';
+import { Request, Response} from 'express';
 
 
-export const updateImage = async (req: any, res: any) => {
+export const updateImage = async (req: any, res: Response) => {
 
     const { id } = req.params;
 

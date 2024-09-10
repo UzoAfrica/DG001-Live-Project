@@ -7,6 +7,7 @@ import appEnvironmentVariables from './config/app-environment-variables.config';
 import indexRouter from './routes/index.route';
 import profileRoute from './routes/profileRoute';
 import imageRoute from './routes/imageRoute';
+import adminRoute from './routes/adminRoute';
 
 
 // Initialize app
@@ -41,6 +42,7 @@ app.use(
 app.use('/api', indexRouter);
 app.use('/profile', profileRoute);
 app.use('/image', imageRoute);
+app.use('/api', adminRoute);
 
 // Catch 404 and forward to general error handler
 app.use((req: Request, res: Response, next) => {
