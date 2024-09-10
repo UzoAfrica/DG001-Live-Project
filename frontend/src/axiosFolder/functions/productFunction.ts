@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosError } from 'axios';
 import axios from '../configurations/setup';
+import customAxios from '../configurations/setup';
 
 // Product API Requests
 
-// Get all products (matching the getAllProducts endpoint in the product.route.ts)
-export const getProducts = () => axios.get('/products');
+// // Get all products (matching the getAllProducts endpoint in the product.route.ts)
+// export const getProducts = () => axios.get('/products');
+
+// Modify this to accept an optional config parameter
+export const getProducts = (config = {}) => customAxios.get('api/products', config);
+
 
 // Get a specific product by ID
 export const getProductById = (productId: string) =>

@@ -9,7 +9,7 @@ export const CartBackground = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-  box-sizing: border-box; /* Ensures padding is included in the element's width and height */
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -30,7 +30,7 @@ export const CartContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box; /* Ensures padding is included in the element's width and height */
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 15px;
@@ -227,7 +227,7 @@ export const FooterButtons = styled.div`
   align-items: center;
 
   @media (max-width: 480px) {
-    flex-direction: column; /* Stack buttons on small screens */
+    flex-direction: column;
     gap: 8px;
   }
 `;
