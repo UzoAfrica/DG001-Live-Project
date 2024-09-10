@@ -9,7 +9,7 @@ import customAxios from '../configurations/setup';
 // export const getProducts = () => axios.get('/products');
 
 // Modify this to accept an optional config parameter
-export const getProducts = (config = {}) => customAxios.get('/products', config);
+export const getProducts = (config = {}) => customAxios.get('api/products', config);
 
 
 // Get a specific product by ID

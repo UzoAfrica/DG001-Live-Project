@@ -123,3 +123,30 @@ export const SimilarProductImage = styled.img`
   border-radius: 10px;
   margin-bottom: 10px;
 `;
+
+export const StyledPaystackButton = styled.button`
+  background-color: #4CAF50; 
+  border: none; 
+  color: black; 
+  padding: 12px 24px; 
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block; 
+  font-size: 16px; 
+  margin: 4px 2px; 
+  cursor: pointer; 
+  border-radius: 8px; 
+  transition: background-color 0.3s ease; 
+
+  /* Hover effect */
+  &:hover {
+    background-color: #45a049; 
+  }
+
+  /* Disabled state */
+  &:disabled {
+    background-color: #ccc; 
+    color: #666; 
+    cursor: not-allowed;
+  }
+`;

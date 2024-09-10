@@ -14,6 +14,7 @@ import {
   SimilarProductsSection,
   SimilarProductItem,
   SimilarProductImage,
+  StyledPaystackButton,
 } from '../productInfo/productInfoStyled';
 import {
   getProducts,
@@ -144,6 +145,7 @@ const ProductInfoPage: FC = () => {
             </ButtonContainer>
 
             {/* Paystack Payment Button */}
+            <StyledPaystackButton>
             <PaystackButton
               email={userEmail}
               amount={mainProduct.price * 100} 
@@ -152,6 +154,7 @@ const ProductInfoPage: FC = () => {
               onSuccess={handlePaymentSuccess}
               onClose={handlePaymentClose}
             />
+            </StyledPaystackButton>
           </ProductDetails>
 
           {/* Similar Products Section */}
