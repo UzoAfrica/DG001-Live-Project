@@ -66,7 +66,6 @@ export default function ResentOtp() {
         setOtp(Array(4).fill(''));
         return showErrorToast(response.data.message);
       }
-
       setResetVerificationLoading(false);
       showSuccessToast(response.data.message);
       setOtp(Array(4).fill(''));

@@ -13,16 +13,26 @@ const shopSchema = Joi.object({
     'string.max': 'Description should not exceed 500 characters.',
   }),
   currency: Joi.string().max(10).optional().default('NGN'),
-  category: Joi.string().optional().messages({
+  category: Joi.string().optional().valid('ELECTRONICS', 'FASHION', 'FOOD', 'HEALTH', 'HOME', 'SPORTS', 'CHILDREN', 'OTHERS').messages({
     'string.empty': 'Category cannot be empty.',
+    'any.only': 'Category must be one of ELECTRONICS, FASHION, FOOD, HEALTH, HOME, SPORTS, CHILDREN, or OTHERS.',
   }),
-  legalBusinessAddress: Joi.object().optional(),
-  securityFeatures: Joi.object().optional(),
+  securityFeatures: Joi.string().optional(),
   shopAddress: Joi.string().min(10).required().messages({
     'string.empty': 'Shop address cannot be empty.',
     'string.min': 'Shop address should have a minimum length of 10.',
     'any.required': 'Shop address is required.',
   }),
+  country: Joi.string().optional(),
+  street: Joi.string().optional(),
+  state: Joi.string().optional(),
+  shippingAddress: Joi.string().optional(),
+  shippingPrices: Joi.string().optional(),
+  shippingServices: Joi.string().optional(),
+  zip: Joi.string().optional(),
+  UserId: Joi.string().optional(),
+  imageUrls: Joi.string().optional(),
+  videoUrls: Joi.string().optional(),
 });
 
 // Middleware to validate shop data
