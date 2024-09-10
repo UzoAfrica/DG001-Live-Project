@@ -18,7 +18,7 @@ export const adminSignUp = async (req: Request, res: Response, next: NextFunctio
  
 
         const existingUser = await User.findOne({
-            where: email
+            where: {email}
         })
 
         if(existingUser){
@@ -40,6 +40,6 @@ export const adminSignUp = async (req: Request, res: Response, next: NextFunctio
 
     }catch(error : any){
         console.error(`Error in creating an admin`, error)
-        return res.status(500).json({ error: error.details[0].message});
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };

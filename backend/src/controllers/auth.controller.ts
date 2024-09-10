@@ -99,6 +99,12 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid Email or Password' });
 
 
+    // Check user role (admin or not)
+    const role = user.getDataValue('role');
+    if (role !== 'admin' && role !== 'user') {
+      return res.status(403).json({ message: 'Access denied. Invalid role.' });
+    }
+
     const token = jwt.sign(
       {
         id: user.getDataValue('id'),
@@ -112,8 +118,10 @@ export const login = async (req: Request, res: Response) => {
       }
     );
 
+    const loginMessage = role === 'admin' ? 'Admin logged in successfully' : 'User logged in successfully';
+
     res.header('Authorization', token).json({
-      message: 'Logged in successfully',
+      message: loginMessage,
       data: { token, role: user.getDataValue('role'), user },
     });
   } catch (error) {
