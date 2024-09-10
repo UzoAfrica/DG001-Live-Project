@@ -129,7 +129,7 @@ const LogIn: React.FC = () => {
 
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-              <GoogleLoginButton action="login" />
+              <Link to="http://localhost:5001/auth/google/login">Google Login</Link>
             </GoogleSignUp>
             <SignUpButton type="submit">
               {loading ? 'Loading' : 'Log In'}

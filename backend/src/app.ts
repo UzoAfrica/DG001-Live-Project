@@ -7,7 +7,7 @@ import appEnvironmentVariables from './config/app-environment-variables.config';
 import indexRouter from './routes/index.route';
 import profileRoute from './routes/profileRoute';
 import imageRoute from './routes/imageRoute';
-import adminRoute from './routes/adminRoute';
+import authRoutes from './routes/auth.routes';import adminRoute from './routes/adminRoute';
 
 
 // Initialize app
@@ -32,7 +32,7 @@ app.use(
       appEnvironmentVariables.nodeEnvironment === 'production'
         ? 'https://your-production-site.com'
         : 'http://localhost:5173',
-    credentials: true,
+    credentials: true, // Important to allow credentials (cookies)
     methods: 'GET, POST, PUT, HEAD, DELETE',
     optionsSuccessStatus: 200,
   })
@@ -42,6 +42,7 @@ app.use(
 app.use('/api', indexRouter);
 app.use('/profile', profileRoute);
 app.use('/image', imageRoute);
+app.use('/auth', authRoutes);
 app.use('/api', adminRoute);
 
 // Catch 404 and forward to general error handler
@@ -68,4 +69,3 @@ app.use((err: HttpError, req: Request, res: Response) => {
 });
 
 export default app;
- 
