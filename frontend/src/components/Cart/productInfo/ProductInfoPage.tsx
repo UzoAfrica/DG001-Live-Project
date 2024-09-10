@@ -149,7 +149,7 @@ const ProductInfoPage: FC = () => {
             <PaystackButton
               email={userEmail}
               amount={mainProduct.price * 100} 
-              publicKey="your_paystack_public_key" 
+              publicKey="pk_test_365b14bccecb9ddf2893e6f2b9b74ade5940935f" 
               text="Buy Now"
               onSuccess={handlePaymentSuccess}
               onClose={handlePaymentClose}
