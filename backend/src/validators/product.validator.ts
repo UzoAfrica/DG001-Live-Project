@@ -12,6 +12,8 @@ export const addProductSchema = Joi.object({
   shopId: Joi.string().guid({ version: ['uuidv4'] }).required(),
   isAvailable: Joi.boolean().required(),
   noOfSales: Joi.number().optional().default(0),
+  image: Joi.binary().optional(),
+  video: Joi.binary().optional(),
 });
  
 // Validation schema for updating a product
