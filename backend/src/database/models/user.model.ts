@@ -84,10 +84,10 @@ const User = sequelize.define(
 // OTP.belongsTo(User);
 
 // One-To-One relationship between user and shop
-User.hasOne(MyShop, {
+User.hasOne(Shop, {
   foreignKey: { allowNull: false },
 });
-MyShop.belongsTo(User);
+Shop.belongsTo(User);
 
 // One-to-Many relationship between user and review
 // User.hasMany(Review, {

@@ -19,7 +19,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
-import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton';
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
