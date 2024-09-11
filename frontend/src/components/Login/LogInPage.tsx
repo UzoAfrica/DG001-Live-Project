@@ -19,7 +19,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
-// import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton';
+import googleLogo from '../../images/download.png';
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -67,6 +67,14 @@ const LogIn: React.FC = () => {
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
       localStorage.setItem('userId', response.data.data.user.id);
       localStorage.setItem('userEmail', formData.email);
+
+      // Initialize cart and wishlist if they do not exist
+      if (!localStorage.getItem('cart')) {
+        localStorage.setItem('cart', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('wishlist')) {
+        localStorage.setItem('wishlist', JSON.stringify([]));
+      }
 
       showSuccessToast(response.data.message);
 
@@ -129,6 +137,7 @@ const LogIn: React.FC = () => {
 
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
+            <img src={googleLogo} alt="Google Logo" />
               <Link to="http://localhost:5001/auth/google/login">
                 Google Login
               </Link>
