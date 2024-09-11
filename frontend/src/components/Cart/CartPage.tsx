@@ -21,7 +21,12 @@ import {
   Button,
   ClearCartButton,
 } from './CartStyled';
-import { initiatePayment } from '../../axiosFolder/functions/paymentFunction';
+import {
+  initiatePayment,
+  verifyPayment,
+  VerifyPaymentResponse,
+} from '../../axiosFolder/functions/paymentFunction';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 interface CartProps {
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -72,6 +77,33 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
     }
   }, []);
 
+  // Check if paymentReference is present and verify payment
+  useEffect(() => {
+    const paymentReference = localStorage.getItem('paymentReference');
+    const checkPayment = async () => {
+      if (paymentReference) {
+        try {
+          const response = (await verifyPayment(
+            paymentReference
+          )) as VerifyPaymentResponse;
+
+          if (!response?.status) {
+            showErrorToast(response.message);
+            localStorage.removeItem('paymentReference');
+          } else {
+            showSuccessToast(response.message!);
+            localStorage.removeItem('paymentReference');
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            showErrorToast(error.message);
+          }
+        }
+      }
+    };
+    checkPayment();
+  }, []);
+
   const handleAddItem = (productId: string) => {
     const updatedCart = items.map((item) => {
       if (item.id === productId) {
@@ -93,22 +125,34 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
   const handlePaymentInitiation = async () => {
     try {
-      const token = localStorage.getItem('token'); 
-      const userId = localStorage.getItem('userId'); 
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
       if (!token || !userId) {
-        alert('User not logged in!');
+        showErrorToast('User not logged in!');
         return;
       }
 
-      const response = await initiatePayment(cartTotal, userEmail, userId, items[0].id);
+      const redirectPage = 'cart';
+      const response = await initiatePayment(
+        cartTotal,
+        userEmail,
+        userId,
+        items[0].id,
+        redirectPage
+      );
       if (response?.data?.authorizationUrl) {
+        // Set payment reference in localstorage
+        localStorage.setItem('paymentReference', response.data.reference);
+
         // Redirect to Paystack checkout page
         window.location.href = response.data.authorizationUrl;
       } else {
-        alert('Error initiating payment.');
+        showErrorToast('Error initiating payment.');
       }
     } catch (error) {
-      console.error('Error initiating payment:', error);
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
     }
   };
 

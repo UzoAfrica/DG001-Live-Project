@@ -86,7 +86,7 @@ export const login = async (req: Request, res: Response) => {
 
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ where: { email } });
+    const user : any = await User.findOne({ where: { email } });
 
     if (!user)
       return res.status(400).json({ message: 'Invalid Email or Password' });
@@ -97,6 +97,13 @@ export const login = async (req: Request, res: Response) => {
     );
     if (!validPassword)
       return res.status(400).json({ message: 'Invalid Email or Password' });
+
+
+    // Check user role (admin or not)
+    const role = user.getDataValue('role');
+    if (role !== 'admin' && role !== 'user') {
+      return res.status(403).json({ message: 'Access denied. Invalid role.' });
+    }
 
     const token = jwt.sign(
       {
@@ -111,8 +118,10 @@ export const login = async (req: Request, res: Response) => {
       }
     );
 
+    const loginMessage = role === 'admin' ? 'Admin logged in successfully' : 'User logged in successfully';
+
     res.header('Authorization', token).json({
-      message: 'Logged in successfully',
+      message: loginMessage,
       data: { token, role: user.getDataValue('role'), user },
     });
   } catch (error) {
