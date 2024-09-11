@@ -41,8 +41,8 @@ export const addProduct = async (req: Request, res: Response) => {
     //   videoUploadUrl = uploadResponse.secure_url;
     // }
 
-    let videoUploadUrl = null;
-    let imageUploadUrls: string[] = [];
+    const videoUploadUrl = null;
+    const imageUploadUrls: string[] = [];
 
     // Upload image to cloudinary and get the upload url
     const result = await cloudinary.uploader.upload(req.file!.path);
@@ -58,15 +58,13 @@ export const addProduct = async (req: Request, res: Response) => {
       userId,
       MyShopId: shopId,
       isAvailable,
-      noOfSales: 0,
-    });
-
-    res.status(201).json({ message: 'Product created successfully', product });
-  } catch (err) {
-    console.error('Error adding product:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    })
+      res.status(201).json({ message: 'Product created successfully', product });
+    } catch (err) {
+      console.error('Error adding product:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
-};
 
 // Controller to get all products
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -91,10 +89,11 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     colour,
   } = req.query;
 
-  const queryConditions: any = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const queryConditions = {} as Record<string,any>;
 
   if (search) {
-    queryConditions.name = { [Op.like]: `%${search}%` };
+    queryConditions.name  = { [Op.like]: `%${search}%` };
   }
   if (category) {
     queryConditions.category = category;

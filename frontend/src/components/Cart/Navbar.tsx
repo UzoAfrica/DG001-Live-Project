@@ -18,6 +18,7 @@ import {
   SearchIcon,
   CancelIcon,
 } from './StyledNavbar';
+import BellIcon from '../../images/Icon-notification-removebg-preview.png';
 
 interface NavbarProps {
   userProfile: {
@@ -33,6 +34,10 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
     if (userProfile?.profileImage) {
       setUserImage(userProfile.profileImage);
     }
+
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user")!)
+    setUserImage(userFromLocalStorage.profileImage);
+    console.log(userFromLocalStorage);
   }, [userProfile]);
 
   useEffect(() => {
@@ -81,9 +86,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
       <NavRight>
         <NotificationIcon>
-        {/* <a href="/product-page"> */}
-          <img src={bellNotification} alt="Logo"/>
-          {/* </a> */}
+        <a href="/product-page">
+          <img src={BellIcon} alt="Logo"/>
+          </a>
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (
             <NotificationCount>{notificationCount}</NotificationCount>

@@ -19,7 +19,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
-import googleLogo from '../../images/download.png';
+// import googleLogo from '../../images/download.png';
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -65,7 +65,7 @@ const LogIn: React.FC = () => {
       setLoading(false);
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
-      localStorage.setItem('userId', JSON.stringify(response.data.data.userId));
+      localStorage.setItem('userId', response.data.data.user.id);
       localStorage.setItem('userEmail', formData.email);
 
       // Initialize cart and wishlist if they do not exist
@@ -79,6 +79,7 @@ const LogIn: React.FC = () => {
       showSuccessToast(response.data.message);
 
       return navigate('/product-page');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);

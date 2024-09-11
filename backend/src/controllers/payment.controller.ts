@@ -95,13 +95,36 @@ export const verifyPayment = async (req: Request, res: Response) => {
       });
     }
 
-    // Update payment status to "success"
-    payment.set('status', 'success');
-    await payment.save();
+    // Check if payment was successful
+    if (response.data.data.status === 'success') {
+      // Update payment status to "success"
+      payment.set('status', 'success');
+      await payment.save();
 
+      return res.status(200).json({
+        status: true,
+        message: 'Payment verified successfully',
+      });
+    }
+
+    // Check if payment failed
+    if (response.data.data.status === 'failed') {
+      payment.set('status', 'failed');
+      await payment.save();
+
+      return res.status(200).json({
+        status: true,
+        message: response.data.data.gateway_response,
+      });
+    }
+
+    // Return any other response from paystack's API concerning the transaction
     return res.status(200).json({
       status: true,
-      message: 'Payment verified successfully',
+      message: response.data.data.gateway_response,
+      data: {
+        paymentStatus: response.data.data.status,
+      },
     });
   } catch (error) {
     console.error('Error verifying payment:', error);
