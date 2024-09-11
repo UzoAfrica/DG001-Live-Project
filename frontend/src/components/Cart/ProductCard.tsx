@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useCart } from 'react-use-cart';
 import './itemCard.css';
 import Rating from './Reviews';
-import { CartItem } from '../Cart/CartProvider'; // Ensure this path is correct
+import { CartItem } from '../Cart/CartProvider'; 
 
 interface ItemCardProps {
   image: string;

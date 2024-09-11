@@ -3,16 +3,24 @@ import {
   createShop,
   deleteShop,
   updateShop,
+  getAllShops,
+  getShop,
 } from '../controllers/shop.controller';
 import { authenticateToken } from '../middlewares/auth.middleware';
 import {
   checkShopExists,
   checkShopOwner,
-} from '../middlewares/shop.middleware'; // Import the middleware
-import upload from '../utils/upload';
-import { validateShop } from '../validators/shop.validator'; // Import the validator
+} from '../middlewares/shop.middleware'; 
+import upload from '../middlewares/multer';
+import { validateShop } from '../validators/shop.validator'; 
 
 const router = Router();
+
+// Route to get all shops
+router.get('/shops', authenticateToken as RequestHandler, getAllShops);
+
+// Route to get a single shop by ID
+router.get('/shops/:id', authenticateToken as RequestHandler, checkShopExists, getShop);
 
 // Route to create a shop with file upload and validation
 router.post(
@@ -30,8 +38,8 @@ router.post(
 router.put(
   '/update-shop/:id',
   authenticateToken as RequestHandler,
-  checkShopExists, // Check if shop exists
-  checkShopOwner, // Check if the user is the owner
+  checkShopExists, 
+  checkShopOwner, 
   upload.fields([
     { name: 'videos', maxCount: 5 },
     { name: 'images', maxCount: 5 },
@@ -43,8 +51,8 @@ router.put(
 router.delete(
   '/delete-shop/:id',
   authenticateToken as RequestHandler,
-  checkShopExists, // Check if shop exists
-  checkShopOwner, // Check if the user is the owner
+  checkShopExists,
+  checkShopOwner, 
   deleteShop
 );
 
