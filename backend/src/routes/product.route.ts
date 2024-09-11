@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import upload from '../config/multer.config';
+// import upload from '../config/multer.config';
 import {
   addProduct,
   deleteProduct,
@@ -13,6 +13,10 @@ import {
   AuthenticatedRequest,
   authenticateToken,
 } from '../middlewares/auth.middleware';
+
+// Obinna's upload
+import upload from '../middlewares/multer';
+
  
 const router = Router();
  
@@ -23,7 +27,7 @@ const asyncHandler =
       req: AuthenticatedRequest,
       res: Response,
       next: NextFunction
-    ) => Promise<any>
+    ) => Promise<unknown>
   ) =>
   (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req as AuthenticatedRequest, res, next)).catch(next);
@@ -32,10 +36,11 @@ const asyncHandler =
 router.post(
   '/add-product',
   authenticateToken,
-  upload.fields([
-    { name: 'image', maxCount: 10 },
-    { name: 'video', maxCount: 1 },
-  ]),
+  // upload.fields([
+  //   { name: 'image', maxCount: 10 },
+  //   { name: 'video', maxCount: 1 },
+  // ]),
+  upload.single('image'),
   asyncHandler(addProduct)
 );
  

@@ -8,20 +8,21 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from '../src/components/Cart/CartProvider';
-
+ 
 // Landing Page Components
 import Header from './components/LandingPage/Header';
 import Hero from './components/LandingPage/Hero';
 import WhyUseUs from './components/LandingPage/WhyUseUS';
 import TrendingSales from './components/LandingPage/TrendingSales';
 import Footer from './components/LandingPage/Footer';
-
+ 
 // Authentication and Utility Components
 import LogIn from './components/Login/LogInPage';
 import SignUp from './components/SignUp/SignUpPage';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
-
+import UserProfile from './components/Userpofile/UserProfile'
+ 
 // Product, Cart, and Wishlist Components
 import Wishlist from './components/Cart/wishlist/WishlistPage';
 import CartPage from './components/Cart/CartPage';
@@ -42,22 +43,22 @@ interface MainLayoutProps {
     profileImage: string;
   };
 }
-
+ 
 // Define context type for Outlet
 interface OutletContext {
   setOpenCart: Dispatch<SetStateAction<boolean>>;
 }
-
+ 
 // Wrapper component to pass setOpenCart to CartPage component
 const CartWrapper: FC = () => {
   const { setOpenCart } = useOutletContext<OutletContext>();
   return <CartPage setOpenCart={setOpenCart} />;
 };
-
+ 
 // Layout component that includes Navbar and accepts userProfile as a prop
 const MainLayout: FC<MainLayoutProps> = ({ userProfile }) => {
   const [setCartOpen] = useState<boolean>(false);
-
+ 
   return (
     <>
       <Navbar userProfile={userProfile} />
@@ -66,12 +67,12 @@ const MainLayout: FC<MainLayoutProps> = ({ userProfile }) => {
     </>
   );
 };
-
+ 
 // Define userProfile object to pass to MainLayout
 const userProfile = {
   profileImage: 'path/to/image.png',
 };
-
+ 
 // New NotFound component
 const NotFound: FC = () => (
   <div style={{ textAlign: 'center', marginTop: '50px' }}>
@@ -79,7 +80,7 @@ const NotFound: FC = () => (
     <p>The page you are looking for does not exist.</p>
   </div>
 );
-
+ 
 // Combine the landing page components into one main component
 const MainPage: FC = () => (
   <>
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
         path: 'wishlist',
         element: <Wishlist />,
       },
+      { 
+        path: 'profile',
+        element: <UserProfile />
+      },
       {
         path: 'cart',
         element: <CartWrapper />,
@@ -154,7 +159,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
+ 
 const App: FC = () => {
   return (
     <CartProvider>
@@ -163,5 +168,5 @@ const App: FC = () => {
     </CartProvider>
   );
 };
-
+ 
 export default App;

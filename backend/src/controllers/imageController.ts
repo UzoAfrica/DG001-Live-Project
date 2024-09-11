@@ -1,9 +1,9 @@
 import User from '../database/models/user.model';
 import cloudinary from '../config/cloudinary';
-import { Request, Response} from 'express';
+import {Request, Response} from 'express';
 
 
-export const updateImage = async (req: any, res: Response) => {
+export const updateImage = async (req: Request, res: Response) => {
 
     const { id } = req.params;
 
@@ -11,8 +11,7 @@ export const updateImage = async (req: any, res: Response) => {
         const user = await User.findByPk(id);
 
         if (!user) return res.status(404).json({ message: 'User not found' });
-
-        const result = await cloudinary.uploader.upload(req.file.path);
+        const result = await cloudinary.uploader.upload(req.file!.path);
 
         await user.update({ profileImage: result.secure_url });
 
