@@ -15,10 +15,13 @@ import {
   SimilarProductImage,
   StyledPaystackButton,
 } from '../productInfo/productInfoStyled';
+import { getProducts } from '../../../axiosFolder/functions/productFunction';
 import {
-  getProducts,
-} from '../../../axiosFolder/functions/productFunction';
-import { initiatePayment, } from '../../../axiosFolder/functions/paymentFunction';
+  initiatePayment,
+  verifyPayment,
+  VerifyPaymentResponse,
+} from '../../../axiosFolder/functions/paymentFunction';
+import { showErrorToast, showSuccessToast } from '../../utils/toastify';
 
 interface Product {
   id: string;
@@ -66,10 +69,39 @@ const ProductInfoPage: FC = () => {
     fetchProducts();
   }, [productId, token]);
 
+  // Check if paymentReference is present and verify payment
+  useEffect(() => {
+    const paymentReference = localStorage.getItem('paymentReference');
+    const checkPayment = async () => {
+      if (paymentReference) {
+        try {
+          const response = (await verifyPayment(
+            paymentReference
+          )) as VerifyPaymentResponse;
+
+          if (!response?.status) {
+            showErrorToast(response.message);
+            localStorage.removeItem('paymentReference');
+          } else {
+            showSuccessToast(response.message);
+            localStorage.removeItem('paymentReference');
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            showErrorToast(error.message);
+          }
+        }
+      }
+    };
+    checkPayment();
+  }, []);
+
   const handleAddToCart = (product: Product) => {
     try {
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existingProduct = cart.find((item: Product) => item.id === product.id);
+      const existingProduct = cart.find(
+        (item: Product) => item.id === product.id
+      );
 
       if (existingProduct) {
         existingProduct.quantity = (existingProduct.quantity || 1) + 1;
@@ -78,8 +110,9 @@ const ProductInfoPage: FC = () => {
       }
 
       localStorage.setItem('cart', JSON.stringify(cart));
-      alert('Product added to cart!');
+      showSuccessToast('Product added to cart!');
     } catch (error) {
+      showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
     }
   };
@@ -87,16 +120,19 @@ const ProductInfoPage: FC = () => {
   const handleAddToWishlist = (product: Product) => {
     try {
       const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      const existingProduct = wishlist.find((item: Product) => item.id === product.id);
+      const existingProduct = wishlist.find(
+        (item: Product) => item.id === product.id
+      );
 
       if (existingProduct) {
         alert('Product is already in your wishlist!');
       } else {
         wishlist.push(product);
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        alert('Product added to wishlist!');
+        showSuccessToast('Product added to wishlist!');
       }
     } catch (error) {
+      showErrorToast('Error adding product to wishlist:');
       console.error('Error adding product to wishlist:', error);
     }
   };
@@ -106,33 +142,44 @@ const ProductInfoPage: FC = () => {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       const userEmail = localStorage.getItem('userEmail');
-      
+
       // Ensure the mainProduct is loaded
       if (!mainProduct) {
-        alert('Product information not available!');
+        showErrorToast('Product information not available!');
         return;
       }
-  
+
       if (!token || !userId || !userEmail) {
-        alert('User not logged in!');
+        showErrorToast('User not logged in!');
         return;
       }
-  
+
       // Initiating payment for the specific product
-      const response = await initiatePayment(mainProduct.price, userEmail, userId, mainProduct.id);
-  
+      const redirectPage = 'product';
+      const response = await initiatePayment(
+        mainProduct.price,
+        userEmail,
+        userId,
+        mainProduct.id,
+        redirectPage
+      );
+
       if (response?.data?.authorizationUrl) {
+        // Set payment reference in localstorage
+        localStorage.setItem('paymentReference', response.data.reference);
+
         // Redirect to Paystack checkout page
         window.location.href = response.data.authorizationUrl;
       } else {
-        alert('Error initiating payment.');
+        showErrorToast('Error initiating payment.');
       }
     } catch (error) {
-      console.error('Error initiating payment:', error);
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
     }
   };
 
-  
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -149,12 +196,14 @@ const ProductInfoPage: FC = () => {
               <WishlistButton onClick={() => handleAddToWishlist(mainProduct)}>
                 Add to Wishlist
               </WishlistButton>
-              <CartButton onClick={() => handleAddToCart(mainProduct)}>Add to Cart</CartButton>
+              <CartButton onClick={() => handleAddToCart(mainProduct)}>
+                Add to Cart
+              </CartButton>
             </ButtonContainer>
 
             {/* Paystack Payment Button */}
-            <StyledPaystackButton>
-              <button onClick={handlePaymentInitiation}>Buy Now</button>
+            <StyledPaystackButton onClick={handlePaymentInitiation}>
+              Buy Now
             </StyledPaystackButton>
           </ProductDetails>
 

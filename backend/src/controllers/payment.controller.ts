@@ -25,13 +25,13 @@ export const initiatePayment = async (req: Request, res: Response) => {
       .json({ message: validationResult.error.details[0].message, data: null });
 
   try {
-    const { amount, email, UserId, ProductId } = req.body;
+    const { amount, email, UserId, ProductId, redirectPage } = req.body;
     const reference = uuidv4(); // Unique transaction reference
     const response = await axiosForPaystack.post('/transaction/initialize', {
       amount: amount * 100, // Paystack expects amount in kobo
       email,
       reference,
-      callback_url: 'http://localhost:5173/shop',
+      callback_url: `http://localhost:5173/${redirectPage}`,
     });
 
     if (!response.data.status) {
@@ -81,7 +81,7 @@ export const verifyPayment = async (req: Request, res: Response) => {
       `/transaction/verify/${reference}`
     );
 
-    if (!response.data.status && response.data.data.status !== 'success') {
+    if (!response.data.status) {
       return res.status(400).json({
         status: false,
         message: 'Payment verification failed',
@@ -113,14 +113,14 @@ export const verifyPayment = async (req: Request, res: Response) => {
       await payment.save();
 
       return res.status(200).json({
-        status: true,
+        status: false,
         message: response.data.data.gateway_response,
       });
     }
 
     // Return any other response from paystack's API concerning the transaction
     return res.status(200).json({
-      status: true,
+      status: false,
       message: response.data.data.gateway_response,
       data: {
         paymentStatus: response.data.data.status,
