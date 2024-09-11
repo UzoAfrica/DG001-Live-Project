@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import User from '../database/models/user.model';
 import Product from '../database/models/product.model';
 import UserProducts from '../database/models/user-product.model';
+import User from '../database/models/user.model';
 
 // Get all products in the user's wishlist
 export const getWishlist = async (req: Request, res: Response) => {
@@ -25,9 +25,10 @@ export const getWishlist = async (req: Request, res: Response) => {
       }
   
       // Access the associated products through the `Products` property
-      const wishlistProducts = user.get('Products');
+      const wishlistProducts = await user.get('Products');
       res.status(200).json(wishlistProducts);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: 'Server error', error });
     }
   };

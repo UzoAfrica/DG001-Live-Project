@@ -31,7 +31,8 @@ const Wishlist: React.FC = () => {
     const fetchWishlist = async () => {
       try {
         // Assume you have a way to get userId (e.g., from context or props)
-        const userId = 'yourUserId'; // Replace with actual user ID
+        // const userId = 'yourUserId'; // Replace with actual user ID
+        const userId = localStorage.getItem('userId')!;
         const response = await getWishlist(userId); // Fetch wishlist from backend
         setWishlist(response.data); // Update state with fetched data
       } catch (error) {
