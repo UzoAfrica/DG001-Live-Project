@@ -53,7 +53,7 @@ export const FloatLeft = styled.label`
 `;
 
 export const StyledInput = styled.input`
-  height: 40px;
+  height: 45px;
 `;
 export const StyledButton = styled.button`
   margin-top: 20px;
@@ -81,9 +81,10 @@ export const StyledDiv = styled.div`
 `;
 export const StyledOne = styled.button`
   background-color: #ef6820;
-  width: 100px;
-  height: 40px;
+  width: 120px;
+  height: 50px;
   border-radius: 10px;
+  color: white;
   border: 1px solid black;
   &:hover {
     background-color: white;
@@ -93,11 +94,12 @@ export const StyledOne = styled.button`
 `;
 
 export const StyledTwo = styled.button`
-  width: 100px;
-  height: 40px;
+  width: 120px;
+  height: 50px;
   border-radius: 10px;
   background-color: lightblue;
   border: 1px solid black;
+  color: #ef6820;
   &:hover {
     background-color: white;
     color: black;
@@ -191,27 +193,33 @@ export const StyledRightDiv = styled.div`
   gap: 10px;
 `;
 
-export const STyledStartSelling = styled.button`
-  width: 150px;
-  height: 50px;
-  background-color: #e04f16;
-  border-radius: 5px;
-  border: 0.5px solid #e04f16;
-  color: white;
-  &:hover {
-    transition-duration: 0.5s;
-    background-color: lightblue;
-    color: black;
-  }
-`;
+export  const STyledStartSelling = styled.button`
+ width: 150px;
+ height: 50px;
+ background-color:  #E04F16;
+border-radius: 5px;
+border: 0.5px solid #E04F16;
+color: white;
+&:hover{
+  transition-duration: 0.5s;
+
+  color: black;
+
+}
+`
 
 export const StyledUserOptions = styled.div`
   margin-left: 300px;
   margin-top: 30px;
 
-  width: 50%;
-  text-align: center;
-`;
+
+text-align: center;
+
+@media (max-width: 800px){
+  margin: auto;
+}
+
+`
 
 export const StyledProfileSet = styled.a`
   padding-right: 20px;
@@ -230,6 +238,9 @@ export const StyledProfileSet = styled.a`
   &:active {
     color: #e04f16;
     border-bottom: 2.5px solid #e04f16;
+  }
+  @media (max-width: 800px){
+    width: 100px;
   }
 `;
 
@@ -250,6 +261,9 @@ export const StyledPassWord = styled.a`
   &:active {
     color: #e04f16;
     border-bottom: 2.5px solid #e04f16;
+  }
+  @media (max-width: 800px){
+    
   }
 `;
 
@@ -294,9 +308,102 @@ export const StyledVerify = styled.a`
 `;
 
 export const StyledLineDiv = styled.div`
-  display: flex;
-  gap: 5px;
-`;
+font-weight: bold;
+font-size: small;
+display: flex;
+margin: 20px auto 0 300px;
+gap: 5px;
+@media (max-width: 800px){
+  margin: auto;
+  
+}
+`
 // export const StyledUserProfile = styled.img`
 
 // `
+
+
+export const StyledImgBut =styled.div`
+display: flex;
+margin-top: 20px;
+gap: 100px;
+@media (max-width: 800px){
+  margin: 20px auto;
+  gap: 20px;
+}
+
+
+`
+
+
+
+
+export const StyledFlexbutton = styled.div`
+display: flex;
+gap: 10px;
+
+`
+
+export const StyledProfileBox = styled.div`
+margin-top: 20px;
+display: flex;
+`
+
+export const StyledDisFlex = styled.div`
+display: flex;
+gap: 200px;
+
+
+@media (max-width: 800px){
+flex-direction: column;
+gap: 100px;
+margin: auto 20px;
+
+}
+
+`
+
+export const StyledBox = styled.div`
+display :flex;
+row-gap: 10px;
+flex-direction: column;
+`
+export const Styledinput = styled.input`
+
+height: 30px;
+width: 350px;
+`
+export const PassForm = styled.fieldset`
+border: none;
+display: flex;
+margin: 20px 300px 0px 300px;
+flex-direction: column;
+gap: 10px;
+
+@media (max-width: 800px){
+  margin: auto;
+  
+}
+` 
+
+
+
+export const StyledpTag = styled.p`
+color: gray;
+`
+
+export const Styledfield = styled.div`
+border: 2px solid ;
+margin: 50px  auto;
+width: 50%;
+`
+export const Styledli = styled.li`
+list-style-type: circle;
+list-style: #e04f16 ;
+margin-left: 10px;
+border-bottom: 0.5px solid #e04f16;
+
+`
+
+
+

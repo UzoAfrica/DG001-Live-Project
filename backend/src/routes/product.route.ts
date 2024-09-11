@@ -27,7 +27,7 @@ const asyncHandler =
       req: AuthenticatedRequest,
       res: Response,
       next: NextFunction
-    ) => Promise<any>
+    ) => Promise<unknown>
   ) =>
   (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req as AuthenticatedRequest, res, next)).catch(next);

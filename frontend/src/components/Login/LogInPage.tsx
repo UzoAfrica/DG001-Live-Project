@@ -19,7 +19,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
-import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton';
+// import GoogleLoginButton from '../GoogleAuth/GoogleLoginButton';
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -71,6 +71,7 @@ const LogIn: React.FC = () => {
       showSuccessToast(response.data.message);
 
       return navigate('/product-page');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);
