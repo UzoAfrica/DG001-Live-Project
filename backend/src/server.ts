@@ -12,8 +12,6 @@ import authRoutes from './routes/auth.routes';
 import imageRoute from './routes/imageRoute';
 import indexRouter from './routes/index.route';
 import profileRoute from './routes/profileRoute';
-import imageRoute from './routes/imageRoute';
-import authRoutes from './routes/auth.routes';
 import adminRoute from './routes/adminRoute'
 
 // Initialize app
