@@ -36,7 +36,6 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
     const userFromLocalStorage = JSON.parse(localStorage.getItem("user")!)
     setUserImage(userFromLocalStorage.profileImage);
-    console.log(userFromLocalStorage);
   }, [userProfile]);
 
   useEffect(() => {
