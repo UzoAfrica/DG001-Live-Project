@@ -6,16 +6,19 @@ import {
 } from './StyledProducts.ts';
 import Logo from '../../images/logo-removebg-preview.png';
 import Profile from '../../images/profilepic.png';
+
 export default function NavBar() {
   return (
     <>
       <div>
         <Nav>
-          <img src={Logo} alt="" />
+          <a href="/product">
+            <img src={Logo} alt=""/>
+          </a>
           <StyledButton>
-            <StyledIoMdNotificationsOutline />
-            <img src={Profile} alt="" />
-            <Btn href="/profile" >Start Selling</Btn>
+            <StyledIoMdNotificationsOutline/>
+            <img src={Profile} alt=""/>
+            <Btn href="/profile">Start Selling</Btn>
           </StyledButton>
         </Nav>
       </div>

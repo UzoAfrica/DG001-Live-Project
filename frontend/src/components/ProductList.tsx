@@ -1,7 +1,7 @@
 //to fetch and display products
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../services/productService'; //imports and makes api call to fetch list of products
-import './ProductList.css';
+import  './ProductList.css';
 
 interface Product {
   //type-check objects fields

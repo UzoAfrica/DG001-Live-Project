@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CartProvider } from '../src/components/Cart/CartProvider';
+import { CartProvider } from './components/Cart/CartProvider.tsx';
 
 // Landing Page Components
 import Header from './components/LandingPage/Header';
@@ -34,6 +34,10 @@ import Shop from './components/Shop/index';
 
 // getAllProducts
 import ProductPage from './components/ProductPage/ProductPage';
+
+//tenantDb
+import TenantDb from "./admin/TenantDb.tsx";
+import ProductList from '../src/components/ProductList.tsx'
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -115,6 +119,14 @@ const router = createBrowserRouter([
   {
     path:'product-page' ,
     element: < ProductPage/>,
+  },
+  {
+    path:'/TenantDb' ,
+    element: < TenantDb/>,
+  },
+  {
+    path:'/ProductList' ,
+    element: < ProductList/>,
   },
   {
     path: '/', // Base path for the main layout with Navbar

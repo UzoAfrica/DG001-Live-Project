@@ -1,7 +1,7 @@
 //to handle API requests
 import axios from 'axios';
 
-const API_URL = '/" "/products'; //input api here
+const API_URL = '/http://localhost:5001/api/products'; //input api here
 
 export const getProducts = async () => {
   try {
