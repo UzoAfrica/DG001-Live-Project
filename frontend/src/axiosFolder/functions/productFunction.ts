@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosError } from 'axios';
 import axios from '../configurations/setup';
-import customAxios from '../configurations/setup';
 
 // Product API Requests
 
@@ -9,7 +8,7 @@ import customAxios from '../configurations/setup';
 // export const getProducts = () => axios.get('/products');
 
 // Modify this to accept an optional config parameter
-export const getProducts = (config = {}) => customAxios.get('api/products', config);
+export const getProducts = (config = {}) => axios.get('api/products', config);
 
 
 // Get a specific product by ID
@@ -45,32 +44,32 @@ export const updateProduct = (productId: string, data: Record<string, any>) =>
 export const deleteProduct = (productId: string) =>
   axios.delete(`api/products/${productId}`);
 
-// Wishlist API Requests
+// // Wishlist API Requests
 
-// Get the wishlist of a user
-export const getWishlist = (userId: string) =>
-  axios.get(`api/user/${userId}/wishlist`);
+// // Get the wishlist of a user
+// export const getWishlist = (userId: string) =>
+//   axios.get(`api/user/${userId}/wishlist`);
 
-// Add a product to the wishlist
-export const addToWishlist = (userId: string, productId: string) =>
-  axios.post(`api/user/${userId}/wishlist/${productId}`);
+// // Add a product to the wishlist
+// export const addToWishlist = (userId: string, productId: string) =>
+//   axios.post(`api/user/${userId}/wishlist/${productId}`);
 
-// Remove a product from the wishlist
-export const removeFromWishlist = (userId: string, productId: string) =>
-  axios.delete(`api/user/${userId}/wishlist/${productId}`);
+// // Remove a product from the wishlist
+// export const removeFromWishlist = (userId: string, productId: string) =>
+//   axios.delete(`api/user/${userId}/wishlist/${productId}`);
 
-// Cart API Requests
+// // Cart API Requests
 
-// Get the cart of a user
-export const getCart = (userId: string) => axios.get(`api/user/${userId}/cart`);
+// // Get the cart of a user
+// export const getCart = (userId: string) => axios.get(`api/user/${userId}/cart`);
 
-// Add a product to the cart
-export const addToCart = (userId: string, productId: string) =>
-  axios.post(`api/user/${userId}/cart/${productId}`);
+// // Add a product to the cart
+// export const addToCart = (userId: string, productId: string) =>
+//   axios.post(`api/user/${userId}/cart/${productId}`);
 
-// Remove a product from the cart
-export const removeFromCart = (userId: string, productId: string) =>
-  axios.delete(`api/user/${userId}/cart/${productId}`);
+// // Remove a product from the cart
+// export const removeFromCart = (userId: string, productId: string) =>
+//   axios.delete(`api/user/${userId}/cart/${productId}`);
 
 // Add a review for a product
 export const addReview = (productId: string, reviewData: Record<string, any>) =>

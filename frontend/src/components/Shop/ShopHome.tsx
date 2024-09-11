@@ -173,8 +173,7 @@ const ShopHome = () => {
                   {createdProduct ? (
                     <>
                       {createdProduct.name}
-                      <br />
-                      {createdProduct.price}
+                      <br />N {createdProduct.price}
                     </>
                   ) : (
                     <>

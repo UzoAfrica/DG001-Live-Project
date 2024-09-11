@@ -4,8 +4,7 @@ import productRouter from './product.route';
 import registerRouter from './register';
 import resetRouter from './reset.route';
 import shopRouter from './shop.routes';
-import cartRouter from './cart.routes';
-import wishlistRouter from './wishlist.routes';
+
 
 const indexRouter = express.Router();
 
@@ -28,12 +27,6 @@ indexRouter.use('/shop', shopRouter);
 
 // Payment Routes
 indexRouter.use('/payment', paymentRouter);
-
-/* Cart Routes */
-indexRouter.use('/cart', cartRouter);
-
-/* Wishlist Routes */
-indexRouter.use('/wishlist', wishlistRouter);
 
 // Notification Route
 indexRouter.get('/notifications/count', (req: Request, res: Response) => {
