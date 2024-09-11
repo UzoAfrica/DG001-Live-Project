@@ -9,7 +9,7 @@ export const CartBackground = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-  box-sizing: border-box; /* Ensures padding is included in the element's width and height */
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -30,7 +30,7 @@ export const CartContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box; /* Ensures padding is included in the element's width and height */
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 15px;
@@ -227,7 +227,7 @@ export const FooterButtons = styled.div`
   align-items: center;
 
   @media (max-width: 480px) {
-    flex-direction: column; /* Stack buttons on small screens */
+    flex-direction: column;
     gap: 8px;
   }
 `;
@@ -245,15 +245,31 @@ export const ClearCartButton = styled.button`
   }
 `;
 
-export const CheckoutButton = styled.button`
-  background-color: #d35d2c;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
 
-  @media (max-width: 480px) {
-    padding: 8px 12px;
+export const Button = styled.button`
+  background-color: yellow; 
+  border: none; 
+  color: black; 
+  padding: 12px 24px;
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block; 
+  font-size: 16px; 
+  margin: 4px 2px; 
+  cursor: pointer; 
+  border-radius: 8px; 
+  transition: background-color 0.3s ease; 
+
+  /* Hover effect */
+  &:hover {
+    background-color: #45a049; 
+  }
+
+  /* Disabled state */
+  &:disabled {
+    background-color: #ccc; 
+    color: #666; 
+    cursor: not-allowed; 
   }
 `;
+

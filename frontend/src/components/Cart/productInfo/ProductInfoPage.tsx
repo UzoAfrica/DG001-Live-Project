@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PaystackButton } from 'react-paystack';
+import { useParams } from 'react-router-dom';
 import {
   Container,
   ProductImage,
@@ -14,12 +13,15 @@ import {
   SimilarProductsSection,
   SimilarProductItem,
   SimilarProductImage,
+  StyledPaystackButton,
 } from '../productInfo/productInfoStyled';
+import { getProducts } from '../../../axiosFolder/functions/productFunction';
 import {
-  getProducts,
-  addToCart,
-  addToWishlist,
-} from '../../../axiosFolder/functions/productFunction';
+  initiatePayment,
+  verifyPayment,
+  VerifyPaymentResponse,
+} from '../../../axiosFolder/functions/paymentFunction';
+import { showErrorToast, showSuccessToast } from '../../utils/toastify';
 
 interface Product {
   id: string;
@@ -28,6 +30,7 @@ interface Product {
   price: number;
   imageUrl: string;
   type: string;
+  quantity?: number;
 }
 
 const ProductInfoPage: FC = () => {
@@ -35,19 +38,26 @@ const ProductInfoPage: FC = () => {
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { productId } = useParams<{ productId: string }>();
 
-  const userId = localStorage.getItem('userId');
-  const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
-  
-  // Use navigate hook to redirect after payment
-  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProducts();
-        setMainProduct(response.data[0]);
-        setSimilarProducts(response.data.slice(1));
+        const response = await getProducts({
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data && response.data.length > 0) {
+          setMainProduct(response.data[0]);
+          setSimilarProducts(response.data.slice(1));
+        } else {
+          setError('No products found');
+        }
       } catch (error) {
         setError('Error fetching products');
         console.error('Error fetching products:', error);
@@ -57,42 +67,117 @@ const ProductInfoPage: FC = () => {
     };
 
     fetchProducts();
+  }, [productId, token]);
+
+  // Check if paymentReference is present and verify payment
+  useEffect(() => {
+    const paymentReference = localStorage.getItem('paymentReference');
+    const checkPayment = async () => {
+      if (paymentReference) {
+        try {
+          const response = (await verifyPayment(
+            paymentReference
+          )) as VerifyPaymentResponse;
+
+          if (!response?.status) {
+            showErrorToast(response.message);
+            localStorage.removeItem('paymentReference');
+          } else {
+            showSuccessToast(response.message);
+            localStorage.removeItem('paymentReference');
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            showErrorToast(error.message);
+          }
+        }
+      }
+    };
+    checkPayment();
   }, []);
 
-  const handleAddToWishlist = async () => {
+  const handleAddToCart = (product: Product) => {
     try {
-      if (mainProduct && userId) {
-        await addToWishlist(userId, mainProduct.id);
-        alert('Product added to wishlist!');
-      } else {
-        alert('User not logged in or product unavailable.');
-      }
-    } catch (error) {
-      console.error('Error adding product to wishlist:', error);
-    }
-  };
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existingProduct = cart.find(
+        (item: Product) => item.id === product.id
+      );
 
-  const handleAddToCart = async () => {
-    try {
-      if (mainProduct && userId) {
-        await addToCart(userId, mainProduct.id);
-        alert('Product added to cart!');
+      if (existingProduct) {
+        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
       } else {
-        alert('User not logged in or product unavailable.');
+        cart.push({ ...product, quantity: 1 });
       }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      showSuccessToast('Product added to cart!');
     } catch (error) {
+      showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
     }
   };
 
-  const handlePaymentSuccess = (reference: any) => {
-    console.log('Payment successful:', reference);
-    alert('Payment successful! Reference: ' + reference.reference);
-    navigate('/payment-success');  // Redirect to a success page after payment
+  const handleAddToWishlist = (product: Product) => {
+    try {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const existingProduct = wishlist.find(
+        (item: Product) => item.id === product.id
+      );
+
+      if (existingProduct) {
+        alert('Product is already in your wishlist!');
+      } else {
+        wishlist.push(product);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        showSuccessToast('Product added to wishlist!');
+      }
+    } catch (error) {
+      showErrorToast('Error adding product to wishlist:');
+      console.error('Error adding product to wishlist:', error);
+    }
   };
 
-  const handlePaymentClose = () => {
-    alert('Payment window closed.');
+  const handlePaymentInitiation = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      const userEmail = localStorage.getItem('userEmail');
+
+      // Ensure the mainProduct is loaded
+      if (!mainProduct) {
+        showErrorToast('Product information not available!');
+        return;
+      }
+
+      if (!token || !userId || !userEmail) {
+        showErrorToast('User not logged in!');
+        return;
+      }
+
+      // Initiating payment for the specific product
+      const redirectPage = 'product';
+      const response = await initiatePayment(
+        mainProduct.price,
+        userEmail,
+        userId,
+        mainProduct.id,
+        redirectPage
+      );
+
+      if (response?.data?.authorizationUrl) {
+        // Set payment reference in localstorage
+        localStorage.setItem('paymentReference', response.data.reference);
+
+        // Redirect to Paystack checkout page
+        window.location.href = response.data.authorizationUrl;
+      } else {
+        showErrorToast('Error initiating payment.');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -108,21 +193,18 @@ const ProductInfoPage: FC = () => {
             <ProductDescription>{mainProduct.description}</ProductDescription>
             <ProductPrice>₦{mainProduct.price.toLocaleString()}</ProductPrice>
             <ButtonContainer>
-              <WishlistButton onClick={handleAddToWishlist}>
+              <WishlistButton onClick={() => handleAddToWishlist(mainProduct)}>
                 Add to Wishlist
               </WishlistButton>
-              <CartButton onClick={handleAddToCart}>Add to Cart</CartButton>
+              <CartButton onClick={() => handleAddToCart(mainProduct)}>
+                Add to Cart
+              </CartButton>
             </ButtonContainer>
 
             {/* Paystack Payment Button */}
-            <PaystackButton
-              email={userEmail}
-              amount={mainProduct.price * 100} 
-              publicKey="your_paystack_public_key" 
-              text="Buy Now"
-              onSuccess={handlePaymentSuccess}
-              onClose={handlePaymentClose}
-            />
+            <StyledPaystackButton onClick={handlePaymentInitiation}>
+              Buy Now
+            </StyledPaystackButton>
           </ProductDetails>
 
           {/* Similar Products Section */}

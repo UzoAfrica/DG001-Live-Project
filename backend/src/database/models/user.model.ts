@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Shop from './my-shop.model';
+import Payment from './payment.model';
 
 // User model
 const User = sequelize.define(
@@ -65,6 +66,11 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+   
+    
+ 
+ 
+ 
   },
   {
     indexes: [
@@ -88,6 +94,13 @@ User.hasOne(Shop, {
   foreignKey: { allowNull: false },
 });
 Shop.belongsTo(User);
+
+// One-to-Many relationship between user and payment
+User.hasMany(Payment, {
+  foreignKey: { allowNull: false },
+});
+Payment.belongsTo(User);
+
 
 // One-to-Many relationship between user and review
 // User.hasMany(Review, {

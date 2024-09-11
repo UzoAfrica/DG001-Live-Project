@@ -17,6 +17,7 @@ import {
   SearchIcon,
   CancelIcon,
 } from './StyledNavbar';
+import BellIcon from '../../images/Icon-notification-removebg-preview.png';
 
 interface NavbarProps {
   userProfile: {
@@ -32,6 +33,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
     if (userProfile?.profileImage) {
       setUserImage(userProfile.profileImage);
     }
+
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user")!)
+    setUserImage(userFromLocalStorage.profileImage);
   }, [userProfile]);
 
   useEffect(() => {
@@ -43,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
         setNotificationCount(response.data.count);
       } catch (error) {
         console.error('Error fetching notification count:', error);
-        setNotificationCount(0); // Default to 0 if there's an error
+        setNotificationCount(0); 
       }
     };
 
@@ -52,15 +56,17 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
   // Define the handleStartSellingLinkClick function
   const handleStartSellingLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); // Prevent default navigation if needed
-    // Custom logic can go here, or you can just allow navigation
-    window.location.href = '/create-shop'; // Navigate to create shop page
+    e.preventDefault(); 
+   
+    window.location.href = '/create-shop'; 
   };
 
   return (
     <Nav>
       <NavLeft>
+        <a href="/product">
         <BrandLogo>traïdr</BrandLogo>
+        </a>
       </NavLeft>
 
       <NavMiddle>
@@ -78,7 +84,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
       <NavRight>
         <NotificationIcon>
-          <img src="src/images/Icon-notification.png" alt="Logo" />
+        <a href="/product-page">
+          <img src={BellIcon} alt="Logo"/>
+          </a>
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (
             <NotificationCount>{notificationCount}</NotificationCount>

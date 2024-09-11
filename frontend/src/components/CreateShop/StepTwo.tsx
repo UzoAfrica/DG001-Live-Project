@@ -31,7 +31,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
   handleProductInputChange,
   shopFormData,
   handleShopInputChange,
-  // setProductFormData
+  setProductFormData
 }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
@@ -43,10 +43,10 @@ const StepTwo: React.FC<StepTwoProps> = ({
       setSelectedPhoto(event.target.files[0]);
 
       // Add the uploaded image to the form data -- If Friday can help to fix
-      // setProductFormData({
-      //   ...productFormData,
-      //   image: event.target.files[0],
-      // });
+      setProductFormData({
+        ...productFormData,
+        image: event.target.files[0],
+      });
     }
   };
 

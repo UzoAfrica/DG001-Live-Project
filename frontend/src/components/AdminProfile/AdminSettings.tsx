@@ -5,7 +5,7 @@ import { useState } from "react";
 import 'react-phone-input-2/lib/style.css'  
 import PhoneInput from 'react-phone-input-2'  
   
-export default function UserSettings() {  
+export default function AdminSettings() {  
   const [activeTab, setActiveTab] = useState("profile");  
   const [PhoneNumber, setPhoneNumber] = useState("")  
   const [valid, setValid] = useState(true);  
@@ -50,12 +50,11 @@ export default function UserSettings() {
        <StyledProfileBox>  
        <form action="" method="get">  
   
+     <StyledDisFlex>  
   
-           <StyledDisFlex>  
-  
-            <StyledBox>  
-              <FloatLeft htmlFor=""> First Name</FloatLeft>  
-              <Styledinput placeholder="Babalola" type="text" />  
+             <StyledBox>  
+             <FloatLeft htmlFor=""> First Name</FloatLeft>  
+             <Styledinput placeholder="Babalola" type="text" />  
   
   
               <FloatLeft htmlFor="">Email</FloatLeft>  
@@ -122,40 +121,39 @@ export default function UserSettings() {
           <Styledinput type="password" placeholder="" />  
   
   
-           <FloatLeft htmlFor="New password">New Password</FloatLeft>  
-           <Styledinput type="password" placeholder="" />  
+        <FloatLeft htmlFor="New password">New Password</FloatLeft>  
+           <Styledinput type="password" placeholder="" />  
   
-           <Styledp>Your new password must be 8-12 characters long</Styledp>  
+           <Styledp>Your new password must be 8-12 characters long</Styledp>  
   
-           <FloatLeft htmlFor="">Re-enter Your Password</FloatLeft>  
-           <Styledinput type="password" placeholder="" />  
+          <FloatLeft htmlFor="">Re-enter Your Password</FloatLeft>  
+        <Styledinput type="password" placeholder="" />  
   
-          </PassForm>  
+        </PassForm>  
   
-        </form>  
+      </form>  
+        </StyledDisFlex>  
+     )}  
   
-       </StyledDisFlex>  
-      )}  
-  
-      {activeTab === "notification" && (  
-       <Styledfield>  
-        <h2>Notifications </h2>  
-        <Styledli>Fully Furnished chair is now available  
-          <p>{}</p>  
+       {activeTab === "notification" && (  
+       <Styledfield>  
+        <h2>Notifications </h2>  
+        <Styledli>Fully Furnished chair is now available  
+          <p>{}</p>  
         </Styledli>  
         <Styledli>Terms of use was updated</Styledli>  
-        <Styledli>Your Ad has been successfully uploaded.  
-          <p>{}</p>  
-        </Styledli>  
-        <Styledli>Your Ad has been successfully uploaded.  
-          <p>{}</p>  
-        </Styledli>  
-       </Styledfield>  
-      )}  
+        <Styledli>Your Ad has been successfully uploaded.  
+         <p>{}</p>  
+        </Styledli>  
+        <Styledli>Your Ad has been successfully uploaded.  
+         <p>{}</p>  
+       </Styledli>  
+      </Styledfield>  
+     )}  
   
   
-    </>  
+</>  
   
-   </div>  
+</div>  
   )  
 }

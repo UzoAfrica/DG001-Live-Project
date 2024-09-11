@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import cloudinary from '../config/cloudinary.config';
 import Product from '../database/models/product.model';
 import {
   addProductSchema,
   updateProductSchema,
 } from '../validators/product.validator';
+
+// Obinna's cloudinary
+import cloudinary from '../config/cloudinary';
 
 // Controller to add a new product
 export const addProduct = async (req: Request, res: Response) => {
@@ -15,42 +17,37 @@ export const addProduct = async (req: Request, res: Response) => {
     return res.status(400).json({ error: error.details[0].message });
   }
 
-  const {
-    name,
-    description,
-    price,
-    quantity,
-    userId,
-    shopId,
-    isAvailable,
-    imageUrl,
-  } = req.body;
-
-  let videoUploadUrl = null;
-  let imageUploadUrls: string[] = [];
+  const { name, description, price, quantity, userId, shopId, isAvailable } =
+    req.body;
 
   try {
     // Ensure req.files is correctly typed
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    // const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
     // Handle image uploads to Cloudinary
-    if (files && files['image']) {
-      const imageUploadPromises = files['image'].map(file =>
-        cloudinary.v2.uploader.upload(file.path, { resource_type: 'image' })
-      );
-      const imageUploadResponses = await Promise.all(imageUploadPromises);
-      imageUploadUrls = imageUploadResponses.map(response => response.secure_url);
-    }
+    // if (files && files['image']) {
+    //   const imageUploadPromises = files['image'].map(file =>
+    //     cloudinary.v2.uploader.upload(file.path, { resource_type: 'image' })
+    //   );
+    //   const imageUploadResponses = await Promise.all(imageUploadPromises);
+    //   imageUploadUrls = imageUploadResponses.map(response => response.secure_url);
+    // }
 
     // Handle video upload to Cloudinary if a file is included
-    if (files && files['video'] && files['video'][0]) {
-      const uploadResponse = await cloudinary.v2.uploader.upload(files['video'][0].path, {
-        resource_type: 'video',
-      });
-      videoUploadUrl = uploadResponse.secure_url;
-    }
+    // if (files && files['video'] && files['video'][0]) {
+    //   const uploadResponse = await cloudinary.v2.uploader.upload(files['video'][0].path, {
+    //     resource_type: 'video',
+    //   });
+    //   videoUploadUrl = uploadResponse.secure_url;
+    // }
 
-    
+    const videoUploadUrl = null;
+    const imageUploadUrls: string[] = [];
+
+    // Upload image to cloudinary and get the upload url
+    const result = await cloudinary.uploader.upload(req.file!.path);
+    imageUploadUrls.push(result.secure_url);
+
     const product = await Product.create({
       name,
       description,
@@ -61,15 +58,13 @@ export const addProduct = async (req: Request, res: Response) => {
       userId,
       MyShopId: shopId,
       isAvailable,
-      noOfSales: 0,
-    });
-
-    res.status(201).json({ message: 'Product created successfully', product });
-  } catch (err) {
-    console.error('Error adding product:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    })
+      res.status(201).json({ message: 'Product created successfully', product });
+    } catch (err) {
+      console.error('Error adding product:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
-};
 
 // Controller to get all products
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -94,10 +89,11 @@ export const getTrendingSales = async (req: Request, res: Response) => {
     colour,
   } = req.query;
 
-  const queryConditions: any = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const queryConditions = {} as Record<string,any>;
 
   if (search) {
-    queryConditions.name = { [Op.like]: `%${search}%` };
+    queryConditions.name  = { [Op.like]: `%${search}%` };
   }
   if (category) {
     queryConditions.category = category;
