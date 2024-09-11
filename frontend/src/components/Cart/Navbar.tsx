@@ -80,9 +80,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
       <NavRight>
         <NotificationIcon>
-        <a href="/product-page">
-          <img src="frontend/src/images/Icon-notification-removebg-preview.png" alt="Logo"/>
-          </a>
+        {/* <a href="/product-page"> */}
+          <img src="frontend/src/images/bell download.png" alt="Logo"/>
+          {/* </a> */}
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (
             <NotificationCount>{notificationCount}</NotificationCount>
