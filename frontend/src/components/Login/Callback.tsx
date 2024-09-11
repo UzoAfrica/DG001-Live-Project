@@ -1,5 +1,5 @@
 // src/pages/CallbackPage.tsx
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const CallbackPage = () => {
@@ -15,7 +15,7 @@ const CallbackPage = () => {
       localStorage.setItem('token', token);
 
       // Redirect to home page or dashboard
-      navigate('/');
+      navigate('/product-page');
     } else {
       // Handle error or redirect
       navigate('/login?error=Authentication failed');

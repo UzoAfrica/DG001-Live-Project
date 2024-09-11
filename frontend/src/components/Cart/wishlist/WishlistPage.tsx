@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import navigate
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Title,
@@ -26,7 +26,7 @@ const Wishlist: React.FC = () => {
   const [wishlist, setWishlist] = useState<Product[]>([]); 
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<string | null>(null); 
-  const navigate = useNavigate(); // Initialize navigate for routing
+  const navigate = useNavigate(); 
 
   // Fetch wishlist from local storage when component mounts
   useEffect(() => {
@@ -45,7 +45,7 @@ const Wishlist: React.FC = () => {
 
   // Function to handle view more button click
   const handleViewMore = () => {
-    navigate('/product'); // Navigate to /product
+    navigate('/product'); 
   };
 
   if (loading) return <p>Loading...</p>;

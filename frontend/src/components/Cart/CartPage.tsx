@@ -61,7 +61,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
       setError('Error fetching cart');
       console.error('Error fetching cart from local storage:', error);
     } finally {
-      setLoading(false); // Set loading to false once fetching is done
+      setLoading(false); 
     }
   }, []);
 
