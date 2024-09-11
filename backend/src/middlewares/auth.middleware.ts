@@ -43,3 +43,5 @@ export const authenticateToken: RequestHandler = async (
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
