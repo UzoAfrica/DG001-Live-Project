@@ -369,8 +369,10 @@ row-gap: 10px;
 flex-direction: column;
 `
 export const Styledinput = styled.input`
-
-height: 30px;
+border: 1px solid #D0D5DD;
+border-radius: 10px;
+padding-left: 15px;
+height: 35px;
 width: 350px;
 `
 export const PassForm = styled.fieldset`
