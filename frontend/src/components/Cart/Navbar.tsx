@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import bellNotification from '../../images/Icon-notification-removebg-preview.png'
 import {
   Nav,
   NavLeft,
