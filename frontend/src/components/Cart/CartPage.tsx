@@ -188,4 +188,3 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 };
 
 export default Cart;
-
