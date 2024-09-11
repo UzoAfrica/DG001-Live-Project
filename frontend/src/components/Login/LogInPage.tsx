@@ -19,7 +19,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { loginFunction } from '../../axiosFolder/functions/userAuth';
-// import googleLogo from '../../images/download.png';
+import googleLogo from '../../images/download.png';
 
 const LogIn: React.FC = () => {
   const [formData, setFormData] = useState({
