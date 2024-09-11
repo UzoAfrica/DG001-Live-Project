@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import bellNotification from '../../images/Icon-notification-removebg-preview.png'
 import {
   Nav,
   NavLeft,
@@ -81,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
       <NavRight>
         <NotificationIcon>
         {/* <a href="/product-page"> */}
-          <img src="frontend/src/images/bell download.png" alt="Logo"/>
+          <img src={bellNotification} alt="Logo"/>
           {/* </a> */}
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (
