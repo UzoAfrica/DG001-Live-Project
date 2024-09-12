@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const [notificationCount, setNotificationCount] = useState<number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
-  const dropdownRef = useRef<HTMLDivElement | null>(null); // Ref for dropdown
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (userProfile?.profileImage) {
@@ -170,10 +170,10 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
               <a href="/shop">My Shop</a>
             </DropdownItem>
             <DropdownItem>
-              <a href="/product-page">Products</a>
+              <a href="/product-page">Product-page</a>
+              </DropdownItem>
               <DropdownItem>
-              <a href="/product-lst">Products</a>
-            </DropdownItem>
+              <a href="/product-list">Product-list</a>
             </DropdownItem>
             <DropdownItem onClick={handleLogout}>
               <span>Logout</span>
