@@ -35,7 +35,7 @@ const Trending: React.FC = () => {
         <legend>
           <h2>TRENDING SALES</h2>
         </legend>
-        <a href="/product">
+        <a href="/product-list">
         <StyledGrid products={sortedProducts} />
         </a>
       </Field>
