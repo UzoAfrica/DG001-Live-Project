@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const [notificationCount, setNotificationCount] = useState<number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
-  const dropdownRef = useRef<HTMLDivElement | null>(null); // Ref for dropdown
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (userProfile?.profileImage) {
