@@ -15,5 +15,6 @@ export const getProducts = async () => {
     if (error instanceof AxiosError) {
       return error.response;
     }
+
   }
 };
