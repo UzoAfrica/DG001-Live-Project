@@ -37,6 +37,10 @@ import Shop from './components/Shop/index';
 import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
+
+// Product list component
+import ProductList from './components/ProductList';
+
 // Define an interface for MainLayout props
 interface MainLayoutProps {
   userProfile: {
@@ -141,7 +145,7 @@ const router = createBrowserRouter([
         element: <CartWrapper />,
       },
       {
-        path: 'product',
+        path: 'product/:productId',
         element: <Product />,
       },
       {
@@ -151,6 +155,10 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Shop />,
+      },
+      {
+        path: 'product-list',
+        element: <ProductList />,
       },
       {
         path: '*',
