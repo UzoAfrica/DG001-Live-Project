@@ -25,13 +25,13 @@ Shop.hasMany(Product, {
 Product.belongsTo(Shop);
 
 // Synchronize all models with the database
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log('Database & tables created!');
-  })
-  .catch((error) =>
-    console.error('Unable to create tables, check your configuration:', error)
-  );
+// sequelize
+//   .sync({ force: false })
+//   .then(() => {
+//     console.log('Database & tables created!');
+//   })
+//   .catch((error) =>
+//     console.error('Unable to create tables, check your configuration:', error)
+//   );
 
 export { OTP, Product, User };

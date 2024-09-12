@@ -15,3 +15,14 @@
   max-width: 100%;
   height: auto;
 }
+
+.product-button {
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+  border-radius: 12px;
+  background-color: #E04F16;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
