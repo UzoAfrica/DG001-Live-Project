@@ -129,9 +129,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
       <NavRight>
         <NotificationIcon>
-          <a href="">
+          {/* <a href=""> */}
             <img src={BellIcon} alt="Logo" />
-          </a>
+          {/* </a> */}
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (
             <NotificationCount>{notificationCount}</NotificationCount>
