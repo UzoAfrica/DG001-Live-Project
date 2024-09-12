@@ -42,8 +42,6 @@ const ProductInfoPage: FC = () => {
 
   const token = localStorage.getItem('token');
 
-  // const navigate = useNavigate();
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -96,6 +94,20 @@ const ProductInfoPage: FC = () => {
     checkPayment();
   }, []);
 
+  // Function to handle when a similar product is clicked and swap it with the main product
+  const handleSimilarProductClick = (clickedProduct: Product) => {
+    if (mainProduct) {
+      // Replace the main product with the clicked similar product
+      const updatedSimilarProducts = similarProducts.map((product) =>
+        product.id === clickedProduct.id ? mainProduct : product
+      );
+
+      // Update the state with the new main product and the swapped similar products list
+      setMainProduct(clickedProduct);
+      setSimilarProducts(updatedSimilarProducts);
+    }
+  };
+
   const handleAddToCart = (product: Product) => {
     try {
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -143,7 +155,6 @@ const ProductInfoPage: FC = () => {
       const userId = localStorage.getItem('userId');
       const userEmail = localStorage.getItem('userEmail');
 
-      // Ensure the mainProduct is loaded
       if (!mainProduct) {
         showErrorToast('Product information not available!');
         return;
@@ -154,7 +165,6 @@ const ProductInfoPage: FC = () => {
         return;
       }
 
-      // Initiating payment for the specific product
       const redirectPage = 'product';
       const response = await initiatePayment(
         mainProduct.price,
@@ -165,10 +175,7 @@ const ProductInfoPage: FC = () => {
       );
 
       if (response?.data?.authorizationUrl) {
-        // Set payment reference in localstorage
         localStorage.setItem('paymentReference', response.data.reference);
-
-        // Redirect to Paystack checkout page
         window.location.href = response.data.authorizationUrl;
       } else {
         showErrorToast('Error initiating payment.');
@@ -201,7 +208,6 @@ const ProductInfoPage: FC = () => {
               </CartButton>
             </ButtonContainer>
 
-            {/* Paystack Payment Button */}
             <StyledPaystackButton onClick={handlePaymentInitiation}>
               Buy Now
             </StyledPaystackButton>
@@ -212,7 +218,10 @@ const ProductInfoPage: FC = () => {
             <h3>Similar Products</h3>
             <div>
               {similarProducts.map((similarProduct) => (
-                <SimilarProductItem key={similarProduct.id}>
+                <SimilarProductItem
+                  key={similarProduct.id}
+                  onClick={() => handleSimilarProductClick(similarProduct)} // Swap on click
+                >
                   <SimilarProductImage
                     src={similarProduct.imageUrl}
                     alt={similarProduct.name}

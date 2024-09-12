@@ -12,6 +12,8 @@ import {
   ProductPrice,
   ButtonContainer,
   ViewMoreButton,
+  AddToCartButton,
+  DeleteButton,
 } from './StyledWishlist';
 
 interface Product {
@@ -43,9 +45,42 @@ const Wishlist: React.FC = () => {
     }
   }, []);
 
-  // Function to handle view more button click
-  const handleViewMore = () => {
-    navigate('/product'); 
+  // Function to handle view more button click and navigate to the product details page
+  const handleViewMore = (productId: string) => {
+    navigate(`/product/${productId}`);
+  };
+
+  // Function to handle adding product to the cart
+  const handleAddToCart = (product: Product) => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existingProduct = cart.find((item: Product) => item.id === product.id);
+
+      if (existingProduct) {
+        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Product added to cart!');
+    } catch (error) {
+      alert('Error adding product to cart');
+      console.error('Error adding product to cart:', error);
+    }
+  };
+
+  // Function to handle deleting product from wishlist
+  const handleDeleteFromWishlist = (productId: string) => {
+    try {
+      const updatedWishlist = wishlist.filter((product) => product.id !== productId);
+      setWishlist(updatedWishlist);
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      alert('Product removed from wishlist!');
+    } catch (error) {
+      alert('Error deleting product from wishlist');
+      console.error('Error deleting product from wishlist:', error);
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -73,9 +108,15 @@ const Wishlist: React.FC = () => {
                   </ProductPrice>
                 </ProductInfo>
                 <ButtonContainer>
-                  <ViewMoreButton onClick={handleViewMore}>
+                  <ViewMoreButton onClick={() => handleViewMore(product.id)}>
                     View More
                   </ViewMoreButton>
+                  <AddToCartButton onClick={() => handleAddToCart(product)}>
+                    Add to Cart
+                  </AddToCartButton>
+                  <DeleteButton onClick={() => handleDeleteFromWishlist(product.id)}>
+                    Delete
+                  </DeleteButton>
                 </ButtonContainer>
               </WishlistItem>
             ))

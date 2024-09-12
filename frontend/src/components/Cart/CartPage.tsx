@@ -104,6 +104,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
     checkPayment();
   }, []);
 
+  // Increment item quantity
   const handleAddItem = (productId: string) => {
     const updatedCart = items.map((item) => {
       if (item.id === productId) {
@@ -114,13 +115,62 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
     setItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
   };
 
-  const handleRemoveItem = (itemId: string) => {
+  // Decrement item quantity
+  const handleRemoveItem = (productId: string) => {
+    const updatedCart = items.map((item) => {
+      if (item.id === productId && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+
+    setItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
+  };
+
+  const handleDeleteItem = (itemId: string) => {
     const updatedCart = items.filter((item) => item.id !== itemId);
 
     setItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
   };
 
   const handlePaymentInitiation = async () => {
@@ -185,9 +235,9 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                         <ItemImage src={item.image} alt={item.title} />
                       </td>
                       <ItemTitle>{item.title}</ItemTitle>
-                      <ItemPrice>{item.price} ₦</ItemPrice>
+                      <ItemPrice>{item.price.toLocaleString()} ₦</ItemPrice>
                       <ItemQuantity>
-                        <QuantityButton onClick={() => handleAddItem(item.id)}>
+                        <QuantityButton onClick={() => handleRemoveItem(item.id)}>
                           &minus;
                         </QuantityButton>
                         <Quantity>{item.quantity}</Quantity>
@@ -196,7 +246,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                         </QuantityButton>
                       </ItemQuantity>
                       <td>
-                        <RemoveButton onClick={() => handleRemoveItem(item.id)}>
+                        <RemoveButton onClick={() => handleDeleteItem(item.id)}>
                           <i className="fa fa-trash" aria-hidden="true" />
                         </RemoveButton>
                       </td>
@@ -207,7 +257,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
               <CartFooter>
                 <TotalItems>Number of item(s): {totalItems}</TotalItems>
-                <TotalAmount>Total: {cartTotal} ₦</TotalAmount>
+                <TotalAmount>Total: {cartTotal.toLocaleString()} ₦</TotalAmount>
                 <FooterButtons>
                   <ClearCartButton
                     onClick={() => {
