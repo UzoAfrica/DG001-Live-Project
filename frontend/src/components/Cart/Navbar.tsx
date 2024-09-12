@@ -164,7 +164,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
               <a href="/cart">Cart</a>
             </DropdownItem>
             <DropdownItem>
-              <a href="/profile">Product Info</a>
+              <a href="/profile">Profile</a>
             </DropdownItem>
             <DropdownItem>
               <a href="/shop">My Shop</a>

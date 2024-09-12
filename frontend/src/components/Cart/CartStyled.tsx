@@ -247,9 +247,9 @@ export const ClearCartButton = styled.button`
 
 
 export const Button = styled.button`
-  background-color: yellow; 
+  background-color: #E04F16; 
+  color: white;
   border: none; 
-  color: black; 
   padding: 12px 24px;
   text-align: center; 
   text-decoration: none; 
