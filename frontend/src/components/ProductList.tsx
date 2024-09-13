@@ -5,7 +5,6 @@ import './ProductList.css';
 import { showErrorToast } from './utils/toastify';
 import { useNavigate } from 'react-router-dom';
 
-
 interface Product {
   //type-check objects fields
   id: number;
@@ -20,7 +19,6 @@ const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]); //initializes array
   const [loading, setLoading] = useState<boolean>(true); //updates state to true
   const navigate = useNavigate(); 
-
 
   useEffect(() => {
     //Hook to perform side effects
