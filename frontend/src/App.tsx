@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CartProvider } from './components/Cart/CartProvider.tsx';
+import { CartProvider } from './components/Cart/CartProvider';
 
 // Landing Page Components
 import Header from './components/LandingPage/Header';
@@ -37,6 +37,7 @@ import ProductPage from './components/ProductPage/ProductPage';
 
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
+//productList
 import ProductList from '../src/components/ProductList.tsx'
 
 // Define an interface for MainLayout props

@@ -26,12 +26,12 @@ const TenantDb: React.FC = () => {
     useEffect(() => {
         const fetchShopsAndUsers = async () => {
             try {
-                const shopsResponse = await axios.get<Shop[]>('https://api.example.com/shops');
+                const shopsResponse = await axios.get<Shop[]>('https://api/shops');
                 const shops = shopsResponse.data;
                 //get owner ID from shops
                 const ownerIds = shops.map(shop => shop.ownerId);
                 //fetch users with shops
-                const usersResponse = await axios.get<User[]>('https://api.example.com/users', {
+                const usersResponse = await axios.get<User[]>('https://api/users', {
                     params: { ids: ownerIds.join(',') }
                 });
                 const usersWithShops = usersResponse.data.map(user => {
