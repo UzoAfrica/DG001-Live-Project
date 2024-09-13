@@ -24,6 +24,7 @@ const verifyResetToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     if (error instanceof Error) {
+      console.log(error.message);
       res.status(400).json({
         message: 'Expired reset token. Request for a new OTP',
         data: null,

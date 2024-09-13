@@ -9,13 +9,17 @@ interface GoogleLoginButtonProps {
 const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ action }) => {
   const navigate = useNavigate();
 
+
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
+    console.log({credentialResponse})
     if (credentialResponse.credential) {
       // Determine the API endpoint based on the action
       const endpoint =
         action === 'login'
           ? 'http://localhost:5001/auth/google/login'
           : 'http://localhost:5001/auth/google/signup';
+
+          console.log({endpoint})
 
       try {
         // Send the credential to the backend for verification and user creation
@@ -49,7 +53,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ action }) => {
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}
-        ux_mode="popup" // Optionally use popup mode for a better user experience
+        ux_mode="redirect" 
       />
     </div>
   );

@@ -15,3 +15,4 @@ const UserProducts = sequelize.define('UserProducts', {
 });
 
 export default UserProducts;
+ 

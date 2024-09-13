@@ -1,20 +1,27 @@
 import { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { 
-  Container, 
-  ProductImage, 
-  ProductDetails, 
-  ProductName, 
-  ProductDescription, 
-  ProductPrice, 
-  ButtonContainer, 
-  WishlistButton, 
-  CartButton, 
-  SimilarProductsSection, 
-  SimilarProductItem, 
-  SimilarProductImage 
+import {
+  Container,
+  ProductImage,
+  ProductDetails,
+  ProductName,
+  ProductDescription,
+  ProductPrice,
+  ButtonContainer,
+  WishlistButton,
+  CartButton,
+  SimilarProductsSection,
+  SimilarProductItem,
+  SimilarProductImage,
+  StyledPaystackButton,
 } from '../productInfo/productInfoStyled';
-import { getProductById, getProducts, addToCart, addToWishlist } from '../../../axiosFolder/functions/productFunction';
+import { getProducts } from '../../../axiosFolder/functions/productFunction';
+import {
+  initiatePayment,
+  verifyPayment,
+  VerifyPaymentResponse,
+} from '../../../axiosFolder/functions/paymentFunction';
+import { showErrorToast, showSuccessToast } from '../../utils/toastify';
 
 interface Product {
   id: string;
@@ -22,65 +29,165 @@ interface Product {
   description: string;
   price: number;
   imageUrl: string;
-  type: string; 
+  type: string;
+  quantity?: number;
 }
 
 const ProductInfoPage: FC = () => {
-  const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [mainProduct, setMainProduct] = useState<Product | null>(null);
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { productId } = useParams<{ productId: string }>();
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProducts = async () => {
       try {
-        if (!productId) return; 
-        const response = await getProductById(productId); 
-        setProduct(response.data); 
-        fetchSimilarProducts(response.data.type); 
+        const response = await getProducts({
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data && response.data.length > 0) {
+          for (const product of response.data) {
+            if (product.id === productId) {
+              setMainProduct(product);
+            }
+          }
+          setSimilarProducts(response.data.slice(1));
+        } else {
+          setError('No products found');
+        }
       } catch (error) {
-        setError('Error fetching product details'); 
-        console.error('Error fetching product details:', error);
+        setError('Error fetching products');
+        console.error('Error fetching products:', error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    const fetchSimilarProducts = async (type: string) => {
-      try {
-        const response = await getProducts(); 
-        const filteredProducts = response.data.filter((p: Product) => p.type === type); 
-        setSimilarProducts(filteredProducts); 
-      } catch (error) {
-        console.error('Error fetching similar products:', error);
+    fetchProducts();
+  }, [productId, token]);
+
+  // Check if paymentReference is present and verify payment
+  useEffect(() => {
+    const paymentReference = localStorage.getItem('paymentReference');
+    const checkPayment = async () => {
+      if (paymentReference) {
+        try {
+          const response = (await verifyPayment(
+            paymentReference
+          )) as VerifyPaymentResponse;
+
+          if (!response?.status) {
+            showErrorToast(response.message);
+            localStorage.removeItem('paymentReference');
+          } else {
+            showSuccessToast(response.message);
+            localStorage.removeItem('paymentReference');
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            showErrorToast(error.message);
+          }
+        }
       }
     };
+    checkPayment();
+  }, []);
 
-    fetchProduct(); 
-  }, [productId]);
+  // Function to handle when a similar product is clicked and swap it with the main product
+  const handleSimilarProductClick = (clickedProduct: Product) => {
+    if (mainProduct) {
+      // Replace the main product with the clicked similar product
+      const updatedSimilarProducts = similarProducts.map((product) =>
+        product.id === clickedProduct.id ? mainProduct : product
+      );
 
-  const handleAddToWishlist = async () => {
-    try {
-      if (product) {
-        const userId = 'yourUserId'; 
-        await addToWishlist(userId, product.id); 
-        alert('Product added to wishlist!'); 
-      }
-    } catch (error) {
-      console.error('Error adding product to wishlist:', error); 
+      // Update the state with the new main product and the swapped similar products list
+      setMainProduct(clickedProduct);
+      setSimilarProducts(updatedSimilarProducts);
     }
   };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = (product: Product) => {
     try {
-      if (product) {
-        const userId = 'yourUserId'; 
-        await addToCart(userId, product.id); 
-        alert('Product added to cart!');
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existingProduct = cart.find(
+        (item: Product) => item.id === product.id
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      showSuccessToast('Product added to cart!');
+    } catch (error) {
+      showErrorToast('Error adding product to cart');
+      console.error('Error adding product to cart:', error);
+    }
+  };
+
+  const handleAddToWishlist = (product: Product) => {
+    try {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const existingProduct = wishlist.find(
+        (item: Product) => item.id === product.id
+      );
+
+      if (existingProduct) {
+        alert('Product is already in your wishlist!');
+      } else {
+        wishlist.push(product);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        showSuccessToast('Product added to wishlist!');
       }
     } catch (error) {
-      console.error('Error adding product to cart:', error); 
+      showErrorToast('Error adding product to wishlist:');
+      console.error('Error adding product to wishlist:', error);
+    }
+  };
+
+  const handlePaymentInitiation = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      const userEmail = localStorage.getItem('userEmail');
+
+      if (!mainProduct) {
+        showErrorToast('Product information not available!');
+        return;
+      }
+
+      if (!token || !userId || !userEmail) {
+        showErrorToast('User not logged in!');
+        return;
+      }
+
+      const redirectPage = `product/${productId}`;
+      const response = await initiatePayment(
+        mainProduct.price,
+        userEmail,
+        userId,
+        mainProduct.id,
+        redirectPage
+      );
+
+      if (response?.data?.authorizationUrl) {
+        localStorage.setItem('paymentReference', response.data.reference);
+        window.location.href = response.data.authorizationUrl;
+      } else {
+        showErrorToast('Error initiating payment.');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
     }
   };
 
@@ -89,25 +196,40 @@ const ProductInfoPage: FC = () => {
 
   return (
     <Container>
-      {product ? (
+      {mainProduct ? (
         <>
-          <ProductImage src={product.imageUrl} alt={product.name} />
+          <ProductImage src={mainProduct.imageUrl} alt={mainProduct.name} />
           <ProductDetails>
-            <ProductName>{product.name}</ProductName>
-            <ProductDescription>{product.description}</ProductDescription>
-            <ProductPrice>₦{product.price.toLocaleString()}</ProductPrice>
+            <ProductName>{mainProduct.name}</ProductName>
+            <ProductDescription>{mainProduct.description}</ProductDescription>
+            <ProductPrice>₦{mainProduct.price.toLocaleString()}</ProductPrice>
             <ButtonContainer>
-              <WishlistButton onClick={handleAddToWishlist}>Add to Wishlist</WishlistButton>
-              <CartButton onClick={handleAddToCart}>Add to Cart</CartButton>
+              <WishlistButton onClick={() => handleAddToWishlist(mainProduct)}>
+                Add to Wishlist
+              </WishlistButton>
+              <CartButton onClick={() => handleAddToCart(mainProduct)}>
+                Add to Cart
+              </CartButton>
             </ButtonContainer>
+
+            <StyledPaystackButton onClick={handlePaymentInitiation}>
+              Buy Now
+            </StyledPaystackButton>
           </ProductDetails>
-          
+
+          {/* Similar Products Section */}
           <SimilarProductsSection>
             <h3>Similar Products</h3>
             <div>
               {similarProducts.map((similarProduct) => (
-                <SimilarProductItem key={similarProduct.id}>
-                  <SimilarProductImage src={similarProduct.imageUrl} alt={similarProduct.name} />
+                <SimilarProductItem
+                  key={similarProduct.id}
+                  onClick={() => handleSimilarProductClick(similarProduct)} // Swap on click
+                >
+                  <SimilarProductImage
+                    src={similarProduct.imageUrl}
+                    alt={similarProduct.name}
+                  />
                   <p>{similarProduct.name}</p>
                   <p>₦{similarProduct.price.toLocaleString()}</p>
                 </SimilarProductItem>
@@ -116,7 +238,7 @@ const ProductInfoPage: FC = () => {
           </SimilarProductsSection>
         </>
       ) : (
-        <p>Product not found.</p>
+        <p>No products found.</p>
       )}
     </Container>
   );

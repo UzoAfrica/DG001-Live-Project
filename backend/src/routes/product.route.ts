@@ -1,21 +1,25 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
+// import upload from '../config/multer.config';
 import {
   addProduct,
-  getAllProducts,
-  getTrendingSales,
-  getProductById,
-  updateProduct,
   deleteProduct,
+  getAllProducts,
+  getProductById,
+  getTrendingSales,
+  updateProduct,
 } from '../controllers/product.controller';
 import { addReview } from '../controllers/review.controller';
 import {
-  authenticateToken,
   AuthenticatedRequest,
+  authenticateToken,
 } from '../middlewares/auth.middleware';
-import upload from '../config/multer.config'; 
 
+// Obinna's upload
+import upload from '../middlewares/multer';
+
+ 
 const router = Router();
-
+ 
 // Type-safe async handler for route handling
 const asyncHandler =
   (
@@ -27,31 +31,36 @@ const asyncHandler =
   ) =>
   (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req as AuthenticatedRequest, res, next)).catch(next);
-
-// Route to add a new product with video upload
+ 
+// Route to add a new product with image and video upload
 router.post(
-  '/add',
+  '/add-product',
   authenticateToken,
-  upload.single('video'),
+  // upload.fields([
+  //   { name: 'image', maxCount: 10 },
+  //   { name: 'video', maxCount: 1 },
+  // ]),
+  upload.single('image'),
   asyncHandler(addProduct)
 );
-
-// Route to get all products (regular endpoint)
+ 
+// Route to get all products
 router.get('/', authenticateToken, asyncHandler(getAllProducts));
 
+ 
 // Route to get trending sales products with filters and pagination
 router.get('/trending', authenticateToken, asyncHandler(getTrendingSales));
-
-// Route to get a product by ID
-router.get('/product/:id', authenticateToken, asyncHandler(getProductById));
-
+ 
+// Route to get a product by ID (Consolidated into a single route)
+router.get('/:id', authenticateToken, asyncHandler(getProductById));
+ 
 // Route to update a product by ID
-router.put('/:id', authenticateToken, asyncHandler(updateProduct));
-
+router.put('/update-products/:id', authenticateToken, asyncHandler(updateProduct));
+ 
 // Route to delete a product by ID
-router.delete('/:id', authenticateToken, asyncHandler(deleteProduct));
-
+router.delete('/delete-products/:id', authenticateToken, asyncHandler(deleteProduct));
+ 
 // Route to add a review for a product
 router.post('/:id/reviews', authenticateToken, asyncHandler(addReview));
-
+ 
 export default router;

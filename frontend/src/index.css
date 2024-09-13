@@ -18,6 +18,15 @@ body {
   font-style: normal;
 }
 
+a {
+  text-decoration: none;
+  color: inherit; 
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -85,4 +94,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-} */
+}  */

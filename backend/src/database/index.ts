@@ -1,7 +1,8 @@
-import sequelize from '../../src/config/sequelize.config';
-import User from '../database/models/user.model';
-import Product from '../database/models/product.model';
+import sequelize from '../config/sequelize.config';
 import OTP from '../database/models/otp.model';
+import Product from '../database/models/product.model';
+import User from '../database/models/user.model';
+import Shop from './models/my-shop.model';
 
 // Initialize all associations after importing all models
 
@@ -17,14 +18,20 @@ User.belongsToMany(Product, { through: 'UserCart', as: 'Cart' });
 User.hasOne(OTP);
 OTP.belongsTo(User);
 
-// Synchronize all models with the database
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log('Database & tables created!');
-  })
-  .catch((error) =>
-    console.error('Unable to create tables, check your configuration:', error)
-  );
+// One-to-Many relationship between shop and product
+Shop.hasMany(Product, {
+  foreignKey: { allowNull: true },
+});
+Product.belongsTo(Shop);
 
-export { User, Product, OTP };
+// Synchronize all models with the database
+// sequelize
+//   .sync({ force: false })
+//   .then(() => {
+//     console.log('Database & tables created!');
+//   })
+//   .catch((error) =>
+//     console.error('Unable to create tables, check your configuration:', error)
+//   );
+
+export { OTP, Product, User };

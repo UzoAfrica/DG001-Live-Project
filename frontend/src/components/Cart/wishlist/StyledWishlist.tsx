@@ -77,3 +77,39 @@ export const ViewMoreButton = styled.button`
     background-color: #bf4c22;
   }
 `;
+
+export const AddToCartButton = styled.button`
+  background-color: #008cba;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #007bb5;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+`;

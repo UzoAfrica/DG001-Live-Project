@@ -10,10 +10,13 @@ import PlusSVG from '../../images/plus.svg';
 import BlenderSVG from '../../images/blender.svg';
 import { SecondDesktopContainer } from '../CreateShop/styles/StepTwo';
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ShopHome = () => {
   const [shopPhoto, setShopPhoto] = useState<File | null>(null);
   const shopPhotoInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate(); 
+
 
   const handleShopPhotoChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -26,6 +29,9 @@ const ShopHome = () => {
   const triggerShopPhotoUpload = () => {
     shopPhotoInputRef.current?.click();
   };
+
+  const createdShop = JSON.parse(localStorage.getItem('createdShop')!);
+  const createdProduct = JSON.parse(localStorage.getItem('createdProduct')!);
 
   return (
     <>
@@ -81,7 +87,10 @@ const ShopHome = () => {
             )}
           </Container>
           <Container>
-            <Paragraph> Empress Ki Stores </Paragraph>
+            <Paragraph>
+              {' '}
+              {createdShop ? createdShop.name : 'Empress Ki Stores'}{' '}
+            </Paragraph>
           </Container>
         </Container>
 
@@ -152,7 +161,7 @@ const ShopHome = () => {
               className="blender-container"
             >
               <Image
-                src={BlenderSVG}
+                src={createdProduct ? createdProduct.imageUrl[0] : BlenderSVG}
                 alt="blender"
                 width="220px"
                 $border="1px solid #F2F2F2"
@@ -164,8 +173,17 @@ const ShopHome = () => {
                   $border="1px solid #F2F2F2"
                   $maxWidth="220px"
                 >
-                  Blender
-                  <br />N 20,000
+                  {createdProduct ? (
+                    <>
+                      {createdProduct.name}
+                      <br />N {createdProduct.price}
+                    </>
+                  ) : (
+                    <>
+                      Blender
+                      <br />N 20,000
+                    </>
+                  )}
                 </Paragraph>
               </Container>
             </Container>
@@ -180,8 +198,9 @@ const ShopHome = () => {
             $color="white"
             className="form-button-left"
             type="button"
+            onClick={ () => {navigate("/product-list")} }
           >
-            Upload Item
+            Go to products
           </Button>
         </SecondDesktopContainer>
       </Container>

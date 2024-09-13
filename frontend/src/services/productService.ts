@@ -1,8 +1,11 @@
 //to handle API requests
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosError } from 'axios';
 import axios from '../../src/axiosFolder/configurations/setup';
 
-//const API_URL = '/http://localhost:5001/api/products'; //input api here
+// import axios from 'axios';
+
+// const API_URL = '/" "/products'; //input api here
 
 export const getProducts = async () => {
   try {

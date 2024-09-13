@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Review from './review.model';
- 
 // Product model
 const Product = sequelize.define(
   'Product',
@@ -11,9 +10,9 @@ const Product = sequelize.define(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    shopId: {
+    MyShopId: { 
       type: DataTypes.UUID,
-      allowNull: true,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
@@ -58,7 +57,7 @@ const Product = sequelize.define(
   },
   {
     modelName: 'Product',
-    tableName: 'products',
+    tableName: 'Products',
     indexes: [
       {
         fields: ['name'],
@@ -66,8 +65,9 @@ const Product = sequelize.define(
     ],
   }
 );
-// Association
+
+// Associations
 Product.hasMany(Review, { foreignKey: 'ProductId' });
 Review.belongsTo(Product, { foreignKey: 'ProductId' });
- 
+
 export default Product;

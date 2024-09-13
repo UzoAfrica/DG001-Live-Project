@@ -18,10 +18,15 @@ import {
   TotalItems,
   TotalAmount,
   FooterButtons,
+  Button,
   ClearCartButton,
-  CheckoutButton,
 } from './CartStyled';
-import { getCart, addToCart, removeFromCart } from '../../axiosFolder/functions/productFunction'; // Ensure addToCart is imported and used
+import {
+  initiatePayment,
+  verifyPayment,
+  VerifyPaymentResponse,
+} from '../../axiosFolder/functions/paymentFunction';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 interface CartProps {
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +37,7 @@ interface Item {
   title: string;
   price: number;
   quantity: number;
-  image: string;
+  imageUrl: string[];
 }
 
 const Cart: FC<CartProps> = ({ setOpenCart }) => {
@@ -42,47 +47,162 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const userId = 'yourUserId'; // Replace with actual user ID
-        const response = await getCart(userId);
-        setItems(response.data.items || []);
-        setCartTotal(response.data.cartTotal || 0);
-        setTotalItems(response.data.totalItems || 0);
-      } catch (err) {
-        setError('Error fetching cart data');
-        console.error('Error fetching cart data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const userEmail = localStorage.getItem('userEmail') || '';
 
-    fetchCart();
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        const cartItems = JSON.parse(savedCart);
+        setItems(cartItems);
+
+        // Calculate total price and items
+        const total = cartItems.reduce(
+          (acc: number, item: Item) => acc + item.price * item.quantity,
+          0
+        );
+        const totalItemCount = cartItems.reduce(
+          (acc: number, item: Item) => acc + item.quantity,
+          0
+        );
+
+        setCartTotal(total);
+        setTotalItems(totalItemCount);
+      }
+    } catch (error) {
+      setError('Error fetching cart');
+      console.error('Error fetching cart from local storage:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleAddItem = async (productId: string) => {
-    try {
-      const userId = 'yourUserId'; // Replace with actual user ID
-      await addToCart(userId, productId); // Call addToCart to add item
-      // Optionally, you could refetch cart data or update the state to reflect the addition
-      const response = await getCart(userId);
-      setItems(response.data.items || []);
-      setCartTotal(response.data.cartTotal || 0);
-      setTotalItems(response.data.totalItems || 0);
-    } catch (err) {
-      console.error('Error adding item to cart:', err);
-    }
+  // Check if paymentReference is present and verify payment
+  useEffect(() => {
+    const paymentReference = localStorage.getItem('paymentReference');
+    const checkPayment = async () => {
+      if (paymentReference) {
+        try {
+          const response = (await verifyPayment(
+            paymentReference
+          )) as VerifyPaymentResponse;
+
+          if (!response?.status) {
+            showErrorToast(response.message);
+            localStorage.removeItem('paymentReference');
+          } else {
+            showSuccessToast(response.message!);
+            localStorage.removeItem('paymentReference');
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            showErrorToast(error.message);
+          }
+        }
+      }
+    };
+    checkPayment();
+  }, []);
+
+  // Increment item quantity
+  const handleAddItem = (productId: string) => {
+    const updatedCart = items.map((item) => {
+      if (item.id === productId) {
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+
+    setItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
   };
 
-  const handleRemoveItem = async (itemId: string) => {
+  // Decrement item quantity
+  const handleRemoveItem = (productId: string) => {
+    const updatedCart = items.map((item) => {
+      if (item.id === productId && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+
+    setItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
+  };
+
+  const handleDeleteItem = (itemId: string) => {
+    const updatedCart = items.filter((item) => item.id !== itemId);
+
+    setItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
+  };
+
+  const handlePaymentInitiation = async () => {
     try {
-      const userId = 'yourUserId'; // Replace with actual user ID
-      await removeFromCart(userId, itemId);
-      setItems((prevItems) => prevItems.filter(item => item.id !== itemId));
-      // Optionally, update totalItems and cartTotal
-    } catch (err) {
-      console.error('Error removing item from cart:', err);
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      if (!token || !userId) {
+        showErrorToast('User not logged in!');
+        return;
+      }
+
+      const redirectPage = 'cart';
+      const response = await initiatePayment(
+        cartTotal,
+        userEmail,
+        userId,
+        items[0].id,
+        redirectPage
+      );
+      if (response?.data?.authorizationUrl) {
+        // Set payment reference in localstorage
+        localStorage.setItem('paymentReference', response.data.reference);
+
+        // Redirect to Paystack checkout page
+        window.location.href = response.data.authorizationUrl;
+      } else {
+        showErrorToast('Error initiating payment.');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
     }
   };
 
@@ -112,25 +232,21 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                   {items.map((item, index) => (
                     <CartItem key={index}>
                       <td>
-                        <ItemImage src={item.image} alt={item.title} />
+                        <ItemImage src={item.imageUrl[0]} alt={item.title} />
                       </td>
                       <ItemTitle>{item.title}</ItemTitle>
-                      <ItemPrice>{item.price} €</ItemPrice>
+                      <ItemPrice>{item.price.toLocaleString()} ₦</ItemPrice>
                       <ItemQuantity>
-                        <QuantityButton
-                          onClick={() => handleAddItem(item.id)} // Use addToCart here
-                        >
+                        <QuantityButton onClick={() => handleRemoveItem(item.id)}>
                           &minus;
                         </QuantityButton>
-                        <Quantity>{item.quantity || 0}</Quantity>
-                        <QuantityButton
-                          onClick={() => handleAddItem(item.id)} // Use addToCart here
-                        >
+                        <Quantity>{item.quantity}</Quantity>
+                        <QuantityButton onClick={() => handleAddItem(item.id)}>
                           &#43;
                         </QuantityButton>
                       </ItemQuantity>
                       <td>
-                        <RemoveButton onClick={() => handleRemoveItem(item.id)}>
+                        <RemoveButton onClick={() => handleDeleteItem(item.id)}>
                           <i className="fa fa-trash" aria-hidden="true" />
                         </RemoveButton>
                       </td>
@@ -141,12 +257,20 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
               <CartFooter>
                 <TotalItems>Number of item(s): {totalItems}</TotalItems>
-                <TotalAmount>Total: {cartTotal} €</TotalAmount>
+                <TotalAmount>Total: {cartTotal.toLocaleString()} ₦</TotalAmount>
                 <FooterButtons>
-                  <ClearCartButton onClick={() => { /* Clear cart logic here */ }}>
+                  <ClearCartButton
+                    onClick={() => {
+                      setItems([]);
+                      setCartTotal(0);
+                      setTotalItems(0);
+                      localStorage.removeItem('cart');
+                    }}
+                  >
                     Empty Cart
                   </ClearCartButton>
-                  <CheckoutButton type="submit">Checkout</CheckoutButton>
+
+                  <Button onClick={handlePaymentInitiation}>Checkout</Button>
                 </FooterButtons>
               </CartFooter>
             </>
@@ -158,161 +282,3 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 };
 
 export default Cart;
-
-
-
-
-// import React, { FC, useState, useEffect } from 'react';
-// import axios from 'axios';
-// import {
-//   CartBackground,
-//   CartContainer,
-//   Title,
-//   CartHeader,
-//   EmptyCartMessage,
-//   CartTable,
-//   CartItem,
-//   ItemImage,
-//   ItemTitle,
-//   ItemPrice,
-//   ItemQuantity,
-//   QuantityButton,
-//   Quantity,
-//   RemoveButton,
-//   CartFooter,
-//   TotalItems,
-//   TotalAmount,
-//   FooterButtons,
-//   ClearCartButton,
-//   CheckoutButton,
-// } from './CartStyled';
-
-// interface CartProps {
-//   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-
-// interface Item {
-//   id: string;
-//   title: string;
-//   price: number;
-//   quantity: number;
-//   image: string;
-// }
-
-// const Cart: FC<CartProps> = ({ setOpenCart }) => {
-//   const [items, setItems] = useState<Item[]>([]);
-//   const [cartTotal, setCartTotal] = useState<number>(0);
-//   const [totalItems, setTotalItems] = useState<number>(0);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     const fetchCart = async () => {
-//       try {
-//         const response = await axios.get('/api/cart'); // Ensure backend endpoint is correct
-//         setItems(response.data.items || []);
-//         setCartTotal(response.data.cartTotal || 0);
-//         setTotalItems(response.data.totalItems || 0);
-//       } catch (err) {
-//         setError('Error fetching cart data');
-//         console.error('Error fetching cart data:', err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchCart();
-//   }, []);
-
-//   const handleRemoveItem = async (itemId: string) => {
-//     try {
-//       await axios.delete(`/api/cart/${itemId}`); // Adjust endpoint as needed
-//       setItems(items.filter(item => item.id !== itemId));
-//     } catch (err) {
-//       console.error('Error removing item:', err);
-//       setError('Error removing item');
-//     }
-//   };
-
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <>
-//       <Title>Cart</Title>
-//       <CartBackground>
-//         <CartContainer>
-//           <CartHeader>
-//             <i
-//               style={{ cursor: 'pointer' }}
-//               className="fa fa-times"
-//               aria-hidden="true"
-//               onClick={() => setOpenCart(false)}
-//             ></i>
-//           </CartHeader>
-
-//           {items.length === 0 ? (
-//             <EmptyCartMessage>Your shopping cart is empty</EmptyCartMessage>
-//           ) : (
-//             <>
-//               <CartTable>
-//                 <tbody>
-//                   {items.map((item, index) => (
-//                     <CartItem key={index}>
-//                       <td>
-//                         <ItemImage src={item.image} alt={item.title} />
-//                       </td>
-//                       <ItemTitle>{item.title}</ItemTitle>
-//                       <ItemPrice>{item.price} €</ItemPrice>
-//                       <ItemQuantity>
-//                         <QuantityButton
-//                           onClick={() => {
-//                             /* Decrease item quantity logic here */
-//                           }}
-//                         >
-//                           &minus;
-//                         </QuantityButton>
-//                         <Quantity>{item.quantity || 0}</Quantity>
-//                         <QuantityButton
-//                           onClick={() => {
-//                             /* Increase item quantity logic here */
-//                           }}
-//                         >
-//                           &#43;
-//                         </QuantityButton>
-//                       </ItemQuantity>
-//                       <td>
-//                         <RemoveButton
-//                           onClick={() => handleRemoveItem(item.id)}
-//                         >
-//                           <i className="fa fa-trash" aria-hidden="true" />
-//                         </RemoveButton>
-//                       </td>
-//                     </CartItem>
-//                   ))}
-//                 </tbody>
-//               </CartTable>
-
-//               <CartFooter>
-//                 <TotalItems>Number of item(s): {totalItems}</TotalItems>
-//                 <TotalAmount>Total: {cartTotal} €</TotalAmount>
-//                 <FooterButtons>
-//                   <ClearCartButton
-//                     onClick={() => {
-//                       /* Empty cart logic here */
-//                     }}
-//                   >
-//                     Empty Cart
-//                   </ClearCartButton>
-//                   <CheckoutButton type="submit">Checkout</CheckoutButton>
-//                 </FooterButtons>
-//               </CartFooter>
-//             </>
-//           )}
-//         </CartContainer>
-//       </CartBackground>
-//     </>
-//   );
-// };
-
-// export default Cart;

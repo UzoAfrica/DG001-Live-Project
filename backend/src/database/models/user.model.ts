@@ -1,10 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
-import MyShop from './my-shop.model';
-import OTP from './otp.model';
-import Product from './product.model';
-import Review from './review.model';
-import UserProducts from './user-product.model';
+import Shop from './my-shop.model';
+import Payment from './payment.model';
 
 // User model
 const User = sequelize.define(
@@ -47,46 +44,33 @@ const User = sequelize.define(
     },
     lastName: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     gender: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     shopName: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     mobileNumber: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     address: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     profileImage: {
       type: DataTypes.STRING,
-    },
-    lastName: {
-      type: DataTypes.STRING,
       allowNull: true,
     },
-    gender:{
-      type: DataTypes.STRING,
-      allowNull: true,
-  },
-  shopName:{
-      type: DataTypes.STRING,
-      allowNull: true,
-  },
-  mobileNumber:{
-      type: DataTypes.STRING,
-      allowNull: true,
-  },
-  address:{
-      type: DataTypes.STRING,
-      allowNull: true,
-  },
-  profileImage: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+   
+    
+ 
+ 
+ 
   },
   {
     indexes: [
@@ -100,26 +84,32 @@ const User = sequelize.define(
 );
 
 // One-To-One relationship between user and otp
-User.hasOne(OTP, {
-  foreignKey: { allowNull: false },
-});
-OTP.belongsTo(User);
+// User.hasOne(OTP, {
+//   foreignKey: { allowNull: false },
+// });
+// OTP.belongsTo(User);
 
 // One-To-One relationship between user and shop
-User.hasOne(MyShop, {
+User.hasOne(Shop, {
   foreignKey: { allowNull: false },
 });
-MyShop.belongsTo(User);
+Shop.belongsTo(User);
+
+// One-to-Many relationship between user and payment
+User.hasMany(Payment, {
+  foreignKey: { allowNull: false },
+});
+Payment.belongsTo(User);
+
 
 // One-to-Many relationship between user and review
-User.hasMany(Review, {
-  foreignKey: { allowNull: false },
-});
-Review.belongsTo(User);
+// User.hasMany(Review, {
+//   foreignKey: { allowNull: false },
+// });
+// Review.belongsTo(User);
 
 // Many-To-Many relationship between user and product
-Product.belongsToMany(User, { through: UserProducts });
-User.belongsToMany(Product, { through: UserProducts });
+// Product.belongsToMany(User, { through: UserProducts });
+// User.belongsToMany(Product, { through: UserProducts });
 
 export default User;
- 

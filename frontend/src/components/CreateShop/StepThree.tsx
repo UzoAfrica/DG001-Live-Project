@@ -1,7 +1,8 @@
 import { Container, Paragraph, Label, Input } from './styles/Index';
 import { SecondDesktopContainer } from './styles/StepTwo';
+import {StepOneProps} from './StepOne';
 
-const StepThree = () => {
+const StepThree: React.FC<StepOneProps> = ({ shopFormData, handleShopInputChange }) => {
   return (
     <>
       {/* Shipping details */}
@@ -56,6 +57,8 @@ const StepThree = () => {
             name="country"
             id="country"
             required
+            value={shopFormData.country}
+            onChange={handleShopInputChange}
             $border="1px solid #D0D5DD"
             $borderRadius="8px"
             $padding="12px 16px"
@@ -75,10 +78,12 @@ const StepThree = () => {
           </Label>
           <Input
             type="text"
-            name="streetAddress"
+            name="street"
             id="street-address"
             placeholder="No"
             required
+            value={shopFormData.street}
+            onChange={handleShopInputChange}
             $border="1px solid #D0D5DD"
             $borderRadius="8px"
             $padding="12px 16px"
@@ -93,14 +98,16 @@ const StepThree = () => {
           $width="100%"
           $maxWidth="615px"
         >
-          <Label htmlFor="shipping-state" $margin="0 0 0 4px">
+          <Label htmlFor="state" $margin="0 0 0 4px">
             State
           </Label>
           <Input
             type="textbox"
-            name="shippingState"
-            id="shipping-state"
+            name="state"
+            id="state"
             required
+            value={shopFormData.state}
+            onChange={handleShopInputChange}
             $border="1px solid #D0D5DD"
             $borderRadius="8px"
             $padding="12px 16px"
@@ -115,14 +122,16 @@ const StepThree = () => {
           $width="100%"
           $maxWidth="300px"
         >
-          <Label htmlFor="zip-code" $margin="0 0 0 4px">
+          <Label htmlFor="zip" $margin="0 0 0 4px">
             Zip Code
           </Label>
           <Input
             type="textbox"
-            name="zipCode"
-            id="zip-code"
+            name="zip"
+            id="zip"
             required
+            value={shopFormData.zip}
+            onChange={handleShopInputChange}
             $border="1px solid #D0D5DD"
             $borderRadius="8px"
             $padding="12px 16px"
