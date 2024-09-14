@@ -21,7 +21,12 @@ import {
   Button,
   ClearCartButton,
 } from './CartStyled';
-import { initiatePayment } from '../../axiosFolder/functions/paymentFunction';
+import {
+  initiatePayment,
+  verifyPayment,
+  VerifyPaymentResponse,
+} from '../../axiosFolder/functions/paymentFunction';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 interface CartProps {
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +37,7 @@ interface Item {
   title: string;
   price: number;
   quantity: number;
-  image: string;
+  imageUrl: string[];
 }
 
 const Cart: FC<CartProps> = ({ setOpenCart }) => {
@@ -72,6 +77,34 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
     }
   }, []);
 
+  // Check if paymentReference is present and verify payment
+  useEffect(() => {
+    const paymentReference = localStorage.getItem('paymentReference');
+    const checkPayment = async () => {
+      if (paymentReference) {
+        try {
+          const response = (await verifyPayment(
+            paymentReference
+          )) as VerifyPaymentResponse;
+
+          if (!response?.status) {
+            showErrorToast(response.message);
+            localStorage.removeItem('paymentReference');
+          } else {
+            showSuccessToast(response.message!);
+            localStorage.removeItem('paymentReference');
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            showErrorToast(error.message);
+          }
+        }
+      }
+    };
+    checkPayment();
+  }, []);
+
+  // Increment item quantity
   const handleAddItem = (productId: string) => {
     const updatedCart = items.map((item) => {
       if (item.id === productId) {
@@ -82,33 +115,94 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
     setItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
   };
 
-  const handleRemoveItem = (itemId: string) => {
+  // Decrement item quantity
+  const handleRemoveItem = (productId: string) => {
+    const updatedCart = items.map((item) => {
+      if (item.id === productId && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
+      }
+      return item;
+    });
+
+    setItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
+  };
+
+  const handleDeleteItem = (itemId: string) => {
     const updatedCart = items.filter((item) => item.id !== itemId);
 
     setItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+    // Recalculate total
+    const newTotal = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.price * item.quantity,
+      0
+    );
+    const newTotalItems = updatedCart.reduce(
+      (acc: number, item: Item) => acc + item.quantity,
+      0
+    );
+    setCartTotal(newTotal);
+    setTotalItems(newTotalItems);
   };
 
   const handlePaymentInitiation = async () => {
     try {
-      const token = localStorage.getItem('token'); 
-      const userId = localStorage.getItem('userId'); 
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
       if (!token || !userId) {
-        alert('User not logged in!');
+        showErrorToast('User not logged in!');
         return;
       }
 
-      const response = await initiatePayment(cartTotal, userEmail, userId, items[0].id);
+      const redirectPage = 'cart';
+      const response = await initiatePayment(
+        cartTotal,
+        userEmail,
+        userId,
+        items[0].id,
+        redirectPage
+      );
       if (response?.data?.authorizationUrl) {
+        // Set payment reference in localstorage
+        localStorage.setItem('paymentReference', response.data.reference);
+
         // Redirect to Paystack checkout page
         window.location.href = response.data.authorizationUrl;
       } else {
-        alert('Error initiating payment.');
+        showErrorToast('Error initiating payment.');
       }
     } catch (error) {
-      console.error('Error initiating payment:', error);
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
     }
   };
 
@@ -138,12 +232,12 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                   {items.map((item, index) => (
                     <CartItem key={index}>
                       <td>
-                        <ItemImage src={item.image} alt={item.title} />
+                        <ItemImage src={item.imageUrl[0]} alt={item.title} />
                       </td>
                       <ItemTitle>{item.title}</ItemTitle>
-                      <ItemPrice>{item.price} ₦</ItemPrice>
+                      <ItemPrice>{item.price.toLocaleString()} ₦</ItemPrice>
                       <ItemQuantity>
-                        <QuantityButton onClick={() => handleAddItem(item.id)}>
+                        <QuantityButton onClick={() => handleRemoveItem(item.id)}>
                           &minus;
                         </QuantityButton>
                         <Quantity>{item.quantity}</Quantity>
@@ -152,7 +246,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                         </QuantityButton>
                       </ItemQuantity>
                       <td>
-                        <RemoveButton onClick={() => handleRemoveItem(item.id)}>
+                        <RemoveButton onClick={() => handleDeleteItem(item.id)}>
                           <i className="fa fa-trash" aria-hidden="true" />
                         </RemoveButton>
                       </td>
@@ -163,7 +257,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
               <CartFooter>
                 <TotalItems>Number of item(s): {totalItems}</TotalItems>
-                <TotalAmount>Total: {cartTotal} ₦</TotalAmount>
+                <TotalAmount>Total: {cartTotal.toLocaleString()} ₦</TotalAmount>
                 <FooterButtons>
                   <ClearCartButton
                     onClick={() => {
@@ -188,4 +282,3 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 };
 
 export default Cart;
-

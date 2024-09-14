@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../services/productService'; //imports and makes api call to fetch list of products
 import './ProductList.css';
+import { showErrorToast } from './utils/toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   //type-check objects fields
@@ -16,6 +18,7 @@ const ProductList: React.FC = () => {
   //functional component
   const [products, setProducts] = useState<Product[]>([]); //initializes array
   const [loading, setLoading] = useState<boolean>(true); //updates state to true
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     //Hook to perform side effects
@@ -27,6 +30,7 @@ const ProductList: React.FC = () => {
         setLoading(false); //on success, updates products and sets to false
       } catch (error) {
         //error handling and logs to console, sets loading to false
+        showErrorToast('Error fetching products');
         console.error('Error fetching products', error);
         setLoading(false);
       }
@@ -48,12 +52,13 @@ const ProductList: React.FC = () => {
           product //maps over products array & renders each product
         ) => (
           <div key={product.id} className="product">
-            {' '}
-            //provides unique id to each product, identifies changes
             <img src={product.imageUrl} alt={product.name} />
             <h2>{product.name}</h2>
-            <p>{product.description}</p> //product details
-            <p>${product.price.toFixed(2)}</p>
+            <p>{product.description}</p>
+            <p>${Number(product.price).toFixed(2)}</p>
+            <button type="button" className='product-button' onClick={() => {
+              navigate(`/product/${product.id}`)
+            }}>See more</button>
           </div>
         )
       )}

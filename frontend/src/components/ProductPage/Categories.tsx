@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { StyleCategories } from './StyledProducts.ts';
 
 const categoriesOptions = [
@@ -22,6 +23,13 @@ const colorOptions = [
   { label: 'Orange', value: 'orange' },
   { label: 'Yellow', value: 'yellow' },
 ];
+
+const ColorOption = styled.div`
+  input[type="radio"]:checked + label {
+    color: ${(props) => props.color};
+  }
+`;
+
 
 export default function Categories() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -72,7 +80,8 @@ export default function Categories() {
       <label>Color</label>
       <div>
         {colorOptions.map((option) => (
-          <div key={option.value}>
+            <div>
+          <ColorOption key={option.value} color={option.value}>
             <input
               type="radio"
               id={option.value}
@@ -82,7 +91,8 @@ export default function Categories() {
               onChange={() => setSelectedColor(option.value)}
             />
             <label htmlFor={option.value}>{option.label}</label>
-          </div>
+          </ColorOption>
+            </div>
         ))}
       </div>
     </StyleCategories>

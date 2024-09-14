@@ -13,7 +13,7 @@ interface InitiatePaymentResponse {
 }
 
 // Interface for verifying payment response
-interface VerifyPaymentResponse {
+export interface VerifyPaymentResponse {
   status: string;
   message: string;
   //   data: {
@@ -33,12 +33,13 @@ export const initiatePayment = async (
   amount: number,
   email: string,
   UserId: string,
-  ProductId: string
+  ProductId: string,
+  redirectPage: string
 ): Promise<InitiatePaymentResponse | AxiosResponse<any, any> | undefined> => {
   try {
     const response = await axios.post(
       'api/payment/initiate',
-      { amount, email, UserId, ProductId },
+      { amount, email, UserId, ProductId, redirectPage },
       {
         headers: {
           'Content-Type': 'application/json',
