@@ -16,12 +16,12 @@ export const Sidebar = styled.div`
 `;
 
 export const SidebarItem = styled.div`
-  margin: 10px 0;
-  cursor: pointer;
+    margin: 10px 0;
+    cursor: pointer;
     color: ${(props) => (props.active ? 'orange' : 'black')};
 
     &:hover {
-        color: orange;
+        color: #e04f16;
     }
 `;
 

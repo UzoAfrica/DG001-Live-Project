@@ -54,9 +54,9 @@ export const ProductDescription = styled.p`
 `;
 
 export const ProductPrice = styled.p`
-  font-size: 16px;
-  color: #d35d2c;
-  font-weight: bold;
+    font-size: 16px;
+    color: #e04f16;
+    font-weight: bold;
 `;
 
 export const ButtonContainer = styled.div`
@@ -65,17 +65,17 @@ export const ButtonContainer = styled.div`
 `;
 
 export const ViewMoreButton = styled.button`
-  background-color: #d35d2c;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+    background-color: #e04f16;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
 
-  &:hover {
-    background-color: #bf4c22;
-  }
+    &:hover {
+        background-color: #e04f16;
+    }
 `;
 
 export const AddToCartButton = styled.button`

@@ -57,17 +57,17 @@ export const SearchInputWrapper = styled.div`
 `;
 
 export const SearchInput = styled.input`
-  width: 100%;
-  padding: 6px 10px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  font-size: 14px;
-  padding-right: 30px;
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    padding-right: 30px;
 
-  &:focus {
-    outline: none;
-    border-color: #d35d2c;
-  }
+    &:focus {
+        outline: none;
+        border-color: #e04f16;
+    }
 
   @media (max-width: 800px) {
     width: 45%;

@@ -4,8 +4,6 @@ import StyledGrid from './StyledGrid';
 import SortByButton from './SortByButton';
 import { products } from './product';
 
-
-
 const Trending: React.FC = () => {
   const [sortedProducts, setSortedProducts] = useState(products);
 

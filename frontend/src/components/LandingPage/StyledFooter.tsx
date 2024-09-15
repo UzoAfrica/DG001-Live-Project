@@ -21,10 +21,10 @@ export const FooterInfo = styled.div`
 `;
 
 export const FooterLogo = styled.h3`
-  color: coral;
-  font-size: 24px;
-  margin-bottom: 10px;
-  text-align: left;
+    color: #e04f16;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: left;
 `;
 
 export const FooterDescription = styled.p`
@@ -57,31 +57,31 @@ export const FooterLinks = styled.div`
 `;
 
 export const LinksGroup = styled.div`
-  h4 {
-    color: coral;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-  }
-
-  ul li {
-    margin-bottom: 10px;
-  }
-
-  ul li a {
-    color: #fff;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
+    h4 {
+        color: #e04f16;
+        margin-bottom: 10px;
+        text-align: center;
     }
-  }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+
+    ul li {
+        margin-bottom: 10px;
+    }
+
+    ul li a {
+        color: #fff;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 `;
 
 export const FooterBottom = styled.div`

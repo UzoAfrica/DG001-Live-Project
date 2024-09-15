@@ -23,9 +23,9 @@ export const Btn = styled.a`
     border: none;
     border-radius: 10px;
     color: white;
-    background-color: #df6d4b;
+    background-color: #e04f16;
     text-decoration: none;
-    padding: 5px 10px ;
+    padding: 5px 10px;
 `
 export const MainDiv = styled.div`
   gap: 100px;
@@ -195,9 +195,9 @@ height: 400px;
 `
 
 export const ColoredDiv = styled.div`
-background-color: #e04f16;
-display: flex;
-padding-left: 10px;
+    background-color: #e04f16;
+    display: flex;
+    padding-left: 10px;
 `
  
 export const StyleDark = styled.p`

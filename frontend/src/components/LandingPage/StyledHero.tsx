@@ -17,7 +17,7 @@ export const HeroText = styled.div`
 `;
 
 export const TradeSpan = styled.span`
-  color: coral;
+    color: #e04f16;
 `;
 
 export const HeroImage = styled.div`
@@ -46,18 +46,18 @@ export const SearchInput = styled.input.attrs({ type: 'text' })`
 `;
 
 export const SearchButton = styled.button`
-  height: 40px;
-  background-color: coral;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 0 4px 4px 0;
-  padding: 0 10px;
-  font-size: 16px;
-  position: absolute;
-  right: 0; 
-  top: 0; 
-  border-radius: 0 4px 4px 0;
-  z-index: 1; 
-  
+    height: 40px;
+    background-color: #e04f16;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    padding: 0 10px;
+    font-size: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 0 4px 4px 0;
+    z-index: 1;
+
 `;

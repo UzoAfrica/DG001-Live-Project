@@ -8,6 +8,7 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from '../src/components/Cart/CartProvider';
+
 // Landing Page Components
 import Header from './components/LandingPage/Header';
 import Hero from './components/LandingPage/Hero';
@@ -37,8 +38,7 @@ import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
 
-// Product list component
-import ProductList from './components/ProductList';
+
 
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";

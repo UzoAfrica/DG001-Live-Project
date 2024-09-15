@@ -18,7 +18,7 @@ const ProductList: React.FC = () => {
   //functional component
   const [products, setProducts] = useState<Product[]>([]); //initializes array
   const [loading, setLoading] = useState<boolean>(true); //updates state to true
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     //Hook to perform side effects
@@ -45,24 +45,24 @@ const ProductList: React.FC = () => {
   }
 
   return (
-    //renders productList, if false returns jsx to render
-    <div className="product-list">
-      {products.map(
-        (
-          product //maps over products array & renders each product
-        ) => (
-          <div key={product.id} className="product">
-            <img src={product.imageUrl} alt={product.name} />
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>${Number(product.price).toFixed(2)}</p>
-            <button type="button" className='product-button' onClick={() => {
-              navigate(`/product/${product.id}`)
-            }}>See more</button>
-          </div>
-        )
-      )}
-    </div>
+      //renders productList, if false returns jsx to render
+      <div className="product-list">
+        {products.map((product) => (
+            <div key={product.id} className="product">
+              <img src={product.imageUrl} alt={product.name} />
+              <h2>{product.name}</h2>
+              <p>{product.description}</p>
+              <p>${product.price.toFixed(2)}</p>
+              <button
+                  type="button"
+                  className='product-button'
+                  onClick={() => navigate(`/product/${product.id}`)}
+              >
+                See more
+              </button>
+            </div>
+        ))}
+      </div>
   );
 };
 

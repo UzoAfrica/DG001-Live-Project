@@ -94,15 +94,15 @@ export const Select = styled.select`
 `;
 
 export const SignUpButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: #ff6600;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #e04f16;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
 `;
 
 export const Separator = styled.div`
@@ -146,13 +146,13 @@ export const GoogleSignUp = styled.div`
 `;
 
 export const Footer = styled.p`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #666;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
 
-  a {
-    color: #ff6600;
-    text-decoration: none;
-  }
+    a {
+        color: #e04f16;
+        text-decoration: none;
+    }
 `;

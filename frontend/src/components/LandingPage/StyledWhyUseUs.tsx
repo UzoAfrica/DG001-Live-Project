@@ -1,21 +1,21 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: grid;
-  grid-template-columns: 40% 60%;
-  max-width: 1400px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin: 0 auto;
-  gap: 100px;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    max-width: 1400px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+    gap: 100px;
 
-  span {
-    color: coral;
-  }
+    span {
+        color: #e04f16;
+    }
 
-  @media screen and (max-width: 990px) {
-    grid-template-columns: 1fr;
-  }
+    @media screen and (max-width: 990px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export const Boxes = styled.div`

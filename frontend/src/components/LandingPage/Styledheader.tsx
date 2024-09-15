@@ -8,23 +8,23 @@ export const HeaderContainer = styled.header`
 `;
 
 export const Logo = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: coral;
+    font-size: 24px;
+    font-weight: bold;
+    color: #e04f16;
 `;
 
 export const Nav = styled.nav`
-  a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: coral;
+    a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #e04f16;
 
-    button {
-      background-color: coral;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      cursor: pointer;
+        button {
+            background-color: #e04f16;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     }
-  }
 `;
