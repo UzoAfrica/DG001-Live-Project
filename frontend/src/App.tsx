@@ -37,9 +37,6 @@ import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
 
-// Product list component
-import ProductList from './components/ProductList';
-
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
 //productList
@@ -167,10 +164,6 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Shop />,
-      },
-      {
-        path: 'product-list',
-        element: <ProductList />,
       },
       {
         path: '*',
