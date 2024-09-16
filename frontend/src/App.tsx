@@ -43,7 +43,7 @@ import ProductList from './components/ProductList';
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
 //productList
-import ProductList from '../src/components/ProductList.tsx'
+//import ProductList from '../src/components/ProductList.tsx'
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
