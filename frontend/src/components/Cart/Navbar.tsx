@@ -19,7 +19,7 @@ import {
   ProfileDropdown,
   DropdownItem, 
 } from './StyledNavbar';
-import BellIcon from '../../images/Icon-notification-removebg-preview.png';
+// import BellIcon from '../../images/Icon-notification-removebg-preview.png';
 
 interface NavbarProps {
   userProfile: {
@@ -130,7 +130,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
       <NavRight>
         <NotificationIcon>
           {/* <a href=""> */}
-            <img src={BellIcon} alt="Logo" />
+            {/* <img src={BellIcon} alt="Logo" /> */}
           {/* </a> */}
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (

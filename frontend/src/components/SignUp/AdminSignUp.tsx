@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import {
   AuthContainer,
   Container,
-//   BackgroundImage,
   FormContainer,
-//   Logo,
   Title,
   InputField,
   Label,
@@ -33,6 +31,7 @@ const AdminSignUp: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   // Handle input changes
@@ -44,6 +43,11 @@ const AdminSignUp: React.FC = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  // Toggle password visibility
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   // Handle form submission
@@ -94,14 +98,16 @@ const AdminSignUp: React.FC = () => {
         />
         <FormContainer>
           <a href="/">
-            <img src={logo} alt="Logo" 
-            style={{
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
                 display: `block`,
                 margin: `0 auto`,
                 width: `80px`,
-                backgroundColor: `transperent`,
+                backgroundColor: `transparent`,
                 boxShadow: `0 2px 10px rgba(0, 0, 0, 0.1)`,
-            }}
+              }}
             />
           </a>
           <Title>Create an Admin Account</Title>
@@ -130,14 +136,28 @@ const AdminSignUp: React.FC = () => {
             </InputField>
             <InputField>
               <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
+              <div style={{ position: 'relative' }}>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                <i
+                  onClick={toggleShowPassword}
+                  className={`fas fa-eye${showPassword ? '-slash' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                  }}
+                ></i>
+              </div>
             </InputField>
             <InputField>
               <Label htmlFor="referralSource">Referral Source</Label>

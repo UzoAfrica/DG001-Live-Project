@@ -28,11 +28,10 @@ const AdminLogin: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -65,6 +64,11 @@ const AdminLogin: React.FC = () => {
     }
   };
 
+  // Toggle password visibility
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <AuthContainer>
       <Container>
@@ -84,14 +88,16 @@ const AdminLogin: React.FC = () => {
         />
         <FormContainer>
           <a href="/">
-            <img src={logo} alt="Logo" 
-            style={{
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
                 display: `block`,
                 margin: `0 auto`,
                 width: `80px`,
                 backgroundColor: `transperent`,
                 boxShadow: `0 2px 10px rgba(0, 0, 0, 0.1)`,
-            }}
+              }}
             />
           </a>
           <Title>Welcome Back, Admin</Title>
@@ -109,14 +115,29 @@ const AdminLogin: React.FC = () => {
             </InputField>
             <InputField>
               <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
+              <div style={{ position: 'relative' }}>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                {/* Eye icon to toggle password visibility */}
+                <i
+                  onClick={toggleShowPassword}
+                  className={`fas fa-eye${showPassword ? '-slash' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                  }}
+                ></i>
+              </div>
             </InputField>
 
             <Separator>
@@ -128,18 +149,13 @@ const AdminLogin: React.FC = () => {
             {/* Google Admin Log In Button */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              <Link to="http://localhost:5001/auth/google/admin-login">
-                Log in with Google
-              </Link>
+              <Link to="http://localhost:5001/auth/google/admin-login">Log in with Google</Link>
             </GoogleSignUp>
 
-            <SignUpButton type="submit">
-              {loading ? 'Logging In...' : 'Log In'}
-            </SignUpButton>
+            <SignUpButton type="submit">{loading ? 'Logging In...' : 'Log In'}</SignUpButton>
           </form>
           <Footer>
-            Don't have an account?{' '}
-            <Link to="/admin/signup">Sign Up here</Link>
+            Don't have an account? <Link to="/admin/signup">Sign Up here</Link>
           </Footer>
         </FormContainer>
       </Container>

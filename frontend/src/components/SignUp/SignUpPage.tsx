@@ -24,8 +24,6 @@ import { signup } from '../../axiosFolder/functions/userAuth';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 const SignUpPage: React.FC = () => {
-  // const [errorMessage, setErrorMessage] = useState('');
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -34,6 +32,7 @@ const SignUpPage: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -46,6 +45,11 @@ const SignUpPage: React.FC = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  // Toggle password visibility
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   // Handle form submission
@@ -73,12 +77,9 @@ const SignUpPage: React.FC = () => {
       localStorage.setItem('email', formData.email);
 
       return navigate('/otp');
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error registering user:', error);
       setLoading(false);
-      // setErrorMessage('Error registering user. Please try again.');
       return showErrorToast(error.message);
     }
   };
@@ -124,15 +125,29 @@ const SignUpPage: React.FC = () => {
             </InputField>
             <InputField>
               <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="******"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
+              <div style={{ position: 'relative' }}>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  placeholder="******"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                <i
+                  onClick={toggleShowPassword}
+                  className={`fas fa-eye${showPassword ? '-slash' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                  }}
+                ></i>
+              </div>
             </InputField>
             <InputField>
               <Label htmlFor="hear-about-us">How did you hear about us?</Label>
@@ -151,7 +166,6 @@ const SignUpPage: React.FC = () => {
                   <option value="Google">Google</option>
                   <option value="Others">Others</option>
                 </optgroup>
-                {/* <p>Selected: {formData.hearAboutUs}</p> */}
               </Select>
             </InputField>
             <Separator>
@@ -163,13 +177,14 @@ const SignUpPage: React.FC = () => {
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              <Link to="http://localhost:5001/auth/google/signup">Sign up with Google </Link>
+              <Link to="http://localhost:5001/auth/google/signup">
+                Sign up with Google
+              </Link>
             </GoogleSignUp>
             <SignUpButton type="submit">
               {loading ? 'Loading...' : 'SIGN UP'}
             </SignUpButton>
           </form>
-          {/* {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>} */}
           <Footer>
             Already have an account?{' '}
             <a href="/login" onClick={handleLoginLinkClick}>
