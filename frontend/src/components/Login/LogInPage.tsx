@@ -27,6 +27,7 @@ const LogIn: React.FC = () => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (
@@ -79,12 +80,16 @@ const LogIn: React.FC = () => {
       showSuccessToast(response.data.message);
 
       return navigate('/product-list');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);
       return showErrorToast(error.message);
     }
+  };
+
+  // Toggle password visibility
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -110,14 +115,28 @@ const LogIn: React.FC = () => {
             </InputField>
             <InputField>
               <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
+              <div style={{ position: 'relative' }}>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  placeholder="Enter your password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                <i
+                  onClick={toggleShowPassword}
+                  className={`fas fa-eye${showPassword ? '-slash' : ''}`}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                  }}
+                ></i>
+              </div>
             </InputField>
             <Link
               to="/forgot-password"
@@ -137,7 +156,7 @@ const LogIn: React.FC = () => {
 
             {/* Google Login Button Component with action prop */}
             <GoogleSignUp>
-            <img src={googleLogo} alt="Google Logo" />
+              <img src={googleLogo} alt="Google Logo" />
               <Link to="http://localhost:5001/auth/google/login">
                 Google Login
               </Link>
