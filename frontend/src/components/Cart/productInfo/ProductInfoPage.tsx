@@ -51,7 +51,11 @@ const ProductInfoPage: FC = () => {
           },
         });
         if (response.data && response.data.length > 0) {
-          setMainProduct(response.data[0]);
+          for (const product of response.data) {
+            if (product.id === productId) {
+              setMainProduct(product);
+            }
+          }
           setSimilarProducts(response.data.slice(1));
         } else {
           setError('No products found');
@@ -165,7 +169,7 @@ const ProductInfoPage: FC = () => {
         return;
       }
 
-      const redirectPage = 'product';
+      const redirectPage = `product/${productId}`;
       const response = await initiatePayment(
         mainProduct.price,
         userEmail,

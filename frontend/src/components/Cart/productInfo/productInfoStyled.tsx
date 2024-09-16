@@ -15,9 +15,9 @@ export const Container = styled.div`
 `;
 
 export const ProductImage = styled.img`
-  width: 100%;
   max-width: 500px;
-  height: auto;
+  height: 300px;
+  width: 300px;
   border-radius: 10px;
   margin-bottom: 20px;
 `;

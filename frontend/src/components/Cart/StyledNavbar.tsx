@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -70,7 +69,7 @@ export const SearchInput = styled.input`
     border-color: #d35d2c;
   }
 
-  @media (max-width: 800px){
+  @media (max-width: 800px) {
     width: 45%;
     margin-left: 15px;
   }
@@ -108,8 +107,9 @@ export const BrandLogo = styled.span`
   white-space: nowrap;
   text-decoration: none !important;
 
-   &:hover {
+  &:hover {
     text-decoration: none !important;
+  }
 `;
 
 export const NotificationIcon = styled.div`
@@ -139,7 +139,9 @@ export const UserAvatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* Necessary for dropdown positioning */
   min-width: 0;
+  cursor: pointer;
 `;
 
 export const AvatarImage = styled.img`
@@ -190,3 +192,51 @@ export const StartSellingButton = styled.button`
     font-size: 10px;
   }
 `;
+
+/* Dropdown menu styles for user profile */
+export const ProfileDropdown = styled.div`
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  min-width: 200px;
+  padding: 10px 0;
+
+  @media (max-width: 768px) {
+    min-width: 150px;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 120px;
+  }
+`;
+
+export const DropdownItem = styled.div`
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  span {
+    color: inherit;
+  }
+`;
+

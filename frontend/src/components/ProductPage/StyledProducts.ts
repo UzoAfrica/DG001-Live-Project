@@ -15,7 +15,7 @@ export const StyledIoMdNotificationsOutline = styled(IoMdNotificationsOutline)`
 `
 
 export const StyledButton = styled.div`
-  display: flex;
+    display: flex;
   gap: 10px;
     align-items: center;
 `
@@ -37,29 +37,38 @@ export const MainDiv = styled.div`
 export const StyleCategories = styled.div`
   padding: 20px;
   background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  height: 700px;
-  width: 150px;
+  border-radius: 20px;
+  //box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 800px;
+  width: 200px;
 
   h2 {
-    font-family: sans-serif;
-    font-size: 24px;
-    margin-bottom: 10px;
+      p {
+          margin: 5px 0;
+      }
+    //font-family: sans-serif;
+    //font-size: 24px;
+    //margin-bottom: 10px;
   }
 
   h4 {
-    font-family: sans-serif;
-    font-size: 18px;
-    margin-bottom: 15px;
+      p {
+          margin: 5px 0;
+      }
+    //font-family: sans-serif;
+    //font-size: 18px;
+    //margin-bottom: 15px;
   }
 
   label {
-    font-family: sans-serif;
-    font-size: 15px;
-    font-weight: normal;
-    margin-top: 10px;
-    display: inline-block;
+      p {
+          margin: 5px 0;
+      }
+      //font-family: sans-serif;
+    //font-size: 15px;
+    //font-weight: normal;
+    //margin-top: 10px;
+    //display: inline-block;
   }
 
   div {
@@ -70,6 +79,11 @@ export const StyleCategories = styled.div`
     margin-right: 8px;
   }
 `
+export const ColorOption = styled.div`
+  input[type="radio"]:checked + label {
+    color: ${(props) => props.color};
+  }
+`;
 
 // export const StyleCategories = styled.div`
 // display: flex;

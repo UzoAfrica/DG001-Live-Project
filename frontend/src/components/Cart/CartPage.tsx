@@ -37,7 +37,7 @@ interface Item {
   title: string;
   price: number;
   quantity: number;
-  image: string;
+  imageUrl: string[];
 }
 
 const Cart: FC<CartProps> = ({ setOpenCart }) => {
@@ -232,7 +232,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                   {items.map((item, index) => (
                     <CartItem key={index}>
                       <td>
-                        <ItemImage src={item.image} alt={item.title} />
+                        <ItemImage src={item.imageUrl[0]} alt={item.title} />
                       </td>
                       <ItemTitle>{item.title}</ItemTitle>
                       <ItemPrice>{item.price.toLocaleString()} ₦</ItemPrice>
