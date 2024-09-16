@@ -2,6 +2,19 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Review from './review.model';
 // Product model
+
+enum category {
+  ELECTRONICS = 'ELECTRONICS',
+  FASHION = 'FASHION',
+  FOOD = 'FOOD',
+  HEALTH = 'HEALTH',
+  HOME = 'HOME',
+  SPORTS = 'SPORTS',
+  CHILDREN = 'CHILDREN',
+  ADULTS = 'ADULT',
+  OTHERS = 'OTHERS',
+}
+
 const Product = sequelize.define(
   'Product',
   {
@@ -29,6 +42,20 @@ const Product = sequelize.define(
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false,
+    },
+    category: {
+      type: DataTypes.ENUM(
+        category.ELECTRONICS,
+        category.FASHION,
+        category.FOOD,
+        category.HEALTH,
+        category.HOME,
+        category.SPORTS,
+        category.CHILDREN,
+        category.ADULTS,
+        category.OTHERS
+      ),
+      allowNull: true,
     },
     description: {
       type: DataTypes.STRING,
