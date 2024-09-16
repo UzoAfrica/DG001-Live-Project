@@ -47,7 +47,8 @@ export const FormContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 90%;
-  max-width: 400px;
+  height: 540px;
+  max-width: 598px;
   text-align: flex-start;
 `;
 
@@ -96,7 +97,7 @@ export const Select = styled.select`
 export const SignUpButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #ff6600;
+  background-color: #ef6820;
   color: white;
   border: none;
   border-radius: 5px;
@@ -152,7 +153,7 @@ export const Footer = styled.p`
   color: #666;
 
   a {
-    color: #ff6600;
+    color: #ef6820;
     text-decoration: none;
   }
 `;
