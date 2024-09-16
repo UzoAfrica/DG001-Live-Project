@@ -2,6 +2,7 @@ import { Request, RequestHandler, Response } from 'express';
 import Shop from '../database/models/my-shop.model';
 import User from '../database/models/user.model';
 
+
 // Define a custom interface for the Request object to include the user and files properties
 interface CustomRequest extends Request {
   user?: {
