@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
 import {
   Nav,
@@ -17,9 +17,15 @@ import {
   SearchIcon,
   CancelIcon,
   ProfileDropdown,
-  DropdownItem, 
+  DropdownItem,
+  CartIconContainer,
+  CartImage,
+  CartContentsCount,
 } from './StyledNavbar';
 import BellIcon from '../../images/Icon-notification-removebg-preview.png';
+import CartIcon from '../../images/Cart-Icon.svg';
+import { CartContext, CartContextProps } from './CartProvider';
+import { Link } from 'react-router-dom';
 
 interface NavbarProps {
   userProfile: {
@@ -33,13 +39,14 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const { totalItems } = useContext(CartContext) as CartContextProps;
 
   useEffect(() => {
     if (userProfile?.profileImage) {
       setUserImage(userProfile.profileImage);
     }
 
-    const userFromLocalStorage = JSON.parse(localStorage.getItem("user")!);
+    const userFromLocalStorage = JSON.parse(localStorage.getItem('user')!);
     setUserImage(userFromLocalStorage.profileImage);
   }, [userProfile]);
 
@@ -52,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
         setNotificationCount(response.data.count);
       } catch (error) {
         console.error('Error fetching notification count:', error);
-        setNotificationCount(0); 
+        setNotificationCount(0);
       }
     };
 
@@ -67,7 +74,10 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   // Close dropdown if clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -87,15 +97,17 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
   // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    localStorage.removeItem('user'); 
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     window.location.href = '/login';
   };
 
   // Define the handleStartSellingLinkClick function
-  const handleStartSellingLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); 
-    window.location.href = '/create-shop'; 
+  const handleStartSellingLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    e.preventDefault();
+    window.location.href = '/create-shop';
   };
 
   // Clear search input when CancelIcon is clicked
@@ -113,25 +125,20 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
       <NavMiddle>
         <SearchInputWrapper>
-          <SearchInput 
-            type="text" 
-            placeholder="Search..." 
+          <SearchInput
+            type="text"
+            placeholder="Search..."
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
           <SearchIcon className="fas fa-search" />
-          <CancelIcon
-            className="fa fa-times"
-            onClick={handleClearSearch}
-          />
+          <CancelIcon className="fa fa-times" onClick={handleClearSearch} />
         </SearchInputWrapper>
       </NavMiddle>
 
       <NavRight>
         <NotificationIcon>
-          {/* <a href=""> */}
-            <img src={BellIcon} alt="Logo" />
-          {/* </a> */}
+          <img src={BellIcon} alt="Logo" />
           <i className="fa fa-bell" aria-hidden="true"></i>
           {notificationCount > 0 && (
             <NotificationCount>{notificationCount}</NotificationCount>
@@ -147,6 +154,16 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
             </DefaultAvatar>
           )}
         </UserAvatar>
+
+        {/* Dynamic Cart Icon  */}
+        <Link to="/cart">
+          <CartIconContainer>
+            <CartImage src={CartIcon} />
+            {totalItems > 0 && (
+              <CartContentsCount>{totalItems}</CartContentsCount>
+            )}
+          </CartIconContainer>
+        </Link>
 
         <StartSellingButton type="submit">
           <a href="/create-shop" onClick={handleStartSellingLinkClick}>
@@ -171,8 +188,8 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
             </DropdownItem>
             <DropdownItem>
               <a href="/product-page">Product-page</a>
-              </DropdownItem>
-              <DropdownItem>
+            </DropdownItem>
+            <DropdownItem>
               <a href="/product-list">Product-list</a>
             </DropdownItem>
             <DropdownItem onClick={handleLogout}>

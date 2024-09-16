@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const CartBackground = styled.div`
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw; */
+  /* height: 100vh; */
   background-color: #f8f8f8;
-  position: fixed;
+  /* position: fixed; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +48,7 @@ export const Title = styled.h1`
   margin-bottom: 20px;
   font-weight: bold;
   color: #222;
-  text-align: left;
+  text-align: center;
 
   @media (max-width: 480px) {
     font-size: 20px;

@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -22,6 +22,7 @@ import {
   VerifyPaymentResponse,
 } from '../../../axiosFolder/functions/paymentFunction';
 import { showErrorToast, showSuccessToast } from '../../utils/toastify';
+import { CartContext, CartContextProps, CartItem } from '../CartProvider';
 
 interface Product {
   id: string;
@@ -30,7 +31,8 @@ interface Product {
   price: number;
   imageUrl: string;
   type: string;
-  quantity?: number;
+  quantity: number;
+  [key: string]: string | number;
 }
 
 const ProductInfoPage: FC = () => {
@@ -39,6 +41,9 @@ const ProductInfoPage: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { productId } = useParams<{ productId: string }>();
+  const { addItem, updateItemQuantity, items } = useContext(
+    CartContext
+  ) as CartContextProps;
 
   const token = localStorage.getItem('token');
 
@@ -114,19 +119,34 @@ const ProductInfoPage: FC = () => {
 
   const handleAddToCart = (product: Product) => {
     try {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existingProduct = cart.find(
-        (item: Product) => item.id === product.id
-      );
+      // const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      // const existingProduct = cart.find(
+      //   (item: Product) => item.id === product.id
+      // );
 
-      if (existingProduct) {
-        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      const existingItem = items.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        const newQuantity = existingItem.quantity + 1;
+        updateItemQuantity(product.id, newQuantity);
       } else {
-        cart.push({ ...product, quantity: 1 });
+        const cartItem: CartItem = {
+          ...product,
+        };
+        addItem(cartItem);
       }
-
-      localStorage.setItem('cart', JSON.stringify(cart));
       showSuccessToast('Product added to cart!');
+
+      // if (existingProduct) {
+      //   existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      //   updateItemQuantity(product.id, existingProduct.quantity);
+      // } else {
+      //   cart.push({ ...product, quantity: 1 });
+      //   addItem(product);
+      // }
+
+      // localStorage.setItem('cart', JSON.stringify(cart));
+      // showSuccessToast('Product added to cart!');
     } catch (error) {
       showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
