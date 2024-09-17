@@ -1,9 +1,11 @@
 /* eslint-disable no-irregular-whitespace */
 import { StyledProfileSet, StyledNotify, StyledVerify, StyledLineDiv, StyledPassWord, StyledUserOptions, StyledImgBut, StyledFlexbutton, StyledOne, StyledTwo, StyledProfileBox, StyledDisFlex, StyledBox, Styledinput, FloatLeft, STyledStartSelling, StyledTwin, PassForm, Styledp, Styledfield, Styledli } from "../StyleCompo";  
-import ProfilePic from '../../images/profilepic.png'  
+// import ProfilePic from '../../images/profilepic.png'
+  
 import { useState } from "react";  
 import 'react-phone-input-2/lib/style.css'  
 import PhoneInput from 'react-phone-input-2'  
+import MyDropzone from "./Mydropzone";
   
 export default function UserSettings() {  
   const [activeTab, setActiveTab] = useState("profile");  
@@ -33,9 +35,10 @@ export default function UserSettings() {
   
        <StyledUserOptions>  
   
-       <StyledImgBut>  
-  
-            <img src={ProfilePic} alt="" />  
+       <StyledImgBut> 
+           
+             <MyDropzone />
+            {/* <img src={ProfilePic} alt="" />   */}
       
       
             <StyledFlexbutton>  
@@ -53,9 +56,9 @@ export default function UserSettings() {
   
            <StyledDisFlex>  
   
-            <StyledBox>  
-              <FloatLeft htmlFor=""> First Name</FloatLeft>  
-              <Styledinput placeholder="Babalola" type="text" />  
+           <StyledBox>  
+             <FloatLeft htmlFor=""> First Name</FloatLeft>  
+             <Styledinput placeholder="Babalola" type="text" />  
   
   
               <FloatLeft htmlFor="">Email</FloatLeft>  
