@@ -23,7 +23,7 @@ const Product = sequelize.define(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    MyShopId: { 
+    MyShopId: {
       type: DataTypes.UUID,
       allowNull: false,
     },

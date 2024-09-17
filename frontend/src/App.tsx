@@ -18,6 +18,8 @@ import Footer from './components/LandingPage/Footer';
 // Authentication and Utility Components
 import LogIn from './components/Login/LogInPage';
 import SignUp from './components/SignUp/SignUpPage';
+import AdminSignUp from './components/SignUp/AdminSignUp.tsx';
+import AdminLogin from './components/Login/AdminLogIn.tsx';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 import UserProfile from './components/Userpofile/UserProfile'
@@ -122,6 +124,14 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <SignUp />,
+  },
+  {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  {
+    path: '/admin/signup',
+    element: <AdminSignUp />,
   },
   {
     path: '/reset',

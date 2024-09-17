@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
   ProductImage,
@@ -39,6 +39,8 @@ const ProductInfoPage: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { productId } = useParams<{ productId: string }>();
+
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
 
@@ -127,6 +129,17 @@ const ProductInfoPage: FC = () => {
 
       localStorage.setItem('cart', JSON.stringify(cart));
       showSuccessToast('Product added to cart!');
+
+      // Display prompt to user: proceed to checkout or continue shopping
+      const userChoice = window.confirm(
+        'Product added to cart! Would you like to go to the cart to checkout? Press OK to go to the cart or Cancel to continue shopping.'
+      );
+
+      // Redirect to cart if user confirms, otherwise continue shopping
+      if (userChoice) {
+        navigate('/cart');
+      }
+
     } catch (error) {
       showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
@@ -224,7 +237,7 @@ const ProductInfoPage: FC = () => {
               {similarProducts.map((similarProduct) => (
                 <SimilarProductItem
                   key={similarProduct.id}
-                  onClick={() => handleSimilarProductClick(similarProduct)} // Swap on click
+                  onClick={() => handleSimilarProductClick(similarProduct)}
                 >
                   <SimilarProductImage
                     src={similarProduct.imageUrl}
