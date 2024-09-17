@@ -89,6 +89,8 @@ export const products = [
     description: 'Comfortable wooden chair',
     price: 'N150,000',
     image: WoodChair,
+    // date : 
+    rating : 4.0
   },
   {
     id: 12,
@@ -96,5 +98,7 @@ export const products = [
     description: 'Complete kitchen utensils',
     price: 'N70,000',
     image: Utensil,
+    // date: 
+    rating : 4.0
   },
 ];
