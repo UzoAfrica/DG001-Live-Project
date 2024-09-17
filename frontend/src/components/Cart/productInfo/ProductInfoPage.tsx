@@ -15,7 +15,7 @@ import {
   SimilarProductImage,
   StyledPaystackButton,
 } from '../productInfo/productInfoStyled';
-import { getProducts } from '../../../axiosFolder/functions/productFunction';
+import { getProducts, getProductById } from '../../../axiosFolder/functions/productFunction';
 import {
   initiatePayment,
   verifyPayment,

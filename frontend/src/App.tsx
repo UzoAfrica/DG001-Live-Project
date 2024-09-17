@@ -45,7 +45,10 @@ import CallbackPage from './components/Login/Callback';
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
 //productList
-//import ProductList from '../src/components/ProductList.tsx'
+import ProductList from '../src/components/ProductList.tsx'
+import ProductCategory from './components/ProductPage/ProductCategory.tsx';
+import ProductInfoPage from './components/Cart/productInfo/ProductInfoPage';
+
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -141,6 +144,14 @@ const router = createBrowserRouter([
   {
     path:'product-page' ,
     element: < ProductPage/>,
+  },
+  {
+    path: '/products/:category',
+    element: <ProductCategory />,
+  },
+  {
+    path: '/product/:productId', 
+    element: <ProductInfoPage />,
   },
   {
     path:'/TenantDb' ,

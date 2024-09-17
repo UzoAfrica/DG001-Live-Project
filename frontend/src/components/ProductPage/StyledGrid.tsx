@@ -45,8 +45,8 @@ const ProductName = styled.h2`
   p {
     margin: 5px 0;
   }
-  //font-family: sans-serif;
-  //font-size: 1.2em;
+  font-family: 'inter';
+  font-size:    16px;
   //margin: 10px 5px;
 `;
 
@@ -54,19 +54,19 @@ const ProductDescription = styled.p`
   p {
     margin: 5px 0;
   }
-  //font-family: sans-serif;
-  //font-size: 0.9em;
-  //color: #666;
+  font-family: 'inter';
+  font-size: 16px;
+  color: grey;
 `;
 
 const ProductPrice = styled.p`
   p {
     margin: 5px 0;
   }
-  //font-family: sans-serif;
-  //font-size: 1em;
+  font-family: 'inter';
+  font-size:    16px;
   //font-weight: bold;
-  //color: #0f600f;
+  color: green;
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
