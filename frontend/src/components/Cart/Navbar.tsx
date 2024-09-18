@@ -116,89 +116,98 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   };
 
   return (
-    <Nav>
-      <NavLeft>
-        <a href="/product-list">
-          <BrandLogo>traïdr</BrandLogo>
-        </a>
-      </NavLeft>
-
-      <NavMiddle>
-        <SearchInputWrapper>
-          <SearchInput
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-          <SearchIcon className="fas fa-search" />
-          <CancelIcon className="fa fa-times" onClick={handleClearSearch} />
-        </SearchInputWrapper>
-      </NavMiddle>
-
-      <NavRight>
-        <NotificationIcon>
-          <img src={BellIcon} alt="Logo" />
-          <i className="fa fa-bell" aria-hidden="true"></i>
-          {notificationCount > 0 && (
-            <NotificationCount>{notificationCount}</NotificationCount>
-          )}
-        </NotificationIcon>
-
-        <UserAvatar onClick={handleAvatarClick}>
-          {userImage ? (
-            <AvatarImage src={userImage} alt="User Avatar" />
-          ) : (
-            <DefaultAvatar>
-              <i className="fa fa-user" aria-hidden="true"></i>
-            </DefaultAvatar>
-          )}
-        </UserAvatar>
-
-        {/* Dynamic Cart Icon  */}
-        <Link to="/cart">
-          <CartIconContainer>
-            <CartImage src={CartIcon} />
-            {totalItems > 0 && (
-              <CartContentsCount>{totalItems}</CartContentsCount>
-            )}
-          </CartIconContainer>
-        </Link>
-
-        <StartSellingButton type="submit">
-          <a href="/create-shop" onClick={handleStartSellingLinkClick}>
-            Start Selling
+    <div
+      style={{
+        boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.1)',
+        position: 'sticky',
+        top: '0px',
+        zIndex: '100',
+      }}
+    >
+      <Nav>
+        <NavLeft>
+          <a href="/product-list">
+            <BrandLogo>traïdr</BrandLogo>
           </a>
-        </StartSellingButton>
+        </NavLeft>
 
-        {/* Profile Dropdown */}
-        {isDropdownOpen && (
-          <ProfileDropdown ref={dropdownRef}>
-            <DropdownItem>
-              <a href="/wishlist">Wishlist</a>
-            </DropdownItem>
-            <DropdownItem>
-              <a href="/cart">Cart</a>
-            </DropdownItem>
-            <DropdownItem>
-              <a href="/profile">Profile</a>
-            </DropdownItem>
-            <DropdownItem>
-              <a href="/shop">My Shop</a>
-            </DropdownItem>
-            <DropdownItem>
-              <a href="/product-page">Product-page</a>
-            </DropdownItem>
-            <DropdownItem>
-              <a href="/product-list">Product-list</a>
-            </DropdownItem>
-            <DropdownItem onClick={handleLogout}>
-              <span>Logout</span>
-            </DropdownItem>
-          </ProfileDropdown>
-        )}
-      </NavRight>
-    </Nav>
+        <NavMiddle>
+          <SearchInputWrapper>
+            <SearchInput
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+            <SearchIcon className="fas fa-search" />
+            <CancelIcon className="fa fa-times" onClick={handleClearSearch} />
+          </SearchInputWrapper>
+        </NavMiddle>
+
+        <NavRight>
+          <NotificationIcon>
+            <img src={BellIcon} alt="Logo" />
+            <i className="fa fa-bell" aria-hidden="true"></i>
+            {notificationCount > 0 && (
+              <NotificationCount>{notificationCount}</NotificationCount>
+            )}
+          </NotificationIcon>
+
+          <UserAvatar onClick={handleAvatarClick}>
+            {userImage ? (
+              <AvatarImage src={userImage} alt="User Avatar" />
+            ) : (
+              <DefaultAvatar>
+                <i className="fa fa-user" aria-hidden="true"></i>
+              </DefaultAvatar>
+            )}
+          </UserAvatar>
+
+          {/* Dynamic Cart Icon  */}
+          <Link to="/cart">
+            <CartIconContainer>
+              <CartImage src={CartIcon} />
+              {totalItems > 0 && (
+                <CartContentsCount>{totalItems}</CartContentsCount>
+              )}
+            </CartIconContainer>
+          </Link>
+
+          <StartSellingButton type="submit">
+            <a href="/create-shop" onClick={handleStartSellingLinkClick}>
+              Start Selling
+            </a>
+          </StartSellingButton>
+
+          {/* Profile Dropdown */}
+          {isDropdownOpen && (
+            <ProfileDropdown ref={dropdownRef}>
+              <DropdownItem>
+                <a href="/wishlist">Wishlist</a>
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/cart">Cart</a>
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/profile">Profile</a>
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/shop">My Shop</a>
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/product-page">Product-page</a>
+              </DropdownItem>
+              <DropdownItem>
+                <a href="/product-list">Product-list</a>
+              </DropdownItem>
+              <DropdownItem onClick={handleLogout}>
+                <span>Logout</span>
+              </DropdownItem>
+            </ProfileDropdown>
+          )}
+        </NavRight>
+      </Nav>
+    </div>
   );
 };
 

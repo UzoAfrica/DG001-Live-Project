@@ -88,7 +88,8 @@ export const NavRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 19px;
+  /* gap: 19px; */
+  column-gap: 1.7rem;
   min-width: 0;
 
   @media (max-width: 768px) {
@@ -145,8 +146,8 @@ export const UserAvatar = styled.div`
 `;
 
 export const AvatarImage = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -167,13 +168,15 @@ export const DefaultAvatar = styled.div`
 `;
 
 export const StartSellingButton = styled.button`
-  background-color: #d35d2c;
+  background-color: rgba(224, 79, 22, 1);
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
   white-space: nowrap;
   text-decoration: none !important;
 

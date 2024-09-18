@@ -122,7 +122,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
 
   return (
     <>
-      <Title>Cart</Title>
+      <Title style={{ marginTop: '3rem' }}>Cart</Title>
       <CartBackground>
         <CartContainer>
           <CartHeader>
@@ -144,7 +144,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                     <CartItem key={index}>
                       <td>
                         <ItemImage
-                        // @ts-expect-error: typescript can't implicitly recognize sequelize association mixins.
+                          // @ts-expect-error: typescript can't implicitly recognize sequelize association mixins.
                           src={item.imageUrl[0] || '/placeholder-image.jpg'}
                           alt={item.name}
                         />

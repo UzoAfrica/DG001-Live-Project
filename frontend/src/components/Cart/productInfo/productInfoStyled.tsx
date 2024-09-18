@@ -17,6 +17,7 @@ export const Container = styled.div`
 export const ProductImage = styled.img`
   max-width: 40%;
   height: auto;
+  margin-top: 1rem;
 `;
 
 export const ProductDetails = styled.div`
