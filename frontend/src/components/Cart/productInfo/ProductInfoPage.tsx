@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useContext } from 'react';
+import { FC, useState, useEffect, useContext, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -23,6 +23,12 @@ import {
 } from '../../../axiosFolder/functions/paymentFunction';
 import { showErrorToast, showSuccessToast } from '../../utils/toastify';
 import { CartContext, CartContextProps, CartItem } from '../CartProvider';
+import { AxiosError } from 'axios';
+import {
+  addReview,
+  fetchReviews,
+} from '../../../axiosFolder/functions/reviewFunction';
+import Reviews from './Reviews';
 
 interface Product {
   id: string;
@@ -34,12 +40,29 @@ interface Product {
   quantity: number;
   [key: string]: string | number;
 }
+interface ReviewForm {
+  comment: string;
+  rating: number;
+}
+export interface Review {
+  rating: number;
+  comment: string;
+  username: string;
+  shopName: string;
+  date: string;
+}
 
 const ProductInfoPage: FC = () => {
   const [mainProduct, setMainProduct] = useState<Product | null>(null);
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false);
+  const [reviewForm, setReviewForm] = useState<ReviewForm>({
+    comment: '',
+    rating: 0,
+  });
+  const [reviews, setReviews] = useState<Review[] | []>([]);
   const { productId } = useParams<{ productId: string }>();
   const { addItem, updateItemQuantity, items } = useContext(
     CartContext
@@ -101,6 +124,21 @@ const ProductInfoPage: FC = () => {
       }
     };
     checkPayment();
+  }, []);
+
+  // Fetch all reviews on page render
+  useEffect(() => {
+    const getReviews = async () => {
+      try {
+        const response = await fetchReviews(productId!);
+        setReviews([...response?.data.data]);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          showErrorToast(error.response?.data.message);
+        }
+      }
+    };
+    getReviews();
   }, []);
 
   // Function to handle when a similar product is clicked and swap it with the main product
@@ -211,6 +249,52 @@ const ProductInfoPage: FC = () => {
     }
   };
 
+  const handleCommentInputChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setReviewForm({
+      ...reviewForm,
+      [name]: value,
+    });
+  };
+  const handleRatingInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target;
+    setReviewForm({
+      ...reviewForm,
+      [name]: value,
+    });
+  };
+
+  const handleReviewSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Send request to add review
+    try {
+      const response = await addReview(productId!, reviewForm);
+      const { comment, rating, createdAt, username, shopName } =
+        response?.data.data;
+      setReviews((previousState) => {
+        return [
+          ...previousState,
+          {
+            rating,
+            comment,
+            username,
+            shopName,
+            date: createdAt,
+          },
+        ];
+      });
+      showSuccessToast(response!.data.message);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        showErrorToast(error.response?.data.message);
+      }
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
@@ -236,6 +320,16 @@ const ProductInfoPage: FC = () => {
               Buy Now
             </StyledPaystackButton>
           </ProductDetails>
+
+          {/* Reviews section */}
+          <Reviews
+            isReviewFormOpen={isReviewFormOpen}
+            handleReviewSubmit={handleReviewSubmit}
+            handleCommentInputChange={handleCommentInputChange}
+            handleRatingInputChange={handleRatingInputChange}
+            setIsReviewFormOpen={setIsReviewFormOpen}
+            reviews={reviews}
+          ></Reviews>
 
           {/* Similar Products Section */}
           <SimilarProductsSection>

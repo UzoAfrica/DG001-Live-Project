@@ -189,34 +189,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-// Controller to add a review for a product
-// export const addReview = async (req: Request, res: Response) => {
-//   const { error } = reviewSchema.validate(req.body);
-//   if (error) {
-//     return res.status(400).json({ error: error.details[0].message });
-//   }
-
-//   const { comment, rating } = req.body;
-//   const productId = req.params.id;
-
-//   try {
-//     const product = await Product.findByPk(productId);
-//     if (!product) {
-//       return res.status(404).json({ error: 'Product not found' });
-//     }
-
-//     const review = await Review.create({
-//       comment,
-//       rating,
-//       ProductId: productId,
-//     });
-
-//     res.status(201).json({ message: 'Review added successfully', review });
-//   } catch (err) {
-//     console.error('Error adding review:', err);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
 
 // Ensure all controllers are exported
 export default {

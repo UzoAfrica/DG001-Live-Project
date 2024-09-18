@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Shop from './my-shop.model';
 import Payment from './payment.model';
+import Review from './review.model';
 
 // User model
 const User = sequelize.define(
@@ -103,10 +104,10 @@ Payment.belongsTo(User);
 
 
 // One-to-Many relationship between user and review
-// User.hasMany(Review, {
-//   foreignKey: { allowNull: false },
-// });
-// Review.belongsTo(User);
+User.hasMany(Review, {
+  foreignKey: { allowNull: false },
+});
+Review.belongsTo(User);
 
 // Many-To-Many relationship between user and product
 // Product.belongsToMany(User, { through: UserProducts });

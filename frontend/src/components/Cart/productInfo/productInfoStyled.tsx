@@ -125,28 +125,139 @@ export const SimilarProductImage = styled.img`
 `;
 
 export const StyledPaystackButton = styled.button`
-  background-color: #4CAF50; 
-  border: none; 
-  color: black; 
-  padding: 12px 24px; 
-  text-align: center; 
-  text-decoration: none; 
-  display: inline-block; 
-  font-size: 16px; 
-  margin: 4px 2px; 
-  cursor: pointer; 
-  border-radius: 8px; 
-  transition: background-color 0.3s ease; 
+  background-color: #4caf50;
+  border: none;
+  color: black;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 
   /* Hover effect */
   &:hover {
-    background-color: #45a049; 
+    background-color: #45a049;
   }
 
   /* Disabled state */
   &:disabled {
-    background-color: #ccc; 
-    color: #666; 
+    background-color: #ccc;
+    color: #666;
     cursor: not-allowed;
   }
+`;
+
+export const ReviewsContainer = styled.div`
+  width: 70%;
+
+  .reviews-title {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-weight: 600;
+      color: white;
+      background-color: rgba(224, 79, 22, 1);
+      cursor: pointer;
+    }
+  }
+  h3 {
+    font-size: 24px;
+  }
+`;
+
+export const AddReviewContainer = styled.div`
+  margin: 1.5rem 0;
+  transition:
+    opacity 0.2s ease,
+    margin-top 0.2s ease-out;
+
+  &.open {
+    opacity: 1;
+    height: fit-content;
+    margin-top: 0;
+  }
+  &.close {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    margin-top: -1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    button {
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-weight: 600;
+      color: white;
+      background-color: rgba(224, 79, 22, 1);
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+  }
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.6rem;
+  }
+
+  .input-container textarea,
+  .input-container input {
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    padding: 12px 16px;
+
+    &:focus-visible {
+      outline: 1px solid #e04f16;
+    }
+  }
+`;
+
+export const ReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.8rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 1rem;
+
+  .comment {
+    margin-top: 0.5rem;
+    color: rgba(51, 51, 51, 0.5);
+  }
+
+  .username {
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+
+  .user-shop {
+    font-size: 13px;
+    color: rgba(51, 51, 51, 0.5);
+    margin-top: 0.2rem;
+  }
+
+  .comment-date {
+    font-size: 12px;
+    color: rgba(140, 140, 161, 1);
+    margin-top: 0.3rem;
+  }
+`;
+
+export const RatingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
 `;
