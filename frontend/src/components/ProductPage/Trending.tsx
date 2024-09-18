@@ -33,15 +33,16 @@ const Trending: React.FC = () => {
         );
         setSortedProducts([lowestPricedProduct]); // Set only the lowest priced product
         break;
-      // case 'mostRecent':
-      //   sortedArray.sort((a, b) => new Date(b.date).getTime() - (a.date).getTime());
-      //   setSortedProducts(sortedArray);
-      //   break;
-
-      // case 'highestRated':
-      //   sortedArray.sort((a, b) => b.rating - a-rating); 
-      //   setSortedProducts(sortedArray);
-      //   break;
+        // Find the most recent product
+      case 'mostRecent':
+        sortedArray.sort((a, b) => new Date(b.date).getTime() -  new Date (a.date).getTime());
+        setSortedProducts(sortedArray);
+        break;
+      //  Find the highest reated product
+      case 'highestRated':
+        sortedArray.sort((a, b) => b.rating - a.rating); 
+        setSortedProducts(sortedArray);
+        break;
 
       default:
         setSortedProducts(sortedArray); // Default behavior (show all products)

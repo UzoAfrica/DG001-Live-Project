@@ -2,10 +2,14 @@ import styled from 'styled-components';
 // Container for the entire product list
 export const ProductListContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 20px;
   padding: 20px;
   background-color: #f9f9f9; // light background
+  // justify-items: center
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 `;
 
 // Individual product card styling
@@ -29,7 +33,7 @@ export const ProductCard = styled.div`
 // Image styling within the product card
 export const ProductImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 200px;
   border-radius: 10px;
   object-fit: contain;
 `;
