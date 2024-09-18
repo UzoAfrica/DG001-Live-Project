@@ -14,6 +14,12 @@ import {
   SimilarProductItem,
   SimilarProductImage,
   StyledPaystackButton,
+  Grid,
+  GridProductDescription,
+  GridProductImage,
+  GridProductName,
+  GridProductPrice,
+  ProductItem,
 } from '../productInfo/productInfoStyled';
 import { getProducts } from '../../../axiosFolder/functions/productFunction';
 import {
@@ -243,7 +249,7 @@ const ProductInfoPage: FC = () => {
         showErrorToast('Error initiating payment.');
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AxiosError) {
         showErrorToast(error.message);
       }
     }
@@ -306,7 +312,9 @@ const ProductInfoPage: FC = () => {
           <ProductDetails>
             <ProductName>{mainProduct.name}</ProductName>
             <ProductDescription>{mainProduct.description}</ProductDescription>
-            <ProductPrice>₦{mainProduct.price.toLocaleString()}</ProductPrice>
+            <ProductPrice>
+              N{new Intl.NumberFormat('en-NG').format(mainProduct.price)}
+            </ProductPrice>
             <ButtonContainer>
               <WishlistButton onClick={() => handleAddToWishlist(mainProduct)}>
                 Add to Wishlist
@@ -314,11 +322,10 @@ const ProductInfoPage: FC = () => {
               <CartButton onClick={() => handleAddToCart(mainProduct)}>
                 Add to Cart
               </CartButton>
+              <StyledPaystackButton onClick={handlePaymentInitiation}>
+                Buy Now
+              </StyledPaystackButton>
             </ButtonContainer>
-
-            <StyledPaystackButton onClick={handlePaymentInitiation}>
-              Buy Now
-            </StyledPaystackButton>
           </ProductDetails>
 
           {/* Reviews section */}
@@ -332,7 +339,7 @@ const ProductInfoPage: FC = () => {
           ></Reviews>
 
           {/* Similar Products Section */}
-          <SimilarProductsSection>
+          {/* <SimilarProductsSection>
             <h3>Similar Products</h3>
             <div>
               {similarProducts.map((similarProduct) => (
@@ -349,6 +356,36 @@ const ProductInfoPage: FC = () => {
                 </SimilarProductItem>
               ))}
             </div>
+          </SimilarProductsSection> */}
+
+          {/* Chika's style for similar products */}
+          <SimilarProductsSection>
+            <h3>Similar Products</h3>
+            <Grid>
+              {similarProducts.map((similarProduct) => (
+                <ProductItem
+                  key={similarProduct.id}
+                  onClick={() => handleSimilarProductClick(similarProduct)}
+                >
+                  <GridProductImage
+                    src={similarProduct.imageUrl}
+                    alt={similarProduct.name}
+                  />
+                  <GridProductName>{similarProduct.name}</GridProductName>
+                  <GridProductDescription>
+                    {similarProduct.description.length > 20
+                      ? similarProduct.description.slice(0, 20) + '...'
+                      : similarProduct.description}
+                  </GridProductDescription>
+                  <GridProductPrice>
+                    N
+                    {new Intl.NumberFormat('en-NG').format(
+                      similarProduct.price
+                    )}
+                  </GridProductPrice>
+                </ProductItem>
+              ))}
+            </Grid>
           </SimilarProductsSection>
         </>
       ) : (
