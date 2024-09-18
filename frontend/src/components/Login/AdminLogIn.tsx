@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import {
   AuthContainer,
   Container,
-  BackgroundImage,
   FormContainer,
-  Logo,
   Title,
   InputField,
   Label,
@@ -18,21 +16,22 @@ import {
 } from './StyledLogIn';
 import { Link, useNavigate } from 'react-router-dom';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
-import { loginFunction } from '../../axiosFolder/functions/userAuth';
+import { loginAdmin } from '../../axiosFolder/functions/adminAuth';
 import googleLogo from '../../images/download.png';
+import logo from '../../images/logo-removebg-preview.png';
+import backgroundImage from '../../images/c4e920f58d65bab2316b7611a10653b0.png';
 
-const LogIn: React.FC = () => {
+const AdminLogin: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -40,49 +39,26 @@ const LogIn: React.FC = () => {
     });
   };
 
-  const handleSignUpLinkClick = (
-    event: React.MouseEvent<HTMLAnchorElement>
-  ) => {
-    event.preventDefault();
-    navigate('/signup');
-  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
-      event.preventDefault();
-      setLoading(true);
-
-      const payload = {
-        email: formData.email,
-        password: formData.password,
-      };
-
-      const response = await loginFunction(payload);
+      const response = await loginAdmin(formData);
 
       if (response.status !== 200) {
         setLoading(false);
         return showErrorToast(response.data.message);
       }
+
       setLoading(false);
-      localStorage.setItem('token', response.data.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.data.user));
-      localStorage.setItem('userId', response.data.data.user.id);
-      localStorage.setItem('userEmail', formData.email);
-
-      // Initialize cart and wishlist if they do not exist
-      if (!localStorage.getItem('cart')) {
-        localStorage.setItem('cart', JSON.stringify([]));
-      }
-      if (!localStorage.getItem('wishlist')) {
-        localStorage.setItem('wishlist', JSON.stringify([]));
-      }
-
-      showSuccessToast(response.data.message);
-
-      return navigate('/ProductList');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('admin', JSON.stringify(response.data.data.user));
+      localStorage.setItem('adminId', response.data.data.user.id);
+      localStorage.setItem('adminEmail', formData.email);
+      showSuccessToast('Admin logged in successfully');
+      navigate('/*/');
     } catch (error: any) {
-      console.error('Error logging in:', error);
       setLoading(false);
       return showErrorToast(error.message);
     }
@@ -96,22 +72,45 @@ const LogIn: React.FC = () => {
   return (
     <AuthContainer>
       <Container>
-        <BackgroundImage />
+        <img
+          src={backgroundImage}
+          alt="Background"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: -1,
+          }}
+        />
         <FormContainer>
           <a href="/">
-            <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
+                display: `block`,
+                margin: `0 auto`,
+                width: `80px`,
+                backgroundColor: `transperent`,
+                boxShadow: `0 2px 10px rgba(0, 0, 0, 0.1)`,
+              }}
+            />
           </a>
-          <Title>Welcome back to Traidr</Title>
+          <Title>Welcome Back, Admin</Title>
           <form onSubmit={handleSubmit}>
             <InputField>
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                type="text"
-                id="username"
-                placeholder="Enter your username"
+                type="email"
+                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                required
               />
             </InputField>
             <InputField>
@@ -120,11 +119,12 @@ const LogIn: React.FC = () => {
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
-                  placeholder="Enter your password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
+                  required
                 />
+                {/* Eye icon to toggle password visibility */}
                 <i
                   onClick={toggleShowPassword}
                   className={`fas fa-eye${showPassword ? '-slash' : ''}`}
@@ -139,38 +139,23 @@ const LogIn: React.FC = () => {
                 ></i>
               </div>
             </InputField>
-            <Link
-              to="/forgot-password"
-              style={{
-                textDecoration: 'none',
-                color: '#ff6600',
-                fontWeight: 'bold',
-              }}
-            >
-              Forgot Password?
-            </Link>
+
             <Separator>
               <SeparatorHr />
               <SeparatorSpan>OR</SeparatorSpan>
               <SeparatorHr />
             </Separator>
 
-            {/* Google Login Button Component with action prop */}
+            {/* Google Admin Log In Button */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              <Link to="http://localhost:5001/auth/google/login">
-                Google Login
-              </Link>
+              <Link to="http://localhost:5001/auth/google/admin-login">Log in with Google</Link>
             </GoogleSignUp>
-            <SignUpButton type="submit">
-              {loading ? 'Loading' : 'Log In'}
-            </SignUpButton>
+
+            <SignUpButton type="submit">{loading ? 'Logging In...' : 'Log In'}</SignUpButton>
           </form>
           <Footer>
-            Don't have an account?{' '}
-            <a href="/signup" onClick={handleSignUpLinkClick}>
-              Sign Up here
-            </a>
+            Don't have an account? <Link to="/admin/signup">Sign Up here</Link>
           </Footer>
         </FormContainer>
       </Container>
@@ -178,4 +163,4 @@ const LogIn: React.FC = () => {
   );
 };
 
-export default LogIn;
+export default AdminLogin;

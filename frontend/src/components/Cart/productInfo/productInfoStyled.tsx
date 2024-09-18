@@ -166,12 +166,18 @@ export const ReviewsContainer = styled.div`
     justify-content: space-between;
 
     button {
-      padding: 0.6rem;
+      padding: 0.7rem;
       border-radius: 8px;
       font-weight: 600;
+      font-family: inherit;
       color: white;
       background-color: rgba(224, 79, 22, 1);
       cursor: pointer;
+
+      &:hover {
+        background-color: #ef6820;
+      }
+
     }
   }
   h3 {
@@ -206,12 +212,18 @@ export const AddReviewContainer = styled.div`
       padding: 0.6rem;
       border-radius: 8px;
       font-weight: 600;
+      font-size: 1rem;
       color: white;
       background-color: rgba(224, 79, 22, 1);
+      font-family: inherit;
       width: 100%;
       max-width: 200px;
       margin: 0 auto;
       cursor: pointer;
+
+      &:hover {
+        background-color: #ef6820;
+      }
     }
   }
 

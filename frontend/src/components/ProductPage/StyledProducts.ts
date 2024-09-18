@@ -16,7 +16,7 @@ export const StyledIoMdNotificationsOutline = styled(IoMdNotificationsOutline)`
 
 export const StyledButton = styled.div`
     display: flex;
-  gap: 10px;
+    gap: 10px;
     align-items: center;
 `
 export const Btn = styled.a`
@@ -38,51 +38,85 @@ export const StyleCategories = styled.div`
   padding: 20px;
   background-color: #ffffff;
   border-radius: 20px;
-  //box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  height: 800px;
+  height: 100vh;
   width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+   
 
   h2 {
-      p {
+           padding: 10px;
           margin: 5px 0;
-      }
-    //font-family: sans-serif;
-    //font-size: 24px;
-    //margin-bottom: 10px;
+    
+    font-family: 'Outfit';
   }
 
   h4 {
-      p {
+          padding: 10px;
           margin: 5px 0;
-      }
-    //font-family: sans-serif;
-    //font-size: 18px;
-    //margin-bottom: 15px;
+      
+          
+    font-family: 'Outfit';
+
   }
 
   label {
-      p {
           margin: 5px 0;
-      }
-      //font-family: sans-serif;
-    //font-size: 15px;
-    //font-weight: normal;
-    //margin-top: 10px;
-    //display: inline-block;
+      
+      font-family: 'Outfit';
   }
 
   div {
     margin-bottom: 10px;
   }
 
-  input[type='radio'] {
+  input[type='checkbox'] {
     margin-right: 8px;
-  }
+}
+  select {
+   color : coral
+  }  
+  
 `
 export const ColorOption = styled.div`
-  input[type="radio"]:checked + label {
+
+  input[type="checkbox"]:checked + label {
     color: ${(props) => props.color};
+  
   }
+`;
+
+// Styled Components
+export const Container = styled.div`
+  margin: 20px;
+`;
+
+export const ProductContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+`;
+
+export const ProductCard = styled.div`
+  width: 200px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer; /* Change cursor to indicate clickable */
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional hover effect */
+  }
+`;
+
+export const ProductImage = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 10px;
 `;
 
 // export const StyleCategories = styled.div`
@@ -107,9 +141,11 @@ export const MaxOut = styled.div`
   justify-content: space-between;
   margin-right: 100px;
 `
-export const StyledInput = styled.input`
+export const TextArea = styled.input`
   height: 30px;
   width: 60%;
+  border: 1px solid #000;
+  outline: none
 `
 
 export const TwinsCol = styled.div`

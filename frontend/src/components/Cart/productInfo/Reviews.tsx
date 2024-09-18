@@ -39,7 +39,7 @@ const Reviews: React.FC<ReviewsProps> = ({
           type="button"
           onClick={() => setIsReviewFormOpen((previousState) => !previousState)}
         >
-          {isReviewFormOpen ? 'Cancel' : 'Add Review'}
+          {isReviewFormOpen ? 'Cancel' : 'Add Review +'}
         </button>
       </div>
 

@@ -179,6 +179,7 @@ export const RemoveButton = styled.button`
   cursor: pointer;
   color: #d35d2c;
   font-size: 18px;
+  width: 60px;
 
   @media (max-width: 480px) {
     font-size: 16px;

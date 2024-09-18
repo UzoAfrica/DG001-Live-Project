@@ -1,5 +1,5 @@
 import { FC, useState, useEffect, useContext, FormEvent } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
   ProductImage,
@@ -21,7 +21,7 @@ import {
   GridProductPrice,
   ProductItem,
 } from '../productInfo/productInfoStyled';
-import { getProducts } from '../../../axiosFolder/functions/productFunction';
+import { getProducts, getProductById } from '../../../axiosFolder/functions/productFunction';
 import {
   initiatePayment,
   verifyPayment,
@@ -73,6 +73,8 @@ const ProductInfoPage: FC = () => {
   const { addItem, updateItemQuantity, items } = useContext(
     CartContext
   ) as CartContextProps;
+
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
 
@@ -180,17 +182,16 @@ const ProductInfoPage: FC = () => {
         addItem(cartItem);
       }
       showSuccessToast('Product added to cart!');
+      // Display prompt to user: proceed to checkout or continue shopping
+      const userChoice = window.confirm(
+        'Product added to cart! Would you like to go to the cart to checkout? Press OK to go to the cart or Cancel to continue shopping.'
+      );
 
-      // if (existingProduct) {
-      //   existingProduct.quantity = (existingProduct.quantity || 1) + 1;
-      //   updateItemQuantity(product.id, existingProduct.quantity);
-      // } else {
-      //   cart.push({ ...product, quantity: 1 });
-      //   addItem(product);
-      // }
+      // Redirect to cart if user confirms, otherwise continue shopping
+      if (userChoice) {
+        navigate('/cart');
+      }
 
-      // localStorage.setItem('cart', JSON.stringify(cart));
-      // showSuccessToast('Product added to cart!');
     } catch (error) {
       showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
@@ -345,7 +346,7 @@ const ProductInfoPage: FC = () => {
               {similarProducts.map((similarProduct) => (
                 <SimilarProductItem
                   key={similarProduct.id}
-                  onClick={() => handleSimilarProductClick(similarProduct)} // Swap on click
+                  onClick={() => handleSimilarProductClick(similarProduct)}
                 >
                   <SimilarProductImage
                     src={similarProduct.imageUrl}

@@ -22,7 +22,6 @@ import {
   CartImage,
   CartContentsCount,
 } from './StyledNavbar';
-import BellIcon from '../../images/Icon-notification-removebg-preview.png';
 import CartIcon from '../../images/Cart-Icon.svg';
 import { CartContext, CartContextProps } from './CartProvider';
 import { Link } from 'react-router-dom';
@@ -126,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
     >
       <Nav>
         <NavLeft>
-          <a href="/product-list">
+          <a href="/ProductList">
             <BrandLogo>traïdr</BrandLogo>
           </a>
         </NavLeft>
@@ -144,14 +143,13 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
           </SearchInputWrapper>
         </NavMiddle>
 
-        <NavRight>
-          <NotificationIcon>
-            <img src={BellIcon} alt="Logo" />
-            <i className="fa fa-bell" aria-hidden="true"></i>
-            {notificationCount > 0 && (
-              <NotificationCount>{notificationCount}</NotificationCount>
-            )}
-          </NotificationIcon>
+      <NavRight>
+        <NotificationIcon>
+          <i className="fa fa-bell" aria-hidden="true"></i>
+          {notificationCount > 0 && (
+            <NotificationCount>{notificationCount}</NotificationCount>
+          )}
+        </NotificationIcon>
 
           <UserAvatar onClick={handleAvatarClick}>
             {userImage ? (

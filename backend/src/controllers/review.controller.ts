@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import Payment from '../database/models/payment.model';
 import Product from '../database/models/product.model';
 import Review from '../database/models/review.model';
 import { getSpecificProductSchema } from '../validators/product.validator';
@@ -34,6 +35,19 @@ export const addReview = async (req: Request, res: Response) => {
     if (!product) {
       return res.status(404).json({
         message: 'Product not found',
+        data: null,
+      });
+    }
+    // Check if user has purchased product
+    const payment = await Payment.findOne({
+      where: {
+        ProductId: productID,
+        UserId,
+      },
+    });
+    if (!payment) {
+      return res.status(400).json({
+        message: 'You cannot add review for unpurchased products',
         data: null,
       });
     }

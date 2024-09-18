@@ -33,15 +33,6 @@ export const NavMiddle = styled.div`
   }
 `;
 
-export const CancelIcon = styled.i`
-  cursor: pointer;
-  margin-left: 8px;
-  color: grey;
-  &:hover {
-    color: black;
-  }
-`;
-
 export const SearchInputWrapper = styled.div`
   position: relative;
   width: 100%;
@@ -58,11 +49,10 @@ export const SearchInputWrapper = styled.div`
 
 export const SearchInput = styled.input`
   width: 100%;
-  padding: 6px 10px;
+  padding: 10px 40px; /* Adjusted padding to accommodate icons */
   border: 1px solid #ddd;
   border-radius: 20px;
   font-size: 14px;
-  padding-right: 30px;
 
   &:focus {
     outline: none;
@@ -77,11 +67,24 @@ export const SearchInput = styled.input`
 
 export const SearchIcon = styled.i`
   position: absolute;
-  right: 10px;
+  right: 10px; /* Align search icon to the right */
   top: 50%;
   transform: translateY(-50%);
   color: #888;
   cursor: pointer;
+`;
+
+export const CancelIcon = styled.i`
+  position: absolute;
+  left: 10px; /* Align cancel icon to the left */
+  top: 50%;
+  transform: translateY(-50%);
+  color: grey;
+  cursor: pointer;
+
+  &:hover {
+    color: black;
+  }
 `;
 
 export const NavRight = styled.div`
@@ -181,7 +184,7 @@ export const StartSellingButton = styled.button`
   text-decoration: none !important;
 
   &:hover {
-    background-color: #b04a22;
+    background-color: #ef6820;
     text-decoration: none !important;
   }
 
@@ -196,7 +199,6 @@ export const StartSellingButton = styled.button`
   }
 `;
 
-/* Dropdown menu styles for user profile */
 export const ProfileDropdown = styled.div`
   position: absolute;
   top: 45px;
