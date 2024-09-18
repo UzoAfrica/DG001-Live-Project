@@ -73,7 +73,11 @@ export const StyleCategories = styled.div`
 
   input[type='checkbox'] {
     margin-right: 8px;
-  }
+}
+  select {
+   color : coral
+  }  
+  
 `
 export const ColorOption = styled.div`
 
