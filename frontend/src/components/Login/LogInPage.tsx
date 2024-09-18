@@ -79,7 +79,7 @@ const LogIn: React.FC = () => {
 
       showSuccessToast(response.data.message);
 
-      return navigate('/product-list');
+      return navigate('/product-page');
     } catch (error: any) {
       console.error('Error logging in:', error);
       setLoading(false);

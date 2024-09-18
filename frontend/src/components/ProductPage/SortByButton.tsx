@@ -87,7 +87,6 @@ const SortByButton: React.FC<{ onSort: (sortOption: string) => void }> = ({
         {[
           'highestRated',
           'mostRecent',
-          'mostRelevant',
           'highPrice',
           'lowPrice',
         ].map((option) => (

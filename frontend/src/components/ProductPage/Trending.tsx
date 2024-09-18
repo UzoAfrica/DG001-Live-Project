@@ -3,12 +3,11 @@ import { Field, MaxOut, TextArea, TwinsCol } from './StyledProducts';
 import StyledGrid from './StyledGrid';
 import SortByButton from './SortByButton';
 import { products } from './product';
-import { useNavigate } from 'react-router-dom';
+
 
 const Trending: React.FC = () => {
   const [sortedProducts, setSortedProducts] = useState(products);
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate();
 
    // Sort and filter products based on the option selected
    const sortProducts = (sortOption: string) => {
@@ -34,11 +33,27 @@ const Trending: React.FC = () => {
         );
         setSortedProducts([lowestPricedProduct]); // Set only the lowest priced product
         break;
+        // Find the most recent product
+      case 'mostRecent':
+        sortedArray.sort((a, b) => new Date(b.date).getTime() -  new Date (a.date).getTime());
+        setSortedProducts(sortedArray);
+        break;
+      //  Find the highest reated product
+      case 'highestRated':
+        sortedArray.sort((a, b) => b.rating - a.rating); 
+        setSortedProducts(sortedArray);
+        break;
+
       default:
         setSortedProducts(sortedArray); // Default behavior (show all products)
         break;
     }
   };
+
+// To return the user to all the products after sorting
+  const showAllProducts = () => {
+    setSortedProducts(products);
+  }
 
   // Search for products based on searchTerm
   const filterProductsBySearch = (searchTerm: string) => {
@@ -57,7 +72,7 @@ const Trending: React.FC = () => {
 
   // Handle sorting based on sort option
   const fetchSortedProducts = (sortOption: string) => {
-    sortProducts(sortOption); // Perform sorting on frontend
+    sortProducts(sortOption); 
   };
 
   useEffect(() => {
@@ -83,7 +98,7 @@ const Trending: React.FC = () => {
           <StyledGrid products={sortedProducts} />
         </a>
       </Field>
-      <button onClick={() => navigate('/trending')}>Go Back</button>
+      <button onClick={showAllProducts}>Show All Products</button>
     </TwinsCol>
   );
 };
