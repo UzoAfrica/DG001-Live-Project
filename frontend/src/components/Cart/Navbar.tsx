@@ -198,7 +198,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
                 <a href="/product-page">Product-page</a>
               </DropdownItem>
               <DropdownItem>
-                <a href="/product-list">Product-list</a>
+                <a href="/ProductList">Product-list</a>
               </DropdownItem>
               <DropdownItem onClick={handleLogout}>
                 <span>Logout</span>
