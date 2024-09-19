@@ -15,7 +15,10 @@ export type StepOneProps = {
   handleShopInputChange: handleShopInputChangeType;
 };
 
-const StepOne: React.FC<StepOneProps> = ({ shopFormData, handleShopInputChange }) => {
+const StepOne: React.FC<StepOneProps> = ({
+  shopFormData,
+  handleShopInputChange,
+}) => {
   return (
     <>
       <Container className="step-one">
@@ -82,18 +85,20 @@ const StepOne: React.FC<StepOneProps> = ({ shopFormData, handleShopInputChange }
               <Label htmlFor="currency" $margin="0 0 0 4px">
                 Currency
               </Label>
-              <Input
-                type="text"
+              <Select
                 name="currency"
                 id="currency"
-                placeholder="NGN"
                 required
                 value={shopFormData.currency}
                 onChange={handleShopInputChange}
                 $border="1px solid #D0D5DD"
                 $borderRadius="8px"
                 $padding="12px 16px"
-              ></Input>
+                $fontFamily="inherit"
+              >
+                <Option value="">Select</Option>
+                <Option value="NGN">NGN</Option>
+              </Select>
             </Container>
           </DesktopContainer>
 

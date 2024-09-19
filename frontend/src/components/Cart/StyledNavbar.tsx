@@ -92,7 +92,7 @@ export const NavRight = styled.div`
   align-items: center;
   justify-content: flex-end;
   /* gap: 19px; */
-  column-gap: 1.7rem;
+  column-gap: 1.3rem;
   min-width: 0;
 
   @media (max-width: 768px) {
@@ -132,10 +132,16 @@ export const NotificationCount = styled.div`
   position: absolute;
   top: -5px;
   right: -10px;
-  background-color: orange;
+  /* background-color: orange; */
+  background-color: rgba(242, 153, 74, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  padding: 10px;
   color: white;
   border-radius: 50%;
-  padding: 2px 6px;
   font-size: 12px;
 `;
 
@@ -149,8 +155,8 @@ export const UserAvatar = styled.div`
 `;
 
 export const AvatarImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 43px;
+  height: 43px;
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -252,7 +258,7 @@ export const CartIconContainer = styled.div`
 `;
 export const CartImage = styled.img`
   height: 100%;
-  width: 35px;
+  width: 30px;
 `;
 export const CartContentsCount = styled.p`
   border: 2px solid white;
@@ -260,7 +266,7 @@ export const CartContentsCount = styled.p`
   border-radius: 50%;
   width: 10px;
   height: 10px;
-  padding: 15px;
+  padding: 13px;
   position: absolute;
   right: -15px;
   top: -18px;
