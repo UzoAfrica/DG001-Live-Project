@@ -93,7 +93,9 @@ const Trending: React.FC = () => {
         <legend>
           <h2>TRENDING SALES</h2>
         </legend>
-        <StyledGrid products={sortedProducts} />
+        <a href="/product-list">
+          <StyledGrid products={sortedProducts} />
+        </a>
       </Field>
       <button onClick={showAllProducts}>Show All Products</button>
     </TwinsCol>
