@@ -79,7 +79,11 @@ const LogIn: React.FC = () => {
 
       showSuccessToast(response.data.message);
 
+<<<<<<< HEAD
       return navigate('/Product-Page');
+=======
+      return navigate('/product-page');
+>>>>>>> defbda7e0370e5826880452d790380652d2b57a5
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Error logging in:', error);
@@ -104,11 +108,11 @@ const LogIn: React.FC = () => {
           <Title>Welcome back to Traidr</Title>
           <form onSubmit={handleSubmit}>
             <InputField>
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
                 type="text"
-                id="username"
-                placeholder="Enter your username"
+                id="email"
+                placeholder="Enter your email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}

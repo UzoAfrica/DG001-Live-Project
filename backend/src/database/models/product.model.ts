@@ -86,10 +86,6 @@ const Product = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    colours: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
     deals: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
