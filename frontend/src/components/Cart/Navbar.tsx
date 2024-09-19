@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import {
   Nav,
   NavLeft,
   NavMiddle,
   NavRight,
   BrandLogo,
-  NotificationIcon,
+  // NotificationIcon,
   NotificationCount,
   UserAvatar,
   AvatarImage,
@@ -21,7 +21,7 @@ import {
   CartIconContainer,
   CartImage,
 } from './StyledNavbar';
-import BellSVG from '../../images/bell-icon.svg';
+// import BellSVG from '../../images/bell-icon.svg';
 import CartIcon from '../../images/Cart-Icon.svg';
 import { CartContext, CartContextProps } from './CartProvider';
 import { Link } from 'react-router-dom';
@@ -34,7 +34,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const [userImage, setUserImage] = useState<string | undefined>('');
-  const [notificationCount, setNotificationCount] = useState<number>(0);
+  // const [notificationCount, setNotificationCount] = useState<number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -49,21 +49,21 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
     setUserImage(userFromLocalStorage.profileImage);
   }, [userProfile]);
 
-  useEffect(() => {
-    const fetchNotificationCount = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:5001/api/notifications/count'
-        );
-        setNotificationCount(response.data.count);
-      } catch (error) {
-        console.error('Error fetching notification count:', error);
-        setNotificationCount(0);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchNotificationCount = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         'http://localhost:5001/api/notifications/count'
+  //       );
+  //       setNotificationCount(response.data.count);
+  //     } catch (error) {
+  //       console.error('Error fetching notification count:', error);
+  //       setNotificationCount(0);
+  //     }
+  //   };
 
-    fetchNotificationCount();
-  }, []);
+  //   fetchNotificationCount();
+  // }, []);
 
   // Open dropdown when clicking the avatar
   const handleAvatarClick = () => {
