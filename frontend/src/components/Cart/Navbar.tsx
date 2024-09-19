@@ -20,8 +20,8 @@ import {
   DropdownItem,
   CartIconContainer,
   CartImage,
-  CartContentsCount,
 } from './StyledNavbar';
+import BellSVG from '../../images/bell-icon.svg';
 import CartIcon from '../../images/Cart-Icon.svg';
 import { CartContext, CartContextProps } from './CartProvider';
 import { Link } from 'react-router-dom';
@@ -143,13 +143,20 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
           </SearchInputWrapper>
         </NavMiddle>
 
-      <NavRight>
-        <NotificationIcon>
-          <i className="fa fa-bell" aria-hidden="true"></i>
-          {notificationCount > 0 && (
-            <NotificationCount>{notificationCount}</NotificationCount>
-          )}
-        </NotificationIcon>
+        <NavRight>
+          <NotificationIcon>
+            {/* <i className="fa fa-bell" aria-hidden="true"></i> */}
+            <img
+              src={BellSVG}
+              alt="notifications icon"
+              width="25px"
+              height="25px"
+            />
+
+            {notificationCount > 0 && (
+              <NotificationCount>{notificationCount}</NotificationCount>
+            )}
+          </NotificationIcon>
 
           <UserAvatar onClick={handleAvatarClick}>
             {userImage ? (
@@ -166,7 +173,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
             <CartIconContainer>
               <CartImage src={CartIcon} />
               {totalItems > 0 && (
-                <CartContentsCount>{totalItems}</CartContentsCount>
+                <NotificationCount>{totalItems}</NotificationCount>
               )}
             </CartIconContainer>
           </Link>
