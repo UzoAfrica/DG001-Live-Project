@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Field, MaxOut, TextArea, TwinsCol } from './StyledProducts';
+import { Field, MaxOut, TextArea, TwinsCol  } from './StyledProducts';
 import StyledGrid from './StyledGrid';
 import SortByButton from './SortByButton';
 import { products } from './product';
-
 
 const Trending: React.FC = () => {
   const [sortedProducts, setSortedProducts] = useState(products);
@@ -94,9 +93,7 @@ const Trending: React.FC = () => {
         <legend>
           <h2>TRENDING SALES</h2>
         </legend>
-        <a href="/product-list">
-          <StyledGrid products={sortedProducts} />
-        </a>
+        <StyledGrid products={sortedProducts} />
       </Field>
       <button onClick={showAllProducts}>Show All Products</button>
     </TwinsCol>
