@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Title,
@@ -11,8 +12,9 @@ import {
   ProductPrice,
   ButtonContainer,
   ViewMoreButton,
+  AddToCartButton,
+  DeleteButton,
 } from './StyledWishlist';
-import { getWishlist } from '../../../axiosFolder/functions/productFunction';
 
 interface Product {
   id: string;
@@ -23,31 +25,62 @@ interface Product {
 }
 
 const Wishlist: React.FC = () => {
-  const [wishlist, setWishlist] = useState<Product[]>([]); // State for storing wishlist items
-  const [loading, setLoading] = useState<boolean>(true); // State for loading status
-  const [error, setError] = useState<string | null>(null); // State for error message
+  const [wishlist, setWishlist] = useState<Product[]>([]); 
+  const [loading, setLoading] = useState<boolean>(true); 
+  const [error, setError] = useState<string | null>(null); 
+  const navigate = useNavigate(); 
 
+  // Fetch wishlist from local storage when component mounts
   useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        // Assume you have a way to get userId (e.g., from context or props)
-        const userId = 'yourUserId'; // Replace with actual user ID
-        const response = await getWishlist(userId); // Fetch wishlist from backend
-        setWishlist(response.data); // Update state with fetched data
-      } catch (error) {
-        setError('Error fetching wishlist'); // Set error message
-        console.error('Error fetching wishlist:', error); // Log any error if fetching fails
-      } finally {
-        setLoading(false); // Set loading to false once fetching is done
+    try {
+      const savedWishlist = localStorage.getItem('wishlist');
+      if (savedWishlist) {
+        setWishlist(JSON.parse(savedWishlist)); 
       }
-    };
-
-    fetchWishlist(); // Fetch wishlist data when component mounts
+    } catch (error) {
+      setError('Error fetching wishlist');
+      console.error('Error fetching wishlist from local storage:', error);
+    } finally {
+      setLoading(false); 
+    }
   }, []);
 
+  // Function to handle view more button click and navigate to the product details page
   const handleViewMore = (productId: string) => {
-    // Navigate to product info page or handle action
-    console.log('View more clicked for product:', productId);
+    navigate(`/product/${productId}`);
+  };
+
+  // Function to handle adding product to the cart
+  const handleAddToCart = (product: Product) => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existingProduct = cart.find((item: Product) => item.id === product.id);
+
+      if (existingProduct) {
+        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Product added to cart!');
+    } catch (error) {
+      alert('Error adding product to cart');
+      console.error('Error adding product to cart:', error);
+    }
+  };
+
+  // Function to handle deleting product from wishlist
+  const handleDeleteFromWishlist = (productId: string) => {
+    try {
+      const updatedWishlist = wishlist.filter((product) => product.id !== productId);
+      setWishlist(updatedWishlist);
+      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+      alert('Product removed from wishlist!');
+    } catch (error) {
+      alert('Error deleting product from wishlist');
+      console.error('Error deleting product from wishlist:', error);
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -58,26 +91,36 @@ const Wishlist: React.FC = () => {
       <Title>Wishlist</Title>
       <Container>
         <WishlistContainer>
-          {wishlist.map((product) => (
-            <WishlistItem key={product.id}>
-              <ProductImage src={product.imageUrl} alt={product.name} />
-              <ProductInfo>
-                <ProductName>{product.name}</ProductName>
-                <ProductDescription>
-                  {product.description || 'No description available'}
-                </ProductDescription>
-                <ProductPrice>
-                  ₦{product.price.toLocaleString()}{' '}
-                  <span style={{ color: 'green' }}>Negotiable</span>
-                </ProductPrice>
-              </ProductInfo>
-              <ButtonContainer>
-                <ViewMoreButton onClick={() => handleViewMore(product.id)}>
-                  View More
-                </ViewMoreButton>
-              </ButtonContainer>
-            </WishlistItem>
-          ))}
+          {wishlist.length === 0 ? (
+            <p>Your wishlist is empty.</p>
+          ) : (
+            wishlist.map((product) => (
+              <WishlistItem key={product.id}>
+                <ProductImage src={product.imageUrl} alt={product.name} />
+                <ProductInfo>
+                  <ProductName>{product.name}</ProductName>
+                  <ProductDescription>
+                    {product.description || 'No description available'}
+                  </ProductDescription>
+                  <ProductPrice>
+                    ₦{product.price.toLocaleString()}{' '}
+                    <span style={{ color: 'green' }}>Negotiable</span>
+                  </ProductPrice>
+                </ProductInfo>
+                <ButtonContainer>
+                  <ViewMoreButton onClick={() => handleViewMore(product.id)}>
+                    View More
+                  </ViewMoreButton>
+                  <AddToCartButton onClick={() => handleAddToCart(product)}>
+                    Add to Cart
+                  </AddToCartButton>
+                  <DeleteButton onClick={() => handleDeleteFromWishlist(product.id)}>
+                    Delete
+                  </DeleteButton>
+                </ButtonContainer>
+              </WishlistItem>
+            ))
+          )}
         </WishlistContainer>
       </Container>
     </>
@@ -85,95 +128,3 @@ const Wishlist: React.FC = () => {
 };
 
 export default Wishlist;
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import {
-//   Container,
-//   Title,
-//   WishlistContainer,
-//   WishlistItem,
-//   ProductImage,
-//   ProductInfo,
-//   ProductName,
-//   ProductDescription,
-//   ProductPrice,
-//   ButtonContainer,
-//   ViewMoreButton,
-// } from './StyledWishlist';
-// import api from '../../utils/Api'; // Ensure this is your Axios instance or API utility file
-
-// interface Product {
-//   id: string;
-//   name: string;
-//   description: string;
-//   price: number;
-//   imageUrl: string;
-// }
-
-// const Wishlist: React.FC = () => {
-//   const [wishlist, setWishlist] = useState<Product[]>([]);
-
-//   useEffect(() => {
-//     const fetchWishlist = async () => {
-//       try {
-//         const response = await api.get('/user/wishlist'); // Ensure this matches your backend endpoint
-//         setWishlist(response.data);
-//       } catch (error) {
-//         console.error('Error fetching wishlist:', error);
-//       }
-//     };
-
-//     fetchWishlist();
-//   }, []);
-
-//   const handleRemoveFromWishlist = async (productId: string) => {
-//     try {
-//       await api.delete(`/user/wishlist/${productId}`); // Adjust endpoint based on your backend
-//       setWishlist(wishlist.filter(product => product.id !== productId));
-//     } catch (err) {
-//       console.error('Error removing product from wishlist:', err);
-//     }
-//   };
-
-//   const handleViewMore = (productId: string) => {
-//     // Navigate to product info page or handle action
-//     console.log('View more clicked for product:', productId);
-//   };
-
-//   return (
-//     <>
-//       <Title>Wishlist</Title>
-//       <Container>
-//         <WishlistContainer>
-//           {wishlist.map((product) => (
-//             <WishlistItem key={product.id}>
-//               <ProductImage src={product.imageUrl} alt={product.name} />
-//               <ProductInfo>
-//                 <ProductName>{product.name}</ProductName>
-//                 <ProductDescription>
-//                   {product.description}
-//                 </ProductDescription>
-//                 <ProductPrice>
-//                   ₦{product.price.toLocaleString()}{' '}
-//                   <span style={{ color: 'green' }}>Negotiable</span>
-//                 </ProductPrice>
-//               </ProductInfo>
-//               <ButtonContainer>
-//                 <ViewMoreButton onClick={() => handleViewMore(product.id)}>
-//                   View More
-//                 </ViewMoreButton>
-//                 <button onClick={() => handleRemoveFromWishlist(product.id)}>
-//                   Remove
-//                 </button>
-//               </ButtonContainer>
-//             </WishlistItem>
-//           ))}
-//         </WishlistContainer>
-//       </Container>
-//     </>
-//   );
-// };
-
-// export default Wishlist;

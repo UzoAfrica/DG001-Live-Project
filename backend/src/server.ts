@@ -1,17 +1,18 @@
-import express, { Request, Response, NextFunction } from 'express';
-import session from 'express-session';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import logger from 'morgan';
+import express, { NextFunction, Request, Response } from 'express';
+import session from 'express-session';
 import createError, { HttpError } from 'http-errors';
+import logger from 'morgan';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import appEnvironmentVariables from './config/app-environment-variables.config';
 import sequelize from './config/sequelize.config';
+import authRoutes from './routes/auth.routes';
+import imageRoute from './routes/imageRoute';
 import indexRouter from './routes/index.route';
 import profileRoute from './routes/profileRoute';
-import imageRoute from './routes/imageRoute';
-import authRoutes from './routes/auth.routes';
+import adminRoute from './routes/adminRoute'
 
 // Initialize app
 const app = express();
@@ -67,10 +68,9 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-      
         // Here you would typically find or create the user in the database
         // For this example, we'll just return the profile provided by Google
-        return done(null, {profile, accessToken, refreshToken});
+        return done(null, { profile, accessToken, refreshToken });
       } catch (error) {
         return done(error);
       }
@@ -93,6 +93,7 @@ app.use('/api', indexRouter);
 app.use('/profile', profileRoute);
 app.use('/image', imageRoute);
 app.use('/auth', authRoutes);
+app.use('/admin', adminRoute);
 
 // Catch 404 and forward to general error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -115,7 +116,7 @@ app.use((err: HttpError, req: Request, res: Response) => {
 
 // Synchronize Database and start the server
 sequelize
-  .sync({ logging: true, alter: true })
+  .sync({ logging: false, alter: true })
   .then(() => {
     console.log('Database synchronized successfully.');
 

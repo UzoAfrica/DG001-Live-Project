@@ -245,15 +245,31 @@ export const ClearCartButton = styled.button`
   }
 `;
 
-export const CheckoutButton = styled.button`
-  background-color: #d35d2c;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
 
-  @media (max-width: 480px) {
-    padding: 8px 12px;
+export const Button = styled.button`
+  background-color: #E04F16; 
+  color: white;
+  border: none; 
+  padding: 12px 24px;
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block; 
+  font-size: 16px; 
+  margin: 4px 2px; 
+  cursor: pointer; 
+  border-radius: 8px; 
+  transition: background-color 0.3s ease; 
+
+  /* Hover effect */
+  &:hover {
+    background-color: #45a049; 
+  }
+
+  /* Disabled state */
+  &:disabled {
+    background-color: #ccc; 
+    color: #666; 
+    cursor: not-allowed; 
   }
 `;
+

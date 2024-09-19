@@ -42,12 +42,13 @@ export const BackgroundImage = styled.div`
 `;
 
 export const FormContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: white;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 400px;
+  width: 50%;
+  height: 674px;
+  max-width: 598px;
   text-align: flex-start;
 `;
 
@@ -55,7 +56,7 @@ export const Logo = styled.img`
   display: block;
   margin: 0 auto;
   width: 80px;
-  background-color: transparent;
+  background-color: transperent;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -96,7 +97,7 @@ export const Select = styled.select`
 export const SignUpButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #ff6600;
+  background-color: #EF6820;
   color: white;
   border: none;
   border-radius: 5px;
@@ -152,7 +153,7 @@ export const Footer = styled.p`
   color: #666;
 
   a {
-    color: #ff6600;
+    color: #EF6820;
     text-decoration: none;
   }
 `;

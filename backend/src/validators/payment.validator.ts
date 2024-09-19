@@ -9,6 +9,7 @@ export const initiatePaymentSchema = Joi.object({
   ProductId: Joi.string()
     .guid({ version: ['uuidv4'] })
     .required(),
+  redirectPage: Joi.string().required(),
 });
 
 export const verifyPaymentSchema = Joi.string()

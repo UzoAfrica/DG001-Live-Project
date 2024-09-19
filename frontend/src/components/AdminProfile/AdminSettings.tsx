@@ -1,11 +1,13 @@
 /* eslint-disable no-irregular-whitespace */
-import { StyledProfileSet, StyledNotify, StyledVerify, StyledLineDiv, StyledPassWord, StyledUserOptions, StyledImgBut, StyledFlexbutton, StyledOne, StyledTwo, StyledProfileBox, StyledDisFlex, StyledBox, Styledinput, FloatLeft, STyledStartSelling, StyledTwin, PassForm, Styledp, Styledfield, Styledli } from "../StyleCompo";  
-import ProfilePic from '../../images/profilepic.png'  
+import { StyledProfileSet, StyledNotify, StyledVerify, StyledLineDiv, StyledPassWord, StyledUserOptions, StyledImgBut, StyledFlexbutton, StyledOne, StyledTwo, StyledProfileBox, StyledDisFlex, StyledBox, Styledinput, FloatLeft, STyledStartSelling, StyledTwin, PassForm, Styledp, Styledfield, Styledli, Flexo,  } from "../StyleCompo";  
+// import ProfilePic from '../../images/profilepic.png'
+  
 import { useState } from "react";  
 import 'react-phone-input-2/lib/style.css'  
 import PhoneInput from 'react-phone-input-2'  
+import AdminImg  from "./AdminImg";
   
-export default function AdminSettings() {  
+export default function UserSettings() {  
   const [activeTab, setActiveTab] = useState("profile");  
   const [PhoneNumber, setPhoneNumber] = useState("")  
   const [valid, setValid] = useState(true);  
@@ -33,13 +35,17 @@ export default function AdminSettings() {
   
        <StyledUserOptions>  
   
-       <StyledImgBut>  
-  
-            <img src={ProfilePic} alt="" />  
+       <StyledImgBut> 
+           
+            <Flexo>  
+              
+               <AdminImg />
+            </Flexo>
+            {/* <img src={ProfilePic} alt="" />   */}
       
       
             <StyledFlexbutton>  
-            <StyledOne>Upload new</StyledOne>  
+            {/* <StyledOne>Upload new</StyledOne>   */}
             <StyledTwo type="submit">Delete photo</StyledTwo>  
             </StyledFlexbutton>  
   
@@ -50,9 +56,10 @@ export default function AdminSettings() {
        <StyledProfileBox>  
        <form action="" method="get">  
   
-     <StyledDisFlex>  
   
-             <StyledBox>  
+           <StyledDisFlex>  
+  
+           <StyledBox>  
              <FloatLeft htmlFor=""> First Name</FloatLeft>  
              <Styledinput placeholder="Babalola" type="text" />  
   
@@ -121,39 +128,40 @@ export default function AdminSettings() {
           <Styledinput type="password" placeholder="" />  
   
   
-        <FloatLeft htmlFor="New password">New Password</FloatLeft>  
-           <Styledinput type="password" placeholder="" />  
+           <FloatLeft htmlFor="New password">New Password</FloatLeft>  
+           <Styledinput type="password" placeholder="" />  
   
-           <Styledp>Your new password must be 8-12 characters long</Styledp>  
+           <Styledp>Your new password must be 8-12 characters long</Styledp>  
   
-          <FloatLeft htmlFor="">Re-enter Your Password</FloatLeft>  
-        <Styledinput type="password" placeholder="" />  
+           <FloatLeft htmlFor="">Re-enter Your Password</FloatLeft>  
+           <Styledinput type="password" placeholder="" />  
   
-        </PassForm>  
+          </PassForm>  
   
-      </form>  
-        </StyledDisFlex>  
-     )}  
+        </form>  
   
-       {activeTab === "notification" && (  
-       <Styledfield>  
-        <h2>Notifications </h2>  
-        <Styledli>Fully Furnished chair is now available  
-          <p>{}</p>  
+       </StyledDisFlex>  
+      )}  
+  
+      {activeTab === "notification" && (  
+       <Styledfield>  
+        <h2>Notifications </h2>  
+        <Styledli>Fully Furnished chair is now available  
+          <p>{}</p>  
         </Styledli>  
         <Styledli>Terms of use was updated</Styledli>  
-        <Styledli>Your Ad has been successfully uploaded.  
-         <p>{}</p>  
-        </Styledli>  
-        <Styledli>Your Ad has been successfully uploaded.  
-         <p>{}</p>  
-       </Styledli>  
-      </Styledfield>  
-     )}  
+        <Styledli>Your Ad has been successfully uploaded.  
+          <p>{}</p>  
+        </Styledli>  
+        <Styledli>Your Ad has been successfully uploaded.  
+          <p>{}</p>  
+        </Styledli>  
+       </Styledfield>  
+      )}  
   
   
-</>  
+    </>  
   
-</div>  
+   </div>  
   )  
 }

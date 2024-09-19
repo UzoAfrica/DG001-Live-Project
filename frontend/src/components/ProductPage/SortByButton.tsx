@@ -12,7 +12,7 @@ const DropdownContent = styled.div<{ isVisible: boolean }>`
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
 
   @media (max-width: 768px) {
@@ -30,6 +30,7 @@ const DropdownItem = styled.div`
   text-decoration: none;
   display: block;
   cursor: pointer;
+  
 
   &:hover {
     background-color: #f1f1f1;
@@ -45,20 +46,26 @@ const DropdownItem = styled.div`
 `;
 
 const SortButton = styled.button`
-  background-color: #efd7d7;
-  color: #191818;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-
-  @media (max-width: 768px) {
-    padding: 8px 16px;
+    border: 1px solid #000;
+    font: 16px Outfit, sans-serif;
+    color: #191818;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    opacity: 0.6;
+    transition: 0.5s;
+    
+ &:hover {
+    opacity: 1; 
   }
 
-  @media (max-width: 480px) {
-    padding: 6px 12px;
-  }
+    @media (max-width: 768px) {
+        padding: 8px 16px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 6px 12px;
+    }
 `;
 
 const SortByButton: React.FC<{ onSort: (sortOption: string) => void }> = ({
@@ -96,6 +103,28 @@ const SortByButton: React.FC<{ onSort: (sortOption: string) => void }> = ({
 };
 
 export default SortByButton;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // // src/components/SortByButton.tsx
 // import React, { useState } from 'react';

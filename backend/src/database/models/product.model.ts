@@ -2,6 +2,26 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Review from './review.model';
 // Product model
+
+enum category {
+  ELECTRONICS = 'ELECTRONICS',
+  FASHION = 'FASHION',
+  FOOD = 'FOOD',
+  HEALTH = 'HEALTH',
+  HOME = 'HOME',
+  SPORTS = 'SPORTS',
+  CHILDREN = 'CHILDREN',
+  ADULTS = 'ADULT',
+  OTHERS = 'OTHERS',
+}
+enum color {
+  GREEN = 'GREEN',
+  BLUE = 'BLUE',
+  RED = 'RED',
+  ORANGE = 'ORANGE',
+  YELLOW = 'YELLOW',
+}
+
 const Product = sequelize.define(
   'Product',
   {
@@ -10,7 +30,7 @@ const Product = sequelize.define(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    MyShopId: { 
+    MyShopId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -71,3 +91,4 @@ Product.hasMany(Review, { foreignKey: 'ProductId' });
 Review.belongsTo(Product, { foreignKey: 'ProductId' });
 
 export default Product;
+ 

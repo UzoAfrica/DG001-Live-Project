@@ -8,7 +8,6 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from '../src/components/Cart/CartProvider';
- 
 // Landing Page Components
 import Header from './components/LandingPage/Header';
 import Hero from './components/LandingPage/Hero';
@@ -19,6 +18,8 @@ import Footer from './components/LandingPage/Footer';
 // Authentication and Utility Components
 import LogIn from './components/Login/LogInPage';
 import SignUp from './components/SignUp/SignUpPage';
+import AdminSignUp from './components/SignUp/AdminSignUp.tsx';
+import AdminLogin from './components/Login/AdminLogIn.tsx';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 import UserProfile from './components/Userpofile/UserProfile'
@@ -36,6 +37,18 @@ import Shop from './components/Shop/index';
 // getAllProducts
 import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
+
+
+// Product list component
+// import ProductList from './components/ProductList';
+
+//tenantDb
+import TenantDb from "./admin/TenantDb.tsx";
+//productList
+import ProductList from '../src/components/ProductList.tsx'
+import ProductCategory from './components/ProductPage/ProductCategory.tsx';
+import ProductInfoPage from './components/Cart/productInfo/ProductInfoPage';
+
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -113,6 +126,14 @@ const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  {
+    path: '/admin/signup',
+    element: <AdminSignUp />,
+  },
+  {
     path: '/reset',
     element: <Reset />,
   },
@@ -123,6 +144,22 @@ const router = createBrowserRouter([
   {
     path:'product-page' ,
     element: < ProductPage/>,
+  },
+  {
+    path: '/products/:category',
+    element: <ProductCategory />,
+  },
+  {
+    path: '/product/:productId', 
+    element: <ProductInfoPage />,
+  },
+  {
+    path:'/TenantDb' ,
+    element: < TenantDb/>,
+  },
+  {
+    path:'/ProductList' ,
+    element: < ProductList/>,
   },
   {
     path: '/', // Base path for the main layout with Navbar
@@ -141,7 +178,7 @@ const router = createBrowserRouter([
         element: <CartWrapper />,
       },
       {
-        path: 'product',
+        path: 'product/:productId',
         element: <Product />,
       },
       {
@@ -151,6 +188,10 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Shop />,
+      },
+      {
+        path: 'product-list',
+        element: <ProductList />,
       },
       {
         path: '*',

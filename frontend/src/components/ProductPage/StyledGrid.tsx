@@ -10,10 +10,26 @@ const Grid = styled.div`
 `;
 
 const ProductItem = styled.div`
-  border: 1px solid #ccc;
-  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: antiquewhite;
+  }
 `;
+//   border: 1px solid #ccc;
+//   padding: 10px;
+//   text-align: center;
+// `;
 
 const ProductImage = styled.img`
   max-width: 100%;
@@ -26,22 +42,31 @@ const ProductImage = styled.img`
 `;
 
 const ProductName = styled.h2`
-  font-family: sans-serif;
-  font-size: 1.2em;
-  margin: 10px 5px;
+  p {
+    margin: 5px 0;
+  }
+  font-family: 'inter';
+  font-size:    16px;
+  //margin: 10px 5px;
 `;
 
 const ProductDescription = styled.p`
-  font-family: sans-serif;
-  font-size: 0.9em;
-  color: #666;
+  p {
+    margin: 5px 0;
+  }
+  font-family: 'inter';
+  font-size: 16px;
+  color: grey;
 `;
 
 const ProductPrice = styled.p`
-  font-family: sans-serif;
-  font-size: 1em;
-  font-weight: bold;
-  color: #0f600f;
+  p {
+    margin: 5px 0;
+  }
+  font-family: 'inter';
+  font-size:    16px;
+  //font-weight: bold;
+  color: green;
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

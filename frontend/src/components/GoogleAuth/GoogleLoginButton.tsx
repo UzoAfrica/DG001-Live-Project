@@ -53,7 +53,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ action }) => {
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}
-        ux_mode="redirect" // Optionally use popup mode for a better user experience
+        ux_mode="redirect" 
       />
     </div>
   );

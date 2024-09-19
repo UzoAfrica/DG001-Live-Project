@@ -1,4 +1,5 @@
 import { MdMarkEmailUnread } from 'react-icons/md';
+import { LuCamera } from "react-icons/lu";
 import styled from 'styled-components';
 
 export const BackImg = styled.div`
@@ -97,12 +98,12 @@ export const StyledTwo = styled.button`
   width: 120px;
   height: 50px;
   border-radius: 10px;
-  background-color: lightblue;
+  background-color: white;
   border: 1px solid black;
-  color: #ef6820;
+  color: black;
   &:hover {
-    background-color: white;
-    color: black;
+    background-color: #ef6820;
+    color: white;
     cursor: pointer;
   }
 `;
@@ -406,6 +407,22 @@ margin-left: 10px;
 border-bottom: 0.5px solid #e04f16;
 
 `
-
-
+export const Flexo = styled.div`
+display: flex;
+flex-direction: row-reverse;
+align-items: baseline;
+`
+export const ProfileImg = styled.img`
+width: 50px;
+border: solid #ef6820;
+height: 50px;
+border-radius: 50%;
+`
+export const Dragzone = styled(LuCamera)`
+  color: #ef6820;
+  border: none;
+  &:checked{
+    border: none;
+  }
+`
 

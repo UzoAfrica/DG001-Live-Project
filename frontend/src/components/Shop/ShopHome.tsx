@@ -10,10 +10,13 @@ import PlusSVG from '../../images/plus.svg';
 import BlenderSVG from '../../images/blender.svg';
 import { SecondDesktopContainer } from '../CreateShop/styles/StepTwo';
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ShopHome = () => {
   const [shopPhoto, setShopPhoto] = useState<File | null>(null);
   const shopPhotoInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate(); 
+
 
   const handleShopPhotoChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -173,8 +176,7 @@ const ShopHome = () => {
                   {createdProduct ? (
                     <>
                       {createdProduct.name}
-                      <br />
-                      {createdProduct.price}
+                      <br />N {createdProduct.price}
                     </>
                   ) : (
                     <>
@@ -196,8 +198,9 @@ const ShopHome = () => {
             $color="white"
             className="form-button-left"
             type="button"
+            onClick={ () => {navigate("/product-list")} }
           >
-            Upload Item
+            Go to products
           </Button>
         </SecondDesktopContainer>
       </Container>

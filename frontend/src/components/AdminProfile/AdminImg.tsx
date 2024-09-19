@@ -19,7 +19,7 @@ const MyDropzone: React.FC = () => {
   return (
     <>
       <Dragzone {...getRootProps()}>
-        <input type='file' {...getInputProps()} />
+        <Dragzone type='file' {...getInputProps()} />
         {isDragActive ? (
           <p>Drop the files here...</p>
         ) : (
@@ -29,7 +29,7 @@ const MyDropzone: React.FC = () => {
       </Dragzone>
 
       {image && (
-        <ProfileImg src={image} alt="Preview" style={{ width: '50px', maxHeight: '70px', objectFit: 'contain' }} />
+        <ProfileImg src={image} alt="Preview" style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }} />
       )}
     </>
   );
