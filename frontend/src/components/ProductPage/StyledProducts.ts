@@ -46,29 +46,18 @@ export const StyleCategories = styled.div`
       p {
           margin: 5px 0;
       }
-    //font-family: sans-serif;
-    //font-size: 24px;
-    //margin-bottom: 10px;
   }
 
   h4 {
       p {
           margin: 5px 0;
       }
-    //font-family: sans-serif;
-    //font-size: 18px;
-    //margin-bottom: 15px;
   }
 
   label {
       p {
           margin: 5px 0;
       }
-      //font-family: sans-serif;
-    //font-size: 15px;
-    //font-weight: normal;
-    //margin-top: 10px;
-    //display: inline-block;
   }
 
   div {
@@ -85,13 +74,6 @@ export const ColorOption = styled.div`
   }
 `;
 
-// export const StyleCategories = styled.div`
-// display: flex;
-// flex-direction: column;
-// row-gap: 20px;
-// height: 80%;
-//
-// `
 export const Holder = styled.div`
   width: 60%;
 `

@@ -1,28 +1,111 @@
+.product-list-container {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px; /* Fixed width for sidebar */
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ccc;
+}
+
+.main-content {
+  flex: 1; /* Take remaining space */
+  padding: 20px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  margin-bottom: 20px; /* Space below the search bar */
+}
+
+.search-input {
+  width: 75%;
+  padding: 10px;
+  margin-right: 10px; /* Space between search input and button */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.trending-sales-heading {
+  font-size: 1.5em;
+  margin: 10px 0; /* Space above and below the heading */
+}
+
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 10px;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 20px; /* Space between items */
 }
 
 .product {
-  border: 1px solid #ccc;
-  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.2s;
+}
+
+.product:hover {
+  transform: scale(1.05);
 }
 
 .product img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  object-fit: scale-down;
+}
+
+.product-details {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  width: 100%;
+}
+
+.product-name {
+  margin: 5px 0;
+  font-size: 1.2em;
+}
+
+.product-description {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.product-price {
+  margin: 5px 0;
+  font-weight: bold;
 }
 
 .product-button {
   padding: 1rem 2rem;
-  margin-top: 1rem;
+  margin-top: auto; /* Push button to the bottom */
   border-radius: 12px;
-  background-color: #E04F16;
+  background-color: #e04f16;
   color: white;
   font-weight: bold;
   font-size: 0.9rem;
   cursor: pointer;
+}
+
+/* Categories and Filters Styling */
+.categories {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-label,
+.price-label {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.filter-option {
+  margin: 5px 0;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
 }

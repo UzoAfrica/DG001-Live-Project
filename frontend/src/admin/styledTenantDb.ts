@@ -19,7 +19,6 @@ export const SidebarItem = styled.div`
     margin: 10px 0;
     cursor: pointer;
     color: ${(props) => (props.active ? 'orange' : 'black')};
-
     &:hover {
         color: #e04f16;
     }

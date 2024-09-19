@@ -4,7 +4,7 @@ export const FooterContainer = styled.footer`
   background-color: #000;
   color: #fff;
   padding: 40px 20px;
-  font-family: Arial, sans-serif;
+  font-family: Inter, sans-serif;
 `;
 
 export const FooterInnerContainer = styled.div`

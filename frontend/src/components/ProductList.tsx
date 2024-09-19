@@ -1,68 +1,134 @@
-//to fetch and display products
 import React, { useEffect, useState } from 'react';
-import { getProducts } from '../services/productService'; //imports and makes api call to fetch list of products
+import { getProducts } from '../services/productService';
 import './ProductList.css';
 import { showErrorToast } from './utils/toastify';
 import { useNavigate } from 'react-router-dom';
+import StyledGrid from '../components/ProductPage/StyledGrid.tsx';
+import Categories from '../components/ProductPage/Categories';
+import SortByButton from '../components/ProductPage/SortByButton';
 
 interface Product {
-  //type-check objects fields
   id: number;
   name: string;
   description: string;
   price: number;
   imageUrl: string;
+  category: string;
+  color?: string; // Optional color property
+  rating?: number; // Optional rating property
+  createdAt?: string; // Optional created date property
 }
 
+
+
 const ProductList: React.FC = () => {
-  //functional component
-  const [products, setProducts] = useState<Product[]>([]); //initializes array
-  const [loading, setLoading] = useState<boolean>(true); //updates state to true
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filters, setFilters] = useState({ category: '', color: '' });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('mostRelevant');
   const navigate = useNavigate();
 
   useEffect(() => {
-    //Hook to perform side effects
     const fetchProducts = async () => {
-      //fetching logic
       try {
-        const products = await getProducts(); //get products from product service
+        const products = await getProducts();
         setProducts(products);
-        setLoading(false); //on success, updates products and sets to false
+        setFilteredProducts(products); // Initialize filtered products
+        setLoading(false);
       } catch (error) {
-        //error handling and logs to console, sets loading to false
         showErrorToast('Error fetching products');
         console.error('Error fetching products', error);
         setLoading(false);
       }
     };
 
-    fetchProducts(); //calls within useEffect to fetch when component mounts
+    fetchProducts();
   }, []);
 
+  useEffect(() => {
+    let updatedProducts = products;
+
+    // Filter by category and color
+    if (filters.category) {
+      updatedProducts = updatedProducts.filter(product => product.category === filters.category);
+    }
+
+    if (filters.color) {
+      updatedProducts = updatedProducts.filter(product => product.color === filters.color);
+    }
+
+    // Search functionality
+    if (searchTerm) {
+      updatedProducts = updatedProducts.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Sort functionality
+    if (sortOption === 'highestRated') {
+      updatedProducts.sort((a, b) => b.rating - a.rating);
+    } else if (sortOption === 'mostRecent') {
+      updatedProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } else if (sortOption === 'highPrice') {
+      updatedProducts.sort((a, b) => b.price - a.price);
+    } else if (sortOption === 'lowPrice') {
+      updatedProducts.sort((a, b) => a.price - b.price);
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [filters, searchTerm, sortOption, products]);
+
+  const handleFilterChange = (newFilters: { category: string; color: string }) => {
+    setFilters(newFilters);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleAddToWishlist = (productId: number) => {
+    // Logic to add product to wishlist
+    console.log(`Added product ${productId} to wishlist`);
+  };
+
+  const handleAddToCart = (productId: number) => {
+    // Navigate to cart page or handle adding to cart
+    console.log(`Added product ${productId} to cart`);
+    navigate('/cart'); // Assuming '/cart' is the cart page route
+  };
+
+  const handleBuyNow = (productId: number) => {
+    // Navigate to buy product page
+    console.log(`Buying product ${productId}`);
+    navigate(`/buy/${productId}`); // Assuming product has a buy page
+  };
+
   if (loading) {
-    //checks, if true displays loading message
     return <div>Loading...</div>;
   }
 
   return (
-      //renders productList, if false returns jsx to render
-      <div className="product-list">
-        {products.map((product) => (
-            <div key={product.id} className="product">
-              <img src={product.imageUrl} alt={product.name} />
-              <h2>{product.name}</h2>
-              <p>{product.description}</p>
-              <p>${product.price.toFixed(2)}</p>
-              <button
-                  type="button"
-                  className='product-button'
-                  onClick={() => navigate(`/product/${product.id}`)}
-              >
-                See more
-              </button>
-            </div>
-        ))}
+    <div className="product-list-container">
+      <div className="sidebar">
+        <Categories onFilterChange={handleFilterChange} />
       </div>
+      <div className="main-content">
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="search-input"
+          />
+          <SortByButton onSort={setSortOption} />
+        </div>
+        <h2 className="trending-sales-heading">Trending Sales</h2>
+        <StyledGrid products={filteredProducts} onAddToWishlist={handleAddToWishlist} onAddToCart={handleAddToCart} onBuyNow={handleBuyNow} />
+      </div>
+    </div>
   );
 };
 

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     display: grid;
-    grid-template-columns: 40% 60%;
-    max-width: 1400px;
-    padding-left: 20px;
-    padding-right: 20px;
+    grid-template-columns: 50% 50%;
+    max-width: 1100px;
+    padding-left: 5px;
+    padding-right: 5px;
     margin: 0 auto;
     gap: 100px;
 
@@ -32,7 +32,7 @@ export const Box = styled.div`
 
   img {
     max-width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   p {

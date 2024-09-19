@@ -5,18 +5,17 @@ import {BsFillPersonLinesFill} from "react-icons/bs";
 import {BiCartDownload} from "react-icons/bi";
 import {FaBasketShopping} from "react-icons/fa6";
 import {TiMessageTyping} from "react-icons/ti";
+import profilePic from '../images/profilepic.png'; // Ensure the correct path to the image
 
 <SimpleB>
     <ColoredDiv>
-        <img src={}  alt="profilepic" />
+        <img src={profilePic} alt="profilepic" />
         <div>
             <StyleDark>Babalola </StyleDark>
             <p>visit your Profile</p>
         </div>
-
     </ColoredDiv>
     <div>
-
         <li>
             <StylendAtag href="">
                 <BsFillPersonLinesFill />
@@ -54,5 +53,5 @@ import {TiMessageTyping} from "react-icons/ti";
             </StylendAtag>
         </li>
     </div>
-
 </SimpleB>
+

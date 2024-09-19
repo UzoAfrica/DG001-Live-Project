@@ -20,7 +20,7 @@ export const SalesGrid = styled.div`
 export const SaleItem = styled.div`
   background-color: #f5f5f5;
   border-radius: 8px;
-  padding: 15px;
+  
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.2s ease-in-out;

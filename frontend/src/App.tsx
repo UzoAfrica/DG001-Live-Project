@@ -37,13 +37,13 @@ import Shop from './components/Shop/index';
 import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
-
-
-
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
 //productList
 import ProductList from '../src/components/ProductList.tsx'
+
+//OrdersPage
+import OrdersPage from './components/OrdersPage/OrdersPage.tsx';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -139,6 +139,10 @@ const router = createBrowserRouter([
   {
     path:'/ProductList' ,
     element: < ProductList/>,
+  },
+  {
+    path:'/OrdersPage' ,
+    element: < OrdersPage/>,
   },
   {
     path: '/', // Base path for the main layout with Navbar
