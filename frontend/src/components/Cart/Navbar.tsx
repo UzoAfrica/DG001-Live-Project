@@ -144,19 +144,19 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
         </NavMiddle>
 
         <NavRight>
-          <NotificationIcon>
+          {/* <NotificationIcon> */}
             {/* <i className="fa fa-bell" aria-hidden="true"></i> */}
-            <img
+            {/* <img
               src={BellSVG}
               alt="notifications icon"
               width="25px"
               height="25px"
-            />
+            /> */}
 
-            {notificationCount > 0 && (
+            {/* {notificationCount > 0 && (
               <NotificationCount>{notificationCount}</NotificationCount>
-            )}
-          </NotificationIcon>
+            )} */}
+          {/* </NotificationIcon> */}
 
           <UserAvatar onClick={handleAvatarClick}>
             {userImage ? (
