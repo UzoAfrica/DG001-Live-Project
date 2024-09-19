@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import {
   CartBackground,
   CartContainer,
@@ -27,57 +27,24 @@ import {
   VerifyPaymentResponse,
 } from '../../axiosFolder/functions/paymentFunction';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
+import { CartContext, CartContextProps } from './CartProvider';
 
 interface CartProps {
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface Item {
-  id: string;
-  title: string;
-  price: number;
-  quantity: number;
-  imageUrl: string[];
-}
-
 const Cart: FC<CartProps> = ({ setOpenCart }) => {
-  const [items, setItems] = useState<Item[]>([]);
-  const [cartTotal, setCartTotal] = useState<number>(0);
-  const [totalItems, setTotalItems] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    items,
+    totalItems,
+    cartTotal,
+    updateItemQuantity,
+    removeItem,
+    clearCart,
+  } = useContext(CartContext) as CartContextProps;
 
   const userEmail = localStorage.getItem('userEmail') || '';
 
-  useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem('cart');
-      if (savedCart) {
-        const cartItems = JSON.parse(savedCart);
-        setItems(cartItems);
-
-        // Calculate total price and items
-        const total = cartItems.reduce(
-          (acc: number, item: Item) => acc + item.price * item.quantity,
-          0
-        );
-        const totalItemCount = cartItems.reduce(
-          (acc: number, item: Item) => acc + item.quantity,
-          0
-        );
-
-        setCartTotal(total);
-        setTotalItems(totalItemCount);
-      }
-    } catch (error) {
-      setError('Error fetching cart');
-      console.error('Error fetching cart from local storage:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Check if paymentReference is present and verify payment
   useEffect(() => {
     const paymentReference = localStorage.getItem('paymentReference');
     const checkPayment = async () => {
@@ -93,6 +60,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
           } else {
             showSuccessToast(response.message!);
             localStorage.removeItem('paymentReference');
+            clearCart();
           }
         } catch (error) {
           if (error instanceof Error) {
@@ -104,73 +72,22 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
     checkPayment();
   }, []);
 
-  // Increment item quantity
   const handleAddItem = (productId: string) => {
-    const updatedCart = items.map((item) => {
-      if (item.id === productId) {
-        return { ...item, quantity: item.quantity + 1 };
-      }
-      return item;
-    });
-
-    setItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-
-    // Recalculate total
-    const newTotal = updatedCart.reduce(
-      (acc: number, item: Item) => acc + item.price * item.quantity,
-      0
-    );
-    const newTotalItems = updatedCart.reduce(
-      (acc: number, item: Item) => acc + item.quantity,
-      0
-    );
-    setCartTotal(newTotal);
-    setTotalItems(newTotalItems);
+    const item = items.find((item) => item.id === productId);
+    if (item) {
+      updateItemQuantity(productId, item.quantity + 1);
+    }
   };
 
-  // Decrement item quantity
   const handleRemoveItem = (productId: string) => {
-    const updatedCart = items.map((item) => {
-      if (item.id === productId && item.quantity > 1) {
-        return { ...item, quantity: item.quantity - 1 };
-      }
-      return item;
-    });
-
-    setItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-
-    // Recalculate total
-    const newTotal = updatedCart.reduce(
-      (acc: number, item: Item) => acc + item.price * item.quantity,
-      0
-    );
-    const newTotalItems = updatedCart.reduce(
-      (acc: number, item: Item) => acc + item.quantity,
-      0
-    );
-    setCartTotal(newTotal);
-    setTotalItems(newTotalItems);
+    const item = items.find((item) => item.id === productId);
+    if (item && item.quantity > 1) {
+      updateItemQuantity(productId, item.quantity - 1);
+    }
   };
 
   const handleDeleteItem = (itemId: string) => {
-    const updatedCart = items.filter((item) => item.id !== itemId);
-
-    setItems(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-
-    // Recalculate total
-    const newTotal = updatedCart.reduce(
-      (acc: number, item: Item) => acc + item.price * item.quantity,
-      0
-    );
-    const newTotalItems = updatedCart.reduce(
-      (acc: number, item: Item) => acc + item.quantity,
-      0
-    );
-    setCartTotal(newTotal);
-    setTotalItems(newTotalItems);
+    removeItem(itemId);
   };
 
   const handlePaymentInitiation = async () => {
@@ -191,10 +108,7 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
         redirectPage
       );
       if (response?.data?.authorizationUrl) {
-        // Set payment reference in localstorage
         localStorage.setItem('paymentReference', response.data.reference);
-
-        // Redirect to Paystack checkout page
         window.location.href = response.data.authorizationUrl;
       } else {
         showErrorToast('Error initiating payment.');
@@ -206,12 +120,9 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
   return (
     <>
-      <Title>Cart</Title>
+      <Title style={{ marginTop: '3rem' }}>Cart</Title>
       <CartBackground>
         <CartContainer>
           <CartHeader>
@@ -232,12 +143,18 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                   {items.map((item, index) => (
                     <CartItem key={index}>
                       <td>
-                        <ItemImage src={item.imageUrl[0]} alt={item.title} />
+                        <ItemImage
+                          // @ts-expect-error: typescript can't implicitly recognize sequelize association mixins.
+                          src={item.imageUrl[0] || '/placeholder-image.jpg'}
+                          alt={item.name}
+                        />
                       </td>
-                      <ItemTitle>{item.title}</ItemTitle>
+                      <ItemTitle>{item.name}</ItemTitle>
                       <ItemPrice>{item.price.toLocaleString()} ₦</ItemPrice>
                       <ItemQuantity>
-                        <QuantityButton onClick={() => handleRemoveItem(item.id)}>
+                        <QuantityButton
+                          onClick={() => handleRemoveItem(item.id)}
+                        >
                           &minus;
                         </QuantityButton>
                         <Quantity>{item.quantity}</Quantity>
@@ -259,17 +176,9 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
                 <TotalItems>Number of item(s): {totalItems}</TotalItems>
                 <TotalAmount>Total: {cartTotal.toLocaleString()} ₦</TotalAmount>
                 <FooterButtons>
-                  <ClearCartButton
-                    onClick={() => {
-                      setItems([]);
-                      setCartTotal(0);
-                      setTotalItems(0);
-                      localStorage.removeItem('cart');
-                    }}
-                  >
+                  <ClearCartButton onClick={clearCart}>
                     Empty Cart
                   </ClearCartButton>
-
                   <Button onClick={handlePaymentInitiation}>Checkout</Button>
                 </FooterButtons>
               </CartFooter>

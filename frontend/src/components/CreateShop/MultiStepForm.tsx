@@ -57,6 +57,8 @@ const MultiStepForm = () => {
     imageUrl: [
       'https://carefortepharm.com/wp-content/uploads/2021/06/aafcdd5075dd7f7ada9b1da4a925b92b16de1b05.jpeg',
     ],
+    category: '',
+    color: '',
   });
 
   // Handle shop input changes

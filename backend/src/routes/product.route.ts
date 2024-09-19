@@ -8,7 +8,7 @@ import {
   getTrendingSales,
   updateProduct,
 } from '../controllers/product.controller';
-import { addReview } from '../controllers/review.controller';
+import { addReview, getReviews } from '../controllers/review.controller';
 import {
   AuthenticatedRequest,
   authenticateToken,
@@ -62,5 +62,8 @@ router.delete('/delete-products/:id', authenticateToken, asyncHandler(deleteProd
  
 // Route to add a review for a product
 router.post('/:id/reviews', authenticateToken, asyncHandler(addReview));
+
+// Route to get reviews for a product
+router.get('/:id/reviews', authenticateToken, asyncHandler(getReviews));
  
 export default router;

@@ -21,6 +21,13 @@ enum color {
   ORANGE = 'ORANGE',
   YELLOW = 'YELLOW',
 }
+enum color {
+  GREEN = 'GREEN',
+  BLUE = 'BLUE',
+  RED = 'RED',
+  ORANGE = 'ORANGE',
+  YELLOW = 'YELLOW',
+}
 
 const Product = sequelize.define(
   'Product',
@@ -49,6 +56,20 @@ const Product = sequelize.define(
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false,
+    },
+    category: {
+      type: DataTypes.ENUM(
+        category.ELECTRONICS,
+        category.FASHION,
+        category.FOOD,
+        category.HEALTH,
+        category.HOME,
+        category.SPORTS,
+        category.CHILDREN,
+        category.ADULTS,
+        category.OTHERS
+      ),
+      allowNull: true,
     },
     description: {
       type: DataTypes.STRING,
