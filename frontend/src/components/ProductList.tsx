@@ -49,7 +49,7 @@ const ProductList: React.FC = () => {
           <ProductImage src={product.imageUrl} alt={product.name} />
           <ProductTitle>{product.name}</ProductTitle>
           <ProductDescription>{product.description}</ProductDescription>
-          <ProductPrice>N{Number(product.price).toFixed(2)}</ProductPrice>
+          <ProductPrice>N{new Intl.NumberFormat('en-NG').format(product.price)}</ProductPrice>
           <ProductButton onClick={() => navigate(`/product/${product.id}`)}>
             See more
           </ProductButton>

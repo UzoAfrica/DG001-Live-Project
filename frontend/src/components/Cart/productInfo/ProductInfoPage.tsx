@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useContext, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -14,6 +14,12 @@ import {
   SimilarProductItem,
   SimilarProductImage,
   StyledPaystackButton,
+  Grid,
+  GridProductDescription,
+  GridProductImage,
+  GridProductName,
+  GridProductPrice,
+  ProductItem,
 } from '../productInfo/productInfoStyled';
 import { getProducts, getProductById } from '../../../axiosFolder/functions/productFunction';
 import {
@@ -22,6 +28,13 @@ import {
   VerifyPaymentResponse,
 } from '../../../axiosFolder/functions/paymentFunction';
 import { showErrorToast, showSuccessToast } from '../../utils/toastify';
+import { CartContext, CartContextProps, CartItem } from '../CartProvider';
+import { AxiosError } from 'axios';
+import {
+  addReview,
+  fetchReviews,
+} from '../../../axiosFolder/functions/reviewFunction';
+import Reviews from './Reviews';
 
 interface Product {
   id: string;
@@ -30,7 +43,19 @@ interface Product {
   price: number;
   imageUrl: string;
   type: string;
-  quantity?: number;
+  quantity: number;
+  [key: string]: string | number;
+}
+interface ReviewForm {
+  comment: string;
+  rating: number;
+}
+export interface Review {
+  rating: number;
+  comment: string;
+  username: string;
+  shopName: string;
+  date: string;
 }
 
 const ProductInfoPage: FC = () => {
@@ -38,7 +63,16 @@ const ProductInfoPage: FC = () => {
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false);
+  const [reviewForm, setReviewForm] = useState<ReviewForm>({
+    comment: '',
+    rating: 0,
+  });
+  const [reviews, setReviews] = useState<Review[] | []>([]);
   const { productId } = useParams<{ productId: string }>();
+  const { addItem, updateItemQuantity, items } = useContext(
+    CartContext
+  ) as CartContextProps;
 
   const navigate = useNavigate();
 
@@ -100,6 +134,21 @@ const ProductInfoPage: FC = () => {
     checkPayment();
   }, []);
 
+  // Fetch all reviews on page render
+  useEffect(() => {
+    const getReviews = async () => {
+      try {
+        const response = await fetchReviews(productId!);
+        setReviews([...response?.data.data]);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          showErrorToast(error.response?.data.message);
+        }
+      }
+    };
+    getReviews();
+  }, []);
+
   // Function to handle when a similar product is clicked and swap it with the main product
   const handleSimilarProductClick = (clickedProduct: Product) => {
     if (mainProduct) {
@@ -116,20 +165,23 @@ const ProductInfoPage: FC = () => {
 
   const handleAddToCart = (product: Product) => {
     try {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existingProduct = cart.find(
-        (item: Product) => item.id === product.id
-      );
+      // const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      // const existingProduct = cart.find(
+      //   (item: Product) => item.id === product.id
+      // );
 
-      if (existingProduct) {
-        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      const existingItem = items.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        const newQuantity = existingItem.quantity + 1;
+        updateItemQuantity(product.id, newQuantity);
       } else {
-        cart.push({ ...product, quantity: 1 });
+        const cartItem: CartItem = {
+          ...product,
+        };
+        addItem(cartItem);
       }
-
-      localStorage.setItem('cart', JSON.stringify(cart));
       showSuccessToast('Product added to cart!');
-
       // Display prompt to user: proceed to checkout or continue shopping
       const userChoice = window.confirm(
         'Product added to cart! Would you like to go to the cart to checkout? Press OK to go to the cart or Cancel to continue shopping.'
@@ -198,8 +250,54 @@ const ProductInfoPage: FC = () => {
         showErrorToast('Error initiating payment.');
       }
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AxiosError) {
         showErrorToast(error.message);
+      }
+    }
+  };
+
+  const handleCommentInputChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setReviewForm({
+      ...reviewForm,
+      [name]: value,
+    });
+  };
+  const handleRatingInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target;
+    setReviewForm({
+      ...reviewForm,
+      [name]: value,
+    });
+  };
+
+  const handleReviewSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Send request to add review
+    try {
+      const response = await addReview(productId!, reviewForm);
+      const { comment, rating, createdAt, username, shopName } =
+        response?.data.data;
+      setReviews((previousState) => {
+        return [
+          ...previousState,
+          {
+            rating,
+            comment,
+            username,
+            shopName,
+            date: createdAt,
+          },
+        ];
+      });
+      showSuccessToast(response!.data.message);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        showErrorToast(error.response?.data.message);
       }
     }
   };
@@ -215,7 +313,9 @@ const ProductInfoPage: FC = () => {
           <ProductDetails>
             <ProductName>{mainProduct.name}</ProductName>
             <ProductDescription>{mainProduct.description}</ProductDescription>
-            <ProductPrice>₦{mainProduct.price.toLocaleString()}</ProductPrice>
+            <ProductPrice>
+              N{new Intl.NumberFormat('en-NG').format(mainProduct.price)}
+            </ProductPrice>
             <ButtonContainer>
               <WishlistButton onClick={() => handleAddToWishlist(mainProduct)}>
                 Add to Wishlist
@@ -223,15 +323,24 @@ const ProductInfoPage: FC = () => {
               <CartButton onClick={() => handleAddToCart(mainProduct)}>
                 Add to Cart
               </CartButton>
+              <StyledPaystackButton onClick={handlePaymentInitiation}>
+                Buy Now
+              </StyledPaystackButton>
             </ButtonContainer>
-
-            <StyledPaystackButton onClick={handlePaymentInitiation}>
-              Buy Now
-            </StyledPaystackButton>
           </ProductDetails>
 
+          {/* Reviews section */}
+          <Reviews
+            isReviewFormOpen={isReviewFormOpen}
+            handleReviewSubmit={handleReviewSubmit}
+            handleCommentInputChange={handleCommentInputChange}
+            handleRatingInputChange={handleRatingInputChange}
+            setIsReviewFormOpen={setIsReviewFormOpen}
+            reviews={reviews}
+          ></Reviews>
+
           {/* Similar Products Section */}
-          <SimilarProductsSection>
+          {/* <SimilarProductsSection>
             <h3>Similar Products</h3>
             <div>
               {similarProducts.map((similarProduct) => (
@@ -248,6 +357,36 @@ const ProductInfoPage: FC = () => {
                 </SimilarProductItem>
               ))}
             </div>
+          </SimilarProductsSection> */}
+
+          {/* Chika's style for similar products */}
+          <SimilarProductsSection>
+            <h3>Similar Products</h3>
+            <Grid>
+              {similarProducts.map((similarProduct) => (
+                <ProductItem
+                  key={similarProduct.id}
+                  onClick={() => handleSimilarProductClick(similarProduct)}
+                >
+                  <GridProductImage
+                    src={similarProduct.imageUrl}
+                    alt={similarProduct.name}
+                  />
+                  <GridProductName>{similarProduct.name}</GridProductName>
+                  <GridProductDescription>
+                    {similarProduct.description.length > 20
+                      ? similarProduct.description.slice(0, 20) + '...'
+                      : similarProduct.description}
+                  </GridProductDescription>
+                  <GridProductPrice>
+                    N
+                    {new Intl.NumberFormat('en-NG').format(
+                      similarProduct.price
+                    )}
+                  </GridProductPrice>
+                </ProductItem>
+              ))}
+            </Grid>
           </SimilarProductsSection>
         </>
       ) : (

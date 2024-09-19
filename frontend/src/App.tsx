@@ -39,15 +39,11 @@ import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
 
-// Product list component
-// import ProductList from './components/ProductList';
-
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
 //productList
 import ProductList from '../src/components/ProductList.tsx'
 import ProductCategory from './components/ProductPage/ProductCategory.tsx';
-import ProductInfoPage from './components/Cart/productInfo/ProductInfoPage';
 
 
 // Define an interface for MainLayout props
@@ -146,20 +142,8 @@ const router = createBrowserRouter([
     element: < ProductPage/>,
   },
   {
-    path: '/products/:category',
-    element: <ProductCategory />,
-  },
-  {
-    path: '/product/:productId', 
-    element: <ProductInfoPage />,
-  },
-  {
     path:'/TenantDb' ,
     element: < TenantDb/>,
-  },
-  {
-    path:'/ProductList' ,
-    element: < ProductList/>,
   },
   {
     path: '/', // Base path for the main layout with Navbar
@@ -178,8 +162,16 @@ const router = createBrowserRouter([
         element: <CartWrapper />,
       },
       {
+        path:'/ProductList' ,
+        element: < ProductList/>,
+      },    
+      {
         path: 'product/:productId',
         element: <Product />,
+      },
+      {
+        path: '/products/:category',
+        element: <ProductCategory />,
       },
       {
         path: 'create-shop',
@@ -188,10 +180,6 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Shop />,
-      },
-      {
-        path: 'product-list',
-        element: <ProductList />,
       },
       {
         path: '*',
