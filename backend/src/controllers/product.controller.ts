@@ -17,8 +17,17 @@ export const addProduct = async (req: Request, res: Response) => {
     return res.status(400).json({ error: error.details[0].message });
   }
 
-  const { name, description, price, quantity, userId, shopId, isAvailable } =
-    req.body;
+  const {
+    name,
+    description,
+    price,
+    quantity,
+    userId,
+    shopId,
+    isAvailable,
+    category,
+    color,
+  } = req.body;
 
   try {
     // Ensure req.files is correctly typed
@@ -58,13 +67,15 @@ export const addProduct = async (req: Request, res: Response) => {
       userId,
       MyShopId: shopId,
       isAvailable,
-    })
-      res.status(201).json({ message: 'Product created successfully', product });
-    } catch (err) {
-      console.error('Error adding product:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
+      category,
+      color,
+    });
+    res.status(201).json({ message: 'Product created successfully', product });
+  } catch (err) {
+    console.error('Error adding product:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
+};
 
 // Controller to get all products
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -90,10 +101,10 @@ export const getTrendingSales = async (req: Request, res: Response) => {
   } = req.query;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const queryConditions = {} as Record<string,any>;
+  const queryConditions = {} as Record<string, any>;
 
   if (search) {
-    queryConditions.name  = { [Op.like]: `%${search}%` };
+    queryConditions.name = { [Op.like]: `%${search}%` };
   }
   if (category) {
     queryConditions.category = category;
@@ -188,35 +199,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-// Controller to add a review for a product
-// export const addReview = async (req: Request, res: Response) => {
-//   const { error } = reviewSchema.validate(req.body);
-//   if (error) {
-//     return res.status(400).json({ error: error.details[0].message });
-//   }
-
-//   const { comment, rating } = req.body;
-//   const productId = req.params.id;
-
-//   try {
-//     const product = await Product.findByPk(productId);
-//     if (!product) {
-//       return res.status(404).json({ error: 'Product not found' });
-//     }
-
-//     const review = await Review.create({
-//       comment,
-//       rating,
-//       ProductId: productId,
-//     });
-
-//     res.status(201).json({ message: 'Review added successfully', review });
-//   } catch (err) {
-//     console.error('Error adding review:', err);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
 
 // Ensure all controllers are exported
 export default {

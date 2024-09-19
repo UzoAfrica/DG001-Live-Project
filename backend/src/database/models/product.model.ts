@@ -14,6 +14,13 @@ enum category {
   ADULTS = 'ADULT',
   OTHERS = 'OTHERS',
 }
+enum color {
+  GREEN = 'GREEN',
+  BLUE = 'BLUE',
+  RED = 'RED',
+  ORANGE = 'ORANGE',
+  YELLOW = 'YELLOW',
+}
 
 const Product = sequelize.define(
   'Product',
@@ -57,6 +64,16 @@ const Product = sequelize.define(
       ),
       allowNull: true,
     },
+    color: {
+      type: DataTypes.ENUM(
+        color.GREEN,
+        color.BLUE,
+        color.RED,
+        color.ORANGE,
+        color.YELLOW
+      ),
+      allowNull: true,
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -67,10 +84,6 @@ const Product = sequelize.define(
     },
     video: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    colours: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
     deals: {

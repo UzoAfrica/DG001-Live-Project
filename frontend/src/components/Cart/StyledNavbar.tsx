@@ -91,7 +91,8 @@ export const NavRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 15px;
+  /* gap: 19px; */
+  column-gap: 1.3rem;
   min-width: 0;
 
   @media (max-width: 768px) {
@@ -131,10 +132,16 @@ export const NotificationCount = styled.div`
   position: absolute;
   top: -5px;
   right: -10px;
-  background-color: orange;
+  /* background-color: orange; */
+  background-color: rgba(242, 153, 74, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  padding: 10px;
   color: white;
   border-radius: 50%;
-  padding: 2px 6px;
   font-size: 12px;
 `;
 
@@ -148,8 +155,8 @@ export const UserAvatar = styled.div`
 `;
 
 export const AvatarImage = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 43px;
+  height: 43px;
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -170,13 +177,15 @@ export const DefaultAvatar = styled.div`
 `;
 
 export const StartSellingButton = styled.button`
-  background-color: #e04f16;
+  background-color: rgba(224, 79, 22, 1);
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
   white-space: nowrap;
   text-decoration: none !important;
 
@@ -240,4 +249,30 @@ export const DropdownItem = styled.div`
   span {
     color: inherit;
   }
+`;
+
+export const CartIconContainer = styled.div`
+  display: flex;
+  position: relative;
+  cursor: pointer;
+`;
+export const CartImage = styled.img`
+  height: 100%;
+  width: 30px;
+`;
+export const CartContentsCount = styled.p`
+  border: 2px solid white;
+  background-color: rgba(242, 153, 74, 1);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  padding: 13px;
+  position: absolute;
+  right: -15px;
+  top: -18px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 `;

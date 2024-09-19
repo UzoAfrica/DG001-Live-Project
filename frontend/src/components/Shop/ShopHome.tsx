@@ -198,7 +198,7 @@ const ShopHome = () => {
             $color="white"
             className="form-button-left"
             type="button"
-            onClick={ () => {navigate("/product-list")} }
+            onClick={ () => {navigate("/ProductList")} }
           >
             Go to products
           </Button>
