@@ -47,6 +47,70 @@ export const getAllShops: RequestHandler = async (req: Request, res: Response) =
   }
 };
 
+// Get my shops
+// export const getMyShops: RequestHandler = async (req: Request, res: Response) => {
+//   try {
+//     console.log(">>>>>>>>>>>>", req.user);
+//     const shops = await Shop.findAndCountAll({
+//       where: {
+//         UserId: "8978efb9-2698-4a94-b837-0cacb5b5fb18"
+//       }
+//     }); // Fetch all shops from the database
+//     res.status(200).json({ message: 'Shops retrieved successfully', shops });
+//   } catch (error) {
+//     const errorMessage =
+//       error instanceof Error ? error.message : 'An unknown error occurred';
+//     console.error('Error retrieving shops:', error);
+//     res.status(500).json({
+//       message: 'An error occurred while retrieving shops.',
+//       error: errorMessage,
+//     });
+//   }
+// };
+
+
+export const getMyShops = async (req: Request, res: Response) => {
+  console.log("From Shop Controller >>>>>>>>>>>>", req.params.userId);
+
+  try {
+    const UserId = req.params.userId
+    // Ensure req.user exists and has an id property
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const shops = await Shop.findAll({
+      where: {
+        UserId
+      }
+    });
+
+    res.status(200).json({ 
+      message: 'Shops retrieved successfully', 
+      shops
+    });
+
+  } catch (error) {
+    console.error('Error retrieving shops:', error);
+
+    if (error instanceof Error) {
+      // Check if it's a Sequelize database error
+      if (error.name === 'SequelizeDatabaseError') {
+        return res.status(400).json({
+          message: 'Database error occurred while retrieving shops.',
+          error: error.message
+        });
+      }
+    }
+
+    // For any other types of errors
+    res.status(500).json({
+      message: 'An unexpected error occurred while retrieving shops.',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+};
+
 // Get a single shop by ID
 export const getShop: RequestHandler = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -189,9 +253,12 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
     const videoUrls = customReq.files?.videos
       ? await Promise.all(customReq.files.videos.map(uploadVideo))
       : shop.getDataValue('videoUrls');
-    const imageUrls = customReq.files?.images
-      ? await Promise.all(customReq.files.images.map(uploadImage))
-      : shop.getDataValue('imageUrls');
+    // const imageUrls = customReq.files?.images
+    //   ? await Promise.all(customReq.files.images.map(uploadImage))
+    //   : shop.getDataValue('imageUrls');
+
+    const result = await cloudinary.uploader.upload(req.file!.path);
+    const imageUrls =  [result.secure_url] || shop.getDataValue('imageUrls');
 
     await shop.update({
       name,
@@ -201,7 +268,7 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
       category,
       shopAddress,
       securityFeatures,
-      coverImage: imageUrls || shop.getDataValue('coverImage'),
+      imageUrls,
       videoUrls,
       country,
       street,
