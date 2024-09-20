@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
                 <a href="/profile">Profile</a>
               </DropdownItem>
               <DropdownItem>
-                <a href="/shop">My Shop</a>
+                <a href="/MyShops">My Shop</a>
               </DropdownItem>
               <DropdownItem>
                 <a href="/product-page">Product-page</a>

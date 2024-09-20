@@ -3,6 +3,7 @@ import {
   createShop,
   deleteShop,
   getAllShops,
+  getMyShops,
   getShop,
   updateShop,
 } from '../controllers/shop.controller';
@@ -24,6 +25,13 @@ router.get(
   authenticateToken as RequestHandler,
   checkShopExists,
   getShop
+);
+
+// Route to get user shop by ID
+router.get(
+  '/userShops/:userId',
+  authenticateToken as RequestHandler,
+  getMyShops
 );
 
 // Route to create a shop with file upload and validation

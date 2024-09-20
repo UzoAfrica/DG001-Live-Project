@@ -46,4 +46,7 @@ export const getShopById = (shopId: string) => axios.get(`/api/shop/${shopId}`);
 // Fetch all shops
 export const getShops = () => axios.get('/api/shop');
 
+// Fetch My shops
+export const getMyShops = (userId: string) => axios.get(`/api/shop/userShops/${userId}`);
+
 export default axios;

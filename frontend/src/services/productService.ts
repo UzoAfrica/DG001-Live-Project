@@ -17,3 +17,14 @@ export const getProducts = async () => {
     }
   }
 };
+
+export const getMyProducts = async (shopId: string) => {
+  try {
+    const response = await axios.get(`api/products/${shopId}`);
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response;
+    }
+  }
+};

@@ -109,7 +109,7 @@ const ShopHome = () => {
             ) : (
               <>
                 <Image src={PlusSVG} alt="plus" />
-                <Paragraph>Add a photo</Paragraph>
+                <Paragraph>Add Shop image/logo</Paragraph>
               </>
             )}
           </Container>
@@ -226,10 +226,10 @@ const ShopHome = () => {
             className="form-button-left"
             type="button"
             onClick={() => {
-              navigate('/ProductList');
+              navigate('/MyProductList');
             }}
           >
-            Go to products
+            My products
           </Button>
         </SecondDesktopContainer>
       </Container>

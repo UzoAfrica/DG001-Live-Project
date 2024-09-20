@@ -68,6 +68,22 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+// Controller to get all products
+export const getUserProducts = async (req: Request, res: Response) => {
+  try {
+    const shopId = req.params.shopId;
+    const products = await Product.findAll({
+      where: {
+        MyShopId: shopId,
+      },
+    });
+    res.status(200).json(products);
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 // Controller to get trending sales products
 export const getTrendingSales = async (req: Request, res: Response) => {
   const {
