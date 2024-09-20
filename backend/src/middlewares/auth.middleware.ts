@@ -36,8 +36,6 @@ export const authenticateToken: RequestHandler = async (
     }
 
         req.user = user;
-        console.log("From Middleware >>>>>>>>>>>>", req.user);
-
         next();
 
   } catch (error) {

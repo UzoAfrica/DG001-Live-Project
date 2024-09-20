@@ -70,8 +70,6 @@ export const getAllShops: RequestHandler = async (req: Request, res: Response) =
 
 
 export const getMyShops = async (req: Request, res: Response) => {
-  console.log("From Shop Controller >>>>>>>>>>>>", req.params.userId);
-
   try {
     const UserId = req.params.userId
     // Ensure req.user exists and has an id property
@@ -85,7 +83,7 @@ export const getMyShops = async (req: Request, res: Response) => {
       }
     });
 
-    res.status(200).json({ 
+    res.status(200).json({
       message: 'Shops retrieved successfully', 
       shops
     });

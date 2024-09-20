@@ -226,10 +226,10 @@ const ShopHome = () => {
             className="form-button-left"
             type="button"
             onClick={() => {
-              navigate('/MyProductList');
+              navigate('/ProductList');
             }}
           >
-            My products
+            Go to products
           </Button>
         </SecondDesktopContainer>
       </Container>
