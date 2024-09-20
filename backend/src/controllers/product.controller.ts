@@ -30,26 +30,6 @@ export const addProduct = async (req: Request, res: Response) => {
   } = req.body;
 
   try {
-    // Ensure req.files is correctly typed
-    // const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-    // Handle image uploads to Cloudinary
-    // if (files && files['image']) {
-    //   const imageUploadPromises = files['image'].map(file =>
-    //     cloudinary.v2.uploader.upload(file.path, { resource_type: 'image' })
-    //   );
-    //   const imageUploadResponses = await Promise.all(imageUploadPromises);
-    //   imageUploadUrls = imageUploadResponses.map(response => response.secure_url);
-    // }
-
-    // Handle video upload to Cloudinary if a file is included
-    // if (files && files['video'] && files['video'][0]) {
-    //   const uploadResponse = await cloudinary.v2.uploader.upload(files['video'][0].path, {
-    //     resource_type: 'video',
-    //   });
-    //   videoUploadUrl = uploadResponse.secure_url;
-    // }
-
     const videoUploadUrl = null;
     const imageUploadUrls: string[] = [];
 

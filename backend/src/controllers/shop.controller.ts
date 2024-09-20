@@ -189,9 +189,12 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
     const videoUrls = customReq.files?.videos
       ? await Promise.all(customReq.files.videos.map(uploadVideo))
       : shop.getDataValue('videoUrls');
-    const imageUrls = customReq.files?.images
-      ? await Promise.all(customReq.files.images.map(uploadImage))
-      : shop.getDataValue('imageUrls');
+    // const imageUrls = customReq.files?.images
+    //   ? await Promise.all(customReq.files.images.map(uploadImage))
+    //   : shop.getDataValue('imageUrls');
+
+    const result = await cloudinary.uploader.upload(req.file!.path);
+    const imageUrls =  [result.secure_url] || shop.getDataValue('imageUrls');
 
     await shop.update({
       name,
@@ -201,7 +204,7 @@ export const updateShop: RequestHandler = async (req: Request, res: Response) =>
       category,
       shopAddress,
       securityFeatures,
-      coverImage: imageUrls || shop.getDataValue('coverImage'),
+      imageUrls,
       videoUrls,
       country,
       street,

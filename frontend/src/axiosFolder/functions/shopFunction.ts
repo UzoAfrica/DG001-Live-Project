@@ -21,20 +21,29 @@ export const createShop = (formData: any) => {
 };
 
 // Update an existing shop by ID with video and image uploads
-export const updateShop = (shopId: string, formData: FormData) =>
-  axios.put(`api/shops/${shopId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+export const updateShop = (shopId: string, formData: any) => {
+  try {
+    const response = axios.put(`/api/shop/update-shop/${shopId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response;
+    }
+  }
+};
 
 // Delete a shop by ID
-export const deleteShop = (shopId: string) => axios.delete(`api/shops/${shopId}`);
+export const deleteShop = (shopId: string) =>
+  axios.delete(`/api/shop/${shopId}`);
 
 // Fetch a specific shop by ID
-export const getShopById = (shopId: string) => axios.get(`api/shops/${shopId}`);
+export const getShopById = (shopId: string) => axios.get(`/api/shop/${shopId}`);
 
 // Fetch all shops
-export const getShops = () => axios.get('api/shops');
+export const getShops = () => axios.get('/api/shop');
 
 export default axios;
