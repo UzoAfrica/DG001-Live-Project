@@ -8,6 +8,8 @@ import {
   LI,
   Image,
   TextArea,
+  Select,
+  Option,
 } from './styles/Index';
 import {
   StepTwoDesktopContainer,
@@ -31,7 +33,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
   handleProductInputChange,
   shopFormData,
   handleShopInputChange,
-  setProductFormData
+  setProductFormData,
 }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
@@ -75,7 +77,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
       <Container className="step-two">
         <Container $maxWidth="930px" $margin="0 auto" $padding="0.4rem">
           <Paragraph $fontSize="1.5rem" $fontWeight="500">
-            Creating a listing
+            Creating a Product
           </Paragraph>
           <Paragraph
             $margin="1rem 0 0 0"
@@ -351,7 +353,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
               ></Input>
             </Container>
 
-            {/* Category */}
+            {/* Price */}
             <Container
               $display="flex"
               $flexDirection="column"
@@ -383,6 +385,88 @@ const StepTwo: React.FC<StepTwoProps> = ({
                 $borderRadius="8px"
                 $padding="12px 16px"
               ></Input>
+            </Container>
+
+            {/* Product Category */}
+            <Container
+              $display="flex"
+              $flexDirection="column"
+              $rowGap="0.5rem"
+              $width="100%"
+              $maxWidth="615px"
+            >
+              <Label htmlFor="product-category" $margin="0 0 0 4px">
+                Product Category*
+              </Label>
+              <Paragraph
+                $margin="0.8rem 0 0 0"
+                $fontSize="1rem"
+                $color="rgba(0, 0, 0, 0.5)"
+                $fontFamily="'Inter', sans-serif"
+              >
+                What is your product's category?
+              </Paragraph>
+              <Select
+                name="category"
+                id="product-category"
+                required
+                value={productFormData.category}
+                onChange={handleProductInputChange}
+                $border="1px solid #D0D5DD"
+                $borderRadius="8px"
+                $padding="12px 16px"
+                $fontFamily="inherit"
+              >
+                <Option value="">Select</Option>
+                <Option value="ELECTRONICS">Electronics</Option>
+                <Option value="FASHION">Fashion</Option>
+                <Option value="FOOD">Food</Option>
+                <Option value="HEALTH">Health</Option>
+                <Option value="HOME">Home</Option>
+                <Option value="SPORTS">Sports</Option>
+                <Option value="CHILDREN">Children</Option>
+                <Option value="ADULT">Adult</Option>
+                <Option value="OTHERS">Others</Option>
+              </Select>
+            </Container>
+
+            {/* Product Color */}
+            <Container
+              $display="flex"
+              $flexDirection="column"
+              $rowGap="0.5rem"
+              $width="100%"
+              $maxWidth="615px"
+            >
+              <Label htmlFor="product-color" $margin="0 0 0 4px">
+                Product Color*
+              </Label>
+              <Paragraph
+                $margin="0.8rem 0 0 0"
+                $fontSize="1rem"
+                $color="rgba(0, 0, 0, 0.5)"
+                $fontFamily="'Inter', sans-serif"
+              >
+                What is the color of the product?
+              </Paragraph>
+              <Select
+                name="color"
+                id="product-color"
+                required
+                value={productFormData.color}
+                onChange={handleProductInputChange}
+                $border="1px solid #D0D5DD"
+                $borderRadius="8px"
+                $padding="12px 16px"
+                $fontFamily="inherit"
+              >
+                <Option value="">Select</Option>
+                <Option value="GREEN">Green</Option>
+                <Option value="BLUE">Blue</Option>
+                <Option value="RED">Red</Option>
+                <Option value="ORANGE">Orange</Option>
+                <Option value="YELLOW">Yellow</Option>
+              </Select>
             </Container>
 
             {/* Description */}

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../services/productService';
+import './StyledProductList.tsx';
 import './ProductList.css';
 import { showErrorToast } from './utils/toastify';
 import { useNavigate } from 'react-router-dom';
+
 import StyledGrid from '../components/ProductPage/StyledGrid.tsx';
 import Categories from '../components/ProductPage/Categories';
 import SortByButton from '../components/ProductPage/SortByButton';
@@ -88,21 +90,39 @@ const ProductList: React.FC = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleAddToWishlist = (productId: number) => {
-    // Logic to add product to wishlist
-    console.log(`Added product ${productId} to wishlist`);
+  const handleAddToWishlist = (product: Product) => {
+    try {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const existingProduct = wishlist.find((item: Product) => item.id === product.id);
+
+      if (existingProduct) {
+        alert('Product is already in your wishlist!');
+      } else {
+        wishlist.push(product);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        alert('Product added to wishlist!');
+      }
+    } catch (error) {
+      alert('Error adding product to wishlist');
+    }
   };
 
-  const handleAddToCart = (productId: number) => {
-    // Navigate to cart page or handle adding to cart
-    console.log(`Added product ${productId} to cart`);
-    navigate('/cart'); // Assuming '/cart' is the cart page route
-  };
+  const handleAddToCart = (product: Product) => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existingProduct = cart.find((item: Product) => item.id === product.id);
 
-  const handleBuyNow = (productId: number) => {
-    // Navigate to buy product page
-    console.log(`Buying product ${productId}`);
-    navigate(`/buy/${productId}`); // Assuming product has a buy page
+      if (existingProduct) {
+        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Product added to cart!');
+    } catch (error) {
+      alert('Error adding product to cart');
+    }
   };
 
   if (loading) {
@@ -125,8 +145,8 @@ const ProductList: React.FC = () => {
           />
           <SortByButton onSort={setSortOption} />
         </div>
-        <h2 className="trending-sales-heading">Trending Sales</h2>
-        <StyledGrid products={filteredProducts} onAddToWishlist={handleAddToWishlist} onAddToCart={handleAddToCart} onBuyNow={handleBuyNow} />
+        <h2 className="trending-sales-heading">Product List</h2>
+        <StyledGrid products={filteredProducts} onAddToWishlist={handleAddToWishlist} onAddToCart={handleAddToCart}/>
       </div>
     </div>
   );

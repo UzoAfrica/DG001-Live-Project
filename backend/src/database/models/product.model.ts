@@ -2,6 +2,26 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../../config/sequelize.config';
 import Review from './review.model';
 // Product model
+
+enum category {
+  ELECTRONICS = 'ELECTRONICS',
+  FASHION = 'FASHION',
+  FOOD = 'FOOD',
+  HEALTH = 'HEALTH',
+  HOME = 'HOME',
+  SPORTS = 'SPORTS',
+  CHILDREN = 'CHILDREN',
+  ADULTS = 'ADULT',
+  OTHERS = 'OTHERS',
+}
+enum color {
+  GREEN = 'GREEN',
+  BLUE = 'BLUE',
+  RED = 'RED',
+  ORANGE = 'ORANGE',
+  YELLOW = 'YELLOW',
+}
+
 const Product = sequelize.define(
   'Product',
   {
@@ -10,7 +30,7 @@ const Product = sequelize.define(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    MyShopId: { 
+    MyShopId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -30,6 +50,30 @@ const Product = sequelize.define(
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
+    category: {
+      type: DataTypes.ENUM(
+        category.ELECTRONICS,
+        category.FASHION,
+        category.FOOD,
+        category.HEALTH,
+        category.HOME,
+        category.SPORTS,
+        category.CHILDREN,
+        category.ADULTS,
+        category.OTHERS
+      ),
+      allowNull: true,
+    },
+    color: {
+      type: DataTypes.ENUM(
+        color.GREEN,
+        color.BLUE,
+        color.RED,
+        color.ORANGE,
+        color.YELLOW
+      ),
+      allowNull: true,
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,10 +84,6 @@ const Product = sequelize.define(
     },
     video: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    colours: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
     deals: {

@@ -11,6 +11,8 @@ export const Title = styled.h1`
   margin-bottom: 20px;
   font-weight: bold;
   color: #222;
+  text-align: center;
+  margin-top: 3rem;
 `;
 
 export const WishlistContainer = styled.div`
@@ -62,37 +64,38 @@ export const ProductPrice = styled.p`
 export const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
+  column-gap: 1rem;
 `;
 
 export const ViewMoreButton = styled.button`
-    background-color: #e04f16;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-
-    &:hover {
-        background-color: #e04f16;
-    }
-`;
-
-export const AddToCartButton = styled.button`
-  background-color: #008cba;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px 2px;
+  background-color: transparent;
+  color: rgba(224, 79, 22, 1);
+  border: 1px solid rgba(224, 79, 22, 1);
+  padding: 10px 15px;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #007bb5;
+    background-color: antiquewhite;
+  }
+`;
+
+export const AddToCartButton = styled.button`
+  background-color: transparent;
+  color: rgba(224, 79, 22, 1);
+  border: 1px solid rgba(224, 79, 22, 1);
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: antiquewhite;
   }
 `;
 

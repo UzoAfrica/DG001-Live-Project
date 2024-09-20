@@ -9,7 +9,6 @@ const NavbarContainer = styled.nav`
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #e04f16;
     color: white;
 `;
 
@@ -49,15 +48,15 @@ const Profile = styled.div`
 const Navbar: React.FC = () => {
   return (
     <NavbarContainer>
-      <Logo>Tradïr</Logo>
+      {/*<Logo>Tradïr</Logo>*/}
       <SearchBox>
         <FaSearch />
-        <input type="text" placeholder="Search products..." />
+        <input type="text" placeholder="Search Orders..." />
       </SearchBox>
-      <Profile>
-        <img src={ProfilePic} alt="Profile" />
-        <FaUserCircle size={30} />
-      </Profile>
+      {/*<Profile>*/}
+      {/*  <img src={ProfilePic} alt="Profile" />*/}
+      {/*  <FaUserCircle size={30} />*/}
+      {/*</Profile>*/}
     </NavbarContainer>
   );
 };

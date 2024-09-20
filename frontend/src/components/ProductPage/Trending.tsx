@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Field, MaxOut, StyledInput, TwinsCol } from './StyledProducts';
+import { Field, MaxOut, TextArea, TwinsCol   } from './StyledProducts';
 import Grid from './StyledGrid';
 import SortByButton from './SortByButton';
 import { products } from './product';
+import { StyledInput } from '../StyleCompo';
 
 const Trending: React.FC = () => {
   const [sortedProducts, setSortedProducts] = useState(products);
@@ -22,17 +23,72 @@ const Trending: React.FC = () => {
     }
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+   // Sort and filter products based on the option selected
+   const sortProducts = (sortOption: string) => {
+    let sortedArray = [...products];
+
+
+    const getNumericPrice = (price: string) => {
+      return parseFloat(price.replace(/[^\d.]/g, '')); // Removes non-numeric characters
+    };
+
+    switch (sortOption) {
+      case 'highPrice':
+        // Find the product with the highest price
+        const highestPricedProduct = sortedArray.reduce((prev, current) =>
+          getNumericPrice(prev.price) > getNumericPrice(current.price) ? prev : current
+        );
+        setSortedProducts([highestPricedProduct]); // Set only the highest priced product
+        break;
+      case 'lowPrice':
+        // Find the product with the lowest price
+        const lowestPricedProduct = sortedArray.reduce((prev, current) =>
+          getNumericPrice(prev.price) < getNumericPrice(current.price) ? prev : current
+        );
+        setSortedProducts([lowestPricedProduct]); // Set only the lowest priced product
+        break;
+        // Find the most recent product
+      case 'mostRecent':
+        sortedArray.sort((a, b) => new Date(b.date).getTime() -  new Date (a.date).getTime());
+        setSortedProducts(sortedArray);
+        break;
+      //  Find the highest reated product
+      case 'highestRated':
+        sortedArray.sort((a, b) => b.rating - a.rating); 
+        setSortedProducts(sortedArray);
+        break;
+
+      default:
+        setSortedProducts(sortedArray); // Default behavior (show all products)
+        break;
+    }
   };
 
-  useEffect(() => {
-    fetchSortedProducts(sortOption);
-  }, [searchTerm, sortOption]);
+// To return the user to all the products after sorting
+  const showAllProducts = () => {
+    setSortedProducts(products);
+  }
 
-  const filteredProducts = sortedProducts.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Search for products based on searchTerm
+  const filterProductsBySearch = (searchTerm: string) => {
+    const filtered = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSortedProducts(filtered);
+  };
+
+  // Handle search term changes
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    filterProductsBySearch(value);
+  };
+
+  // Handle sorting based on sort option
+
+  useEffect(() => {
+    sortProducts('mostRelevant'); // Default sorting
+  }, []);
 
   return (
     <TwinsCol>
@@ -52,10 +108,9 @@ const Trending: React.FC = () => {
         <legend>
           <h2>TRENDING SALES</h2>
         </legend>
-        <a href="/product-list">
-          <Grid products={filteredProducts} />
-        </a>
+          <Grid products={sortedProducts} />
       </Field>
+      <button onClick={showAllProducts}>Show All Products</button>
     </TwinsCol>
   );
 };

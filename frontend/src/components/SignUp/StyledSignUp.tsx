@@ -47,7 +47,8 @@ export const FormContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 90%;
-  max-width: 400px;
+  height: 674px;
+  max-width: 598px;
   text-align: flex-start;
 `;
 
@@ -55,7 +56,7 @@ export const Logo = styled.img`
   display: block;
   margin: 0 auto;
   width: 80px;
-  background-color: transparent;
+  background-color: transperent;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 

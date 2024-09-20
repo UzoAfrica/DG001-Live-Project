@@ -16,7 +16,7 @@ export const StyledIoMdNotificationsOutline = styled(IoMdNotificationsOutline)`
 
 export const StyledButton = styled.div`
     display: flex;
-  gap: 10px;
+    gap: 10px;
     align-items: center;
 `
 export const Btn = styled.a`
@@ -38,41 +38,55 @@ export const StyleCategories = styled.div`
   padding: 20px;
   background-color: #ffffff;
   border-radius: 20px;
-  //box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  height: 800px;
+  height: 100vh;
   width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+   
 
   h2 {
-      p {
+           padding: 10px;
           margin: 5px 0;
-      }
+    
+    font-family: 'Outfit';
   }
 
   h4 {
-      p {
+          padding: 10px;
           margin: 5px 0;
-      }
+      
+          
+    font-family: 'Outfit';
+
   }
 
   label {
-      p {
           margin: 5px 0;
-      }
+      
+      font-family: 'Outfit';
   }
 
   div {
     margin-bottom: 10px;
   }
 
-  input[type='radio'] {
+  input[type='checkbox'] {
     margin-right: 8px;
-  }
+}
+  select {
+   color : coral
+  }  
+  
 `
 export const ColorOption = styled.div`
-  input[type="radio"]:checked + label {
+
+  input[type="checkbox"]:checked + label {
     color: ${(props) => props.color};
+  
   }
 `;
+
 
 export const Holder = styled.div`
   width: 60%;
@@ -89,9 +103,11 @@ export const MaxOut = styled.div`
   justify-content: space-between;
   margin-right: 100px;
 `
-export const StyledInput = styled.input`
+export const TextArea = styled.input`
   height: 30px;
   width: 60%;
+  border: 1px solid #000;
+  outline: none
 `
 
 export const TwinsCol = styled.div`

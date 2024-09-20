@@ -19,6 +19,8 @@ import Footer from './components/LandingPage/Footer';
 // Authentication and Utility Components
 import LogIn from './components/Login/LogInPage';
 import SignUp from './components/SignUp/SignUpPage';
+import AdminSignUp from './components/SignUp/AdminSignUp.tsx';
+import AdminLogin from './components/Login/AdminLogIn.tsx';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 import UserProfile from './components/Userpofile/UserProfile'
@@ -37,10 +39,13 @@ import Shop from './components/Shop/index';
 import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
+
 //tenantDb
 import TenantDb from "./admin/TenantDb.tsx";
 //productList
 import ProductList from '../src/components/ProductList.tsx'
+import ProductCategory from './components/ProductPage/ProductCategory.tsx';
+
 
 //OrdersPage
 import OrdersPage from './components/OrdersPage/OrdersPage.tsx';
@@ -121,6 +126,14 @@ const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  {
+    path: '/admin/signup',
+    element: <AdminSignUp />,
+  },
+  {
     path: '/reset',
     element: <Reset />,
   },
@@ -135,14 +148,6 @@ const router = createBrowserRouter([
   {
     path:'/TenantDb' ,
     element: < TenantDb/>,
-  },
-  {
-    path:'/ProductList' ,
-    element: < ProductList/>,
-  },
-  {
-    path:'/OrdersPage' ,
-    element: < OrdersPage/>,
   },
   {
     path: '/', // Base path for the main layout with Navbar
@@ -161,8 +166,16 @@ const router = createBrowserRouter([
         element: <CartWrapper />,
       },
       {
+        path:'/ProductList' ,
+        element: < ProductList/>,
+      },    
+      {
         path: 'product/:productId',
         element: <Product />,
+      },
+      {
+        path: '/products/:category',
+        element: <ProductCategory />,
       },
       {
         path: 'create-shop',
@@ -173,8 +186,8 @@ const router = createBrowserRouter([
         element: <Shop />,
       },
       {
-        path: 'product-list',
-        element: <ProductList />,
+        path:'/OrdersPage' ,
+        element: < OrdersPage/>,
       },
       {
         path: '*',

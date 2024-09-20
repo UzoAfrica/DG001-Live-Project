@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import {
   AuthContainer,
   Container,
-  BackgroundImage,
   FormContainer,
-  Logo,
   Title,
   InputField,
   Label,
@@ -19,21 +17,21 @@ import {
 } from './StyledSignUp';
 import { Link, useNavigate } from 'react-router-dom';
 import googleLogo from '../../images/download.png';
-// import api from '../utils/Api';
-import { signup } from '../../axiosFolder/functions/userAuth';
+import { signupAdmin } from '../../axiosFolder/functions/adminAuth';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
+import logo from '../../images/logo-removebg-preview.png';
+import backgroundImage from '../../images/c4e920f58d65bab2316b7611a10653b0.png';
 
-const SignUpPage: React.FC = () => {
+const AdminSignUp: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    hearAboutUs: '',
+    referralSource: '',
   });
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
 
   // Handle input changes
@@ -55,17 +53,10 @@ const SignUpPage: React.FC = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
-      setLoading(true);
-
-      const body = {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        referralSource: formData.hearAboutUs,
-      };
-
-      const response = await signup(body);
+      const response = await signupAdmin(formData);
 
       if (response.status !== 201) {
         setLoading(false);
@@ -76,9 +67,8 @@ const SignUpPage: React.FC = () => {
       showSuccessToast(response.data.message);
       localStorage.setItem('email', formData.email);
 
-      return navigate('/otp');
+      return navigate('/admin/login');
     } catch (error: any) {
-      console.error('Error registering user:', error);
       setLoading(false);
       return showErrorToast(error.message);
     }
@@ -86,18 +76,41 @@ const SignUpPage: React.FC = () => {
 
   const handleLoginLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    navigate('/login');
+    navigate('/admin/login');
   };
 
   return (
     <AuthContainer>
       <Container>
-        <BackgroundImage />
+        <img
+          src={backgroundImage}
+          alt="Background"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: -1,
+          }}
+        />
         <FormContainer>
           <a href="/">
-            <Logo src="./src/images/logo-removebg-preview.png" alt="Logo" />
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
+                display: `block`,
+                margin: `0 auto`,
+                width: `80px`,
+                backgroundColor: `transparent`,
+                boxShadow: `0 2px 10px rgba(0, 0, 0, 0.1)`,
+              }}
+            />
           </a>
-          <Title>Create an Account</Title>
+          <Title>Create an Admin Account</Title>
           <form onSubmit={handleSubmit}>
             <InputField>
               <Label htmlFor="name">Name</Label>
@@ -105,7 +118,6 @@ const SignUpPage: React.FC = () => {
                 type="text"
                 id="name"
                 name="name"
-                placeholder=""
                 value={formData.name}
                 onChange={handleInputChange}
                 required
@@ -117,7 +129,6 @@ const SignUpPage: React.FC = () => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder=""
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -130,7 +141,6 @@ const SignUpPage: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
-                  placeholder="******"
                   value={formData.password}
                   onChange={handleInputChange}
                   required
@@ -150,22 +160,21 @@ const SignUpPage: React.FC = () => {
               </div>
             </InputField>
             <InputField>
-              <Label htmlFor="hear-about-us">How did you hear about us?</Label>
+              <Label htmlFor="referralSource">Referral Source</Label>
               <Select
-                id="hear-about-us"
-                value={formData.hearAboutUs}
+                id="referralSource"
+                name="referralSource"
+                value={formData.referralSource}
                 onChange={handleInputChange}
-                name="hearAboutUs"
+                required
               >
-                <optgroup label="">
-                  <option value="" disabled>
-                    Select an option
-                  </option>
-                  <option value="Instagram">Instagram</option>
-                  <option value="Facebook">Facebook</option>
-                  <option value="Google">Google</option>
-                  <option value="Others">Others</option>
-                </optgroup>
+                <option value="" disabled>
+                  Select an option
+                </option>
+                <option value="Instagram">Instagram</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Google">Google</option>
+                <option value="Others">Others</option>
               </Select>
             </InputField>
             <Separator>
@@ -174,20 +183,21 @@ const SignUpPage: React.FC = () => {
               <SeparatorHr />
             </Separator>
 
-            {/* Google Login Button Component with action prop */}
+            {/* Google Admin Sign Up Button */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              <Link to="http://localhost:5001/auth/google/signup">
+              <Link to="http://localhost:5001/auth/google/admin-signup">
                 Sign up with Google
               </Link>
             </GoogleSignUp>
+
             <SignUpButton type="submit">
-              {loading ? 'Loading...' : 'SIGN UP'}
+              {loading ? 'Loading...' : 'Sign Up'}
             </SignUpButton>
           </form>
           <Footer>
             Already have an account?{' '}
-            <a href="/login" onClick={handleLoginLinkClick}>
+            <a href="/admin/login" onClick={handleLoginLinkClick}>
               Log In here
             </a>
           </Footer>
@@ -197,4 +207,4 @@ const SignUpPage: React.FC = () => {
   );
 };
 
-export default SignUpPage;
+export default AdminSignUp;

@@ -54,9 +54,9 @@ const MultiStepForm = () => {
     userId: JSON.parse(localStorage.getItem('user')!).id,
     shopId: '',
     isAvailable: true,
-    imageUrl: [
-      'https://carefortepharm.com/wp-content/uploads/2021/06/aafcdd5075dd7f7ada9b1da4a925b92b16de1b05.jpeg',
-    ],
+    image: '',
+    category: '',
+    color: '',
   });
 
   // Handle shop input changes
@@ -124,6 +124,18 @@ const MultiStepForm = () => {
   };
 
   const handleNext = () => {
+    if(currentStep === 0){
+      if (shopFormData.name === '' || shopFormData.category === '' || shopFormData.currency === '') {
+        return showErrorToast( 'all fields are required');
+      }
+    }
+    if(currentStep === 1){
+      if (productFormData.image === '' || productFormData.category === '' || productFormData.name === ''
+        || productFormData.price === '' || productFormData.color === '' || productFormData.description) {
+        return showErrorToast( 'all fields are required');
+      }
+
+    }
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }

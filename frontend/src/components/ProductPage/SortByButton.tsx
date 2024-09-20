@@ -30,6 +30,7 @@ const DropdownItem = styled.div`
   text-decoration: none;
   display: block;
   cursor: pointer;
+  
 
   &:hover {
     background-color: #f1f1f1;
@@ -45,15 +46,18 @@ const DropdownItem = styled.div`
 `;
 
 const SortButton = styled.button`
-    background-color: #ffffff;
+    border: 1px solid #000;
     font: 16px Outfit, sans-serif;
     color: #191818;
     padding: 10px 20px;
-    border: none;
     cursor: pointer;
     border-radius: 10px;
+    opacity: 0.6;
+    transition: 0.5s;
     
- 
+ &:hover {
+    opacity: 1; 
+  }
 
     @media (max-width: 768px) {
         padding: 8px 16px;
@@ -83,7 +87,6 @@ const SortByButton: React.FC<{ onSort: (sortOption: string) => void }> = ({
         {[
           'highestRated',
           'mostRecent',
-          'mostRelevant',
           'highPrice',
           'lowPrice',
         ].map((option) => (
