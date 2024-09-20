@@ -14,7 +14,7 @@ import Hero from './components/LandingPage/Hero';
 import WhyUseUs from './components/LandingPage/WhyUseUS';
 import TrendingSales from './components/LandingPage/TrendingSales';
 import Footer from './components/LandingPage/Footer';
- 
+
 // Authentication and Utility Components
 import LogIn from './components/Login/LogInPage';
 import SignUp from './components/SignUp/SignUpPage';
@@ -22,8 +22,8 @@ import AdminSignUp from './components/SignUp/AdminSignUp.tsx';
 import AdminLogin from './components/Login/AdminLogIn.tsx';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
-import UserProfile from './components/Userpofile/UserProfile'
- 
+import UserProfile from './components/Userpofile/UserProfile';
+
 // Product, Cart, and Wishlist Components
 import Wishlist from './components/Cart/wishlist/WishlistPage';
 import CartPage from './components/Cart/CartPage';
@@ -38,13 +38,17 @@ import Shop from './components/Shop/index';
 import ProductPage from './components/ProductPage/ProductPage';
 import CallbackPage from './components/Login/Callback';
 
-
 //tenantDb
-import TenantDb from "./admin/TenantDb.tsx";
+import TenantDb from './admin/TenantDb.tsx';
 //productList
-import ProductList from '../src/components/ProductList.tsx'
+import ProductList from '../src/components/ProductList.tsx';
 import ProductCategory from './components/ProductPage/ProductCategory.tsx';
 
+//MyProducts
+import MyProducts from '../src/components/MyProducts/MyProducts.tsx';
+
+//MyShops
+import MyShops from '../src/components/MyShops/MyShops.tsx';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -52,22 +56,22 @@ interface MainLayoutProps {
     profileImage: string;
   };
 }
- 
+
 // Define context type for Outlet
 interface OutletContext {
   setOpenCart: Dispatch<SetStateAction<boolean>>;
 }
- 
+
 // Wrapper component to pass setOpenCart to CartPage component
 const CartWrapper: FC = () => {
   const { setOpenCart } = useOutletContext<OutletContext>();
   return <CartPage setOpenCart={setOpenCart} />;
 };
- 
+
 // Layout component that includes Navbar and accepts userProfile as a prop
 const MainLayout: FC<MainLayoutProps> = ({ userProfile }) => {
   const [setCartOpen] = useState<boolean>(false);
- 
+
   return (
     <>
       <Navbar userProfile={userProfile} />
@@ -76,12 +80,12 @@ const MainLayout: FC<MainLayoutProps> = ({ userProfile }) => {
     </>
   );
 };
- 
+
 // Define userProfile object to pass to MainLayout
 const userProfile = {
   profileImage: 'path/to/image.png',
 };
- 
+
 // New NotFound component
 const NotFound: FC = () => (
   <div style={{ textAlign: 'center', marginTop: '50px' }}>
@@ -89,7 +93,7 @@ const NotFound: FC = () => (
     <p>The page you are looking for does not exist.</p>
   </div>
 );
- 
+
 // Combine the landing page components into one main component
 const MainPage: FC = () => (
   <>
@@ -101,7 +105,7 @@ const MainPage: FC = () => (
   </>
 );
 
-// const 
+// const
 
 // Define the router configuration
 const router = createBrowserRouter([
@@ -110,7 +114,7 @@ const router = createBrowserRouter([
     element: <MainPage />,
   },
   {
-    path:'/callback',
+    path: '/callback',
     element: <CallbackPage />,
   },
   {
@@ -138,12 +142,12 @@ const router = createBrowserRouter([
     element: <ReSend />,
   },
   {
-    path:'product-page' ,
-    element: < ProductPage/>,
+    path: 'product-page',
+    element: <ProductPage />,
   },
   {
-    path:'/TenantDb' ,
-    element: < TenantDb/>,
+    path: '/TenantDb',
+    element: <TenantDb />,
   },
   {
     path: '/', // Base path for the main layout with Navbar
@@ -153,18 +157,26 @@ const router = createBrowserRouter([
         path: 'wishlist',
         element: <Wishlist />,
       },
-      { 
+      {
         path: 'profile',
-        element: <UserProfile />
+        element: <UserProfile />,
       },
       {
         path: 'cart',
         element: <CartWrapper />,
       },
       {
-        path:'/ProductList' ,
-        element: < ProductList/>,
-      },    
+        path: '/ProductList',
+        element: <ProductList />,
+      },
+      {
+        path: '/MyProductList',
+        element: <MyProducts />,
+      },
+      {
+        path: '/MyShops',
+        element: <MyShops />,
+      },
       {
         path: 'product/:productId',
         element: <Product />,
@@ -188,7 +200,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
- 
+
 const App: FC = () => {
   return (
     <CartProvider>
@@ -197,5 +209,5 @@ const App: FC = () => {
     </CartProvider>
   );
 };
- 
+
 export default App;
