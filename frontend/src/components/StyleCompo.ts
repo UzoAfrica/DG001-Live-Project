@@ -210,8 +210,7 @@ color: white;
 `
 
 export const StyledUserOptions = styled.div`
-  margin-left: 300px;
-  margin-top: 30px;
+ 
 
 
 text-align: center;
@@ -312,7 +311,7 @@ export const StyledLineDiv = styled.div`
 font-weight: bold;
 font-size: small;
 display: flex;
-margin: 20px auto 0 300px;
+
 gap: 5px;
 @media (max-width: 800px){
   margin: auto;
@@ -374,7 +373,11 @@ border: 1px solid #D0D5DD;
 border-radius: 10px;
 padding-left: 15px;
 height: 35px;
-width: 350px;
+width: 400px;
+@media (max-width: 800px){
+ width: 250px;
+  
+}
 `
 export const PassForm = styled.fieldset`
 border: none;
@@ -409,6 +412,7 @@ border-bottom: 0.5px solid #e04f16;
 `
 export const Flexo = styled.div`
 display: flex;
+margin-left: 20px;
 flex-direction: row-reverse;
 align-items: baseline;
 `
@@ -426,3 +430,17 @@ export const Dragzone = styled(LuCamera)`
   }
 `
 
+export const Profilecard = styled.div`
+margin: 100px auto;
+border: 2px solid ;
+width: 650px;
+padding: 100px;
+border-radius: 20px;
+box-shadow: 1px -2px 1px -2px;
+
+@media (max-width: 800px){
+ width: 350px;
+ padding: 10px;
+  
+}
+`

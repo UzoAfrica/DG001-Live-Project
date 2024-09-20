@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 export const updateProfileSchema = Joi.object({
 
-    firstName: Joi.string().min(4).optional(),
+    name: Joi.string().min(4).optional(),
     lastName: Joi.string().min(4).optional(),
     email:    Joi.string().email().optional(),
     gender:   Joi.string().min(4).optional(),

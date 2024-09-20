@@ -5,10 +5,10 @@ import MyDropzone from "./Mydropzone";
 import { showErrorToast, showSuccessToast } from "../utils/toastify";
 import { updateProfile } from "../../axiosFolder/functions/profileFuntion";
 import { 
-  StyledProfileSet, StyledNotify, StyledVerify, StyledLineDiv, StyledPassWord,
-  StyledUserOptions, StyledImgBut, StyledFlexbutton, StyledOne, StyledTwo,
-  StyledProfileBox, StyledDisFlex, StyledBox, Styledinput, FloatLeft,
-  STyledStartSelling, StyledTwin, PassForm, Styledp, Styledfield, Styledli
+  StyledProfileSet, StyledLineDiv, StyledPassWord,
+  StyledUserOptions, StyledImgBut, StyledFlexbutton, StyledTwo,
+  StyledProfileBox, StyledDisFlex, StyledBox, Styledinput, FloatLeft,Profilecard,
+  STyledStartSelling, StyledTwin, PassForm, Styledp, 
 } from "../StyleCompo";  
 
 export default function UserSettings() {  
@@ -68,12 +68,10 @@ export default function UserSettings() {
   };
 
   return (  
-    <div>  
+    <Profilecard>  
       <StyledLineDiv>  
         <StyledProfileSet onClick={() => setActiveTab("profile")}>Profile Settings</StyledProfileSet>  
         <StyledPassWord onClick={() => setActiveTab("password")}>Password</StyledPassWord>  
-        <StyledNotify onClick={() => setActiveTab("notification")}>Notification</StyledNotify>  
-        <StyledVerify onClick={() => setActiveTab("verification")}>Verification</StyledVerify>  
       </StyledLineDiv>  
       <>  
         <StyledUserOptions>  
@@ -89,17 +87,26 @@ export default function UserSettings() {
               <form onSubmit={handleSubmit}>  
                 <StyledDisFlex>  
                   <StyledBox>  
-                    <FloatLeft htmlFor=""> First Name</FloatLeft>  
+                    <FloatLeft htmlFor=""> Name</FloatLeft>  
                     <Styledinput name="name" onChange={handleProfileInputChange} placeholder="Babalola" type="text" />  
   
                     <FloatLeft htmlFor="">Email</FloatLeft>  
                     <Styledinput name="email" onChange={handleProfileInputChange} placeholder="" type="text" />  
   
-                    <FloatLeft htmlFor="">Gender</FloatLeft>  
-                    <Styledinput name="gender" onChange={handleProfileInputChange} placeholder="" type="text" />  
+                    <FloatLeft htmlFor=""> Residential Address </FloatLeft>  
+                    <Styledinput name="address" onChange={handleProfileInputChange} placeholder="" type="text" />  
   
-                    <FloatLeft htmlFor="">Shop name</FloatLeft>  
-                    <Styledinput name="shopName" onChange={handleProfileInputChange} placeholder="" type="text" />  
+                    <FloatLeft htmlFor="">Mobile Number</FloatLeft>  
+                    <PhoneInput 
+                      name="mobileNumber"
+                      country={"us"}
+                      value={ProfileFormData.mobileNumber} 
+                      onChange={handleChange} // Updated to handleChange
+                      inputProps={{
+                        required: true,
+                      }}  
+                    />
+                    {!valid && <p style={{ color: 'red' }}>Please enter a valid 10-digit phone number</p>}  
   
                     <StyledTwin>  
                       <STyledStartSelling>Save changes</STyledStartSelling>  
@@ -107,23 +114,7 @@ export default function UserSettings() {
                     </StyledTwin>  
                   </StyledBox>  
                   <StyledBox>  
-                    <FloatLeft htmlFor="">Last Name</FloatLeft>  
-                    <Styledinput name="lastName" onChange={handleProfileInputChange} placeholder="" type="text" />  
-  
-                    <FloatLeft htmlFor="">Mobile Number</FloatLeft>  
-                    <PhoneInput 
-                      name="mobileNumber"
-                      country={"us"}
-                      value={ProfileFormData.mobileNumber} 
-                      onChange={handleProfileInputChange}
-                      inputProps={{
-                        required: true,
-                      }}  
-                    />  
-                    {!valid && <p style={{ color: 'red' }}>Please enter a valid 10-digit phone number</p>}  
-  
-                    <FloatLeft htmlFor=""> Residential Address </FloatLeft>  
-                    <Styledinput name="address" onChange={handleProfileInputChange} placeholder="" type="text" />  
+                    {/* Other input fields can go here */}  
                   </StyledBox>  
                 </StyledDisFlex>  
               </form>  
@@ -152,25 +143,15 @@ export default function UserSettings() {
 
 
                 <StyledTwin>  
-              <STyledStartSelling onClick={handleSubmit}>Save changes</STyledStartSelling>  
-              <StyledTwo>Cancel</StyledTwo>  
-            </StyledTwin> 
+                  <STyledStartSelling onClick={handleSubmit}>Save changes</STyledStartSelling>  
+                  <StyledTwo>Cancel</StyledTwo>  
+                </StyledTwin> 
               </PassForm>  
             </form>  
              
           </StyledDisFlex>  
         )}  
-  
-        {activeTab === "notification" && (  
-          <Styledfield>  
-            <h2>Notifications</h2>  
-            <Styledli>Fully Furnished chair is now available</Styledli>  
-            <Styledli>Terms of use was updated</Styledli>  
-            <Styledli>Your Ad has been successfully uploaded.</Styledli>  
-            <Styledli>Your Ad has been successfully uploaded.</Styledli>  
-          </Styledfield>  
-        )}  
       </>  
-    </div>  
+    </Profilecard>  
   );  
 }

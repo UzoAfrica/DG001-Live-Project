@@ -42,7 +42,7 @@ export const BackgroundImage = styled.div`
 `;
 
 export const FormContainer = styled.div`
-  background-color: white;
+background-color: rgba(255, 255, 255, 0.85);
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
