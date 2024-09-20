@@ -9,29 +9,56 @@ import {
 import PlusSVG from '../../images/plus.svg';
 import BlenderSVG from '../../images/blender.svg';
 import { SecondDesktopContainer } from '../CreateShop/styles/StepTwo';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  updateShop,
+  getShopById,
+} from '../../axiosFolder/functions/shopFunction';
+import { showErrorToast, showSuccessToast } from '../utils/toastify';
 
 const ShopHome = () => {
-  const [shopPhoto, setShopPhoto] = useState<File | null>(null);
   const shopPhotoInputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate(); 
+  const [retrievedShop, setRetrievedShop] = useState<Record<
+    string,
+    string
+  > | null>(null);
+  const navigate = useNavigate();
+  const createdShop = JSON.parse(localStorage.getItem('createdShop')!);
+  const createdProduct = JSON.parse(localStorage.getItem('createdProduct')!);
 
+  useEffect(() => {
+    const fetchShop = async () => {
+      const response = await getShopById(createdShop.id);
+      setRetrievedShop(response.data.shop);
+      localStorage.setItem('createdShop', JSON.stringify(response.data.shop));
+    };
+    fetchShop();
+  }, []);
 
-  const handleShopPhotoChange = (
+  const handleShopPhotoChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.files && event.target.files[0]) {
-      setShopPhoto(event.target.files[0]);
+      // Send request to update shop image
+      const updateShopResponse = await updateShop(createdShop.id, {
+        image: event.target.files[0],
+      })!;
+      if (updateShopResponse.status !== 200) {
+        return showErrorToast(updateShopResponse.data.message);
+      }
+      setRetrievedShop(updateShopResponse.data.shop);
+      localStorage.setItem(
+        'createdShop',
+        JSON.stringify(updateShopResponse.data.shop)
+      );
+      showSuccessToast(updateShopResponse.data.message);
     }
   };
 
   const triggerShopPhotoUpload = () => {
     shopPhotoInputRef.current?.click();
   };
-
-  const createdShop = JSON.parse(localStorage.getItem('createdShop')!);
-  const createdProduct = JSON.parse(localStorage.getItem('createdProduct')!);
 
   return (
     <>
@@ -73,16 +100,16 @@ const ShopHome = () => {
               ref={shopPhotoInputRef}
               style={{ display: 'none' }}
             />
-            {shopPhoto ? (
+            {retrievedShop && retrievedShop!.imageUrls.length > 0 ? (
               <Image
-                src={URL.createObjectURL(shopPhoto)}
+                src={retrievedShop!.imageUrls[0]}
                 alt="Shop photo"
                 style={{ width: '100%', height: '200px', objectFit: 'cover' }}
               />
             ) : (
               <>
                 <Image src={PlusSVG} alt="plus" />
-                <Paragraph>Add a photo</Paragraph>
+                <Paragraph>Add Shop image/logo</Paragraph>
               </>
             )}
           </Container>
@@ -198,9 +225,11 @@ const ShopHome = () => {
             $color="white"
             className="form-button-left"
             type="button"
-            onClick={ () => {navigate("/product-list")} }
+            onClick={() => {
+              navigate('/MyProductList');
+            }}
           >
-            Go to products
+            My products
           </Button>
         </SecondDesktopContainer>
       </Container>

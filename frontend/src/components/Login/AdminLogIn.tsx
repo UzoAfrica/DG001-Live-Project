@@ -31,7 +31,9 @@ const AdminLogin: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -57,7 +59,7 @@ const AdminLogin: React.FC = () => {
       localStorage.setItem('adminId', response.data.data.user.id);
       localStorage.setItem('adminEmail', formData.email);
       showSuccessToast('Admin logged in successfully');
-      navigate('/*/');
+      navigate('/TenantDb');
     } catch (error: any) {
       setLoading(false);
       return showErrorToast(error.message);
@@ -149,10 +151,14 @@ const AdminLogin: React.FC = () => {
             {/* Google Admin Log In Button */}
             <GoogleSignUp>
               <img src={googleLogo} alt="Google Logo" />
-              <Link to="http://localhost:5001/auth/google/admin-login">Log in with Google</Link>
+              <Link to="http://localhost:5001/auth/google/admin-login">
+                Log in with Google
+              </Link>
             </GoogleSignUp>
 
-            <SignUpButton type="submit">{loading ? 'Logging In...' : 'Log In'}</SignUpButton>
+            <SignUpButton type="submit">
+              {loading ? 'Logging In...' : 'Log In'}
+            </SignUpButton>
           </form>
           <Footer>
             Don't have an account? <Link to="/admin/signup">Sign Up here</Link>

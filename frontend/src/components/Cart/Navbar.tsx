@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import {
   Nav,
   NavLeft,
   NavMiddle,
   NavRight,
   BrandLogo,
-  NotificationIcon,
+  // NotificationIcon,
   NotificationCount,
   UserAvatar,
   AvatarImage,
@@ -20,8 +20,8 @@ import {
   DropdownItem,
   CartIconContainer,
   CartImage,
-  CartContentsCount,
 } from './StyledNavbar';
+// import BellSVG from '../../images/bell-icon.svg';
 import CartIcon from '../../images/Cart-Icon.svg';
 import { CartContext, CartContextProps } from './CartProvider';
 import { Link } from 'react-router-dom';
@@ -34,7 +34,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const [userImage, setUserImage] = useState<string | undefined>('');
-  const [notificationCount, setNotificationCount] = useState<number>(0);
+  // const [notificationCount, setNotificationCount] = useState<number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -49,21 +49,21 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
     setUserImage(userFromLocalStorage.profileImage);
   }, [userProfile]);
 
-  useEffect(() => {
-    const fetchNotificationCount = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:5001/api/notifications/count'
-        );
-        setNotificationCount(response.data.count);
-      } catch (error) {
-        console.error('Error fetching notification count:', error);
-        setNotificationCount(0);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchNotificationCount = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         'http://localhost:5001/api/notifications/count'
+  //       );
+  //       setNotificationCount(response.data.count);
+  //     } catch (error) {
+  //       console.error('Error fetching notification count:', error);
+  //       setNotificationCount(0);
+  //     }
+  //   };
 
-    fetchNotificationCount();
-  }, []);
+  //   fetchNotificationCount();
+  // }, []);
 
   // Open dropdown when clicking the avatar
   const handleAvatarClick = () => {
@@ -143,13 +143,20 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
           </SearchInputWrapper>
         </NavMiddle>
 
-      <NavRight>
-        <NotificationIcon>
-          <i className="fa fa-bell" aria-hidden="true"></i>
-          {notificationCount > 0 && (
-            <NotificationCount>{notificationCount}</NotificationCount>
-          )}
-        </NotificationIcon>
+        <NavRight>
+          {/* <NotificationIcon> */}
+            {/* <i className="fa fa-bell" aria-hidden="true"></i> */}
+            {/* <img
+              src={BellSVG}
+              alt="notifications icon"
+              width="25px"
+              height="25px"
+            /> */}
+
+            {/* {notificationCount > 0 && (
+              <NotificationCount>{notificationCount}</NotificationCount>
+            )} */}
+          {/* </NotificationIcon> */}
 
           <UserAvatar onClick={handleAvatarClick}>
             {userImage ? (
@@ -166,7 +173,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
             <CartIconContainer>
               <CartImage src={CartIcon} />
               {totalItems > 0 && (
-                <CartContentsCount>{totalItems}</CartContentsCount>
+                <NotificationCount>{totalItems}</NotificationCount>
               )}
             </CartIconContainer>
           </Link>
@@ -190,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
                 <a href="/profile">Profile</a>
               </DropdownItem>
               <DropdownItem>
-                <a href="/shop">My Shop</a>
+                <a href="/MyShops">My Shop</a>
               </DropdownItem>
               <DropdownItem>
                 <a href="/product-page">Product-page</a>
