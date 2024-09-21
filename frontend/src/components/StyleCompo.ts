@@ -382,7 +382,7 @@ width: 400px;
 export const PassForm = styled.fieldset`
 border: none;
 display: flex;
-margin: 20px 300px 0px 300px;
+margin: 20px 20px 0px 20px;
 flex-direction: column;
 gap: 10px;
 
