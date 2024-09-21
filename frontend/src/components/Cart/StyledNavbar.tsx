@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -31,15 +32,22 @@ export const NavMiddle = styled.div`
     margin-right: 0;
     justify-content: flex-start;
   }
+  @media (max-width: 480px) {
+    flex: 1;
+    margin-right: 0;
+    justify-content: flex-start;
+  }
 `;
 
 export const SearchInputWrapper = styled.div`
   position: relative;
   width: 100%;
   max-width: 250px;
+  display: flex; /* Ensure icons and input are aligned */
+  align-items: center;
 
   @media (max-width: 768px) {
-    max-width: 180px;
+    max-width: 250px;
   }
 
   @media (max-width: 480px) {
@@ -59,9 +67,14 @@ export const SearchInput = styled.input`
     border-color: #d35d2c;
   }
 
-  @media (max-width: 800px) {
-    width: 45%;
-    margin-left: 15px;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    margin-left: 0;
   }
 `;
 
@@ -91,7 +104,6 @@ export const NavRight = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  /* gap: 19px; */
   column-gap: 1.3rem;
   min-width: 0;
 
@@ -132,7 +144,6 @@ export const NotificationCount = styled.div`
   position: absolute;
   top: -5px;
   right: -10px;
-  /* background-color: orange; */
   background-color: rgba(242, 153, 74, 1);
   display: flex;
   align-items: center;
@@ -149,7 +160,7 @@ export const UserAvatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Necessary for dropdown positioning */
+  position: relative;
   min-width: 0;
   cursor: pointer;
 `;
