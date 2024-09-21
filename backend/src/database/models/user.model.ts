@@ -4,6 +4,7 @@ import Shop from './my-shop.model';
 import Payment from './payment.model';
 import Review from './review.model';
 
+
 // User model
 const User = sequelize.define(
   'User',

@@ -5,6 +5,7 @@ import registerRouter from './register';
 import resetRouter from './reset.route';
 import shopRouter from './shop.routes';
 import adminRouter from './adminRoute';
+import orderRouter from './order.route';
 
 const indexRouter = express.Router();
 
@@ -30,6 +31,8 @@ indexRouter.use('/payment', paymentRouter);
 
 // Admin Routtes
 indexRouter.use('/admin', adminRouter);
+
+indexRouter.use('/orders', orderRouter)
 
 // Notification Route
 indexRouter.get('/notifications/count', (req: Request, res: Response) => {

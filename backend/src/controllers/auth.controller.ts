@@ -95,6 +95,7 @@ export const login = async (req: Request, res: Response) => {
       password,
       user.getDataValue('password')
     );
+    console.log(req.body)
     if (!validPassword)
       return res.status(400).json({ message: 'Invalid Email or Password' });
 
