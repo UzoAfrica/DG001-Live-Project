@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../services/productService';
 import { showErrorToast } from '../utils/toastify';
+import { Container, ProductCard, ProductContainer, ProductImage } from './StyledProducts.ts';
 
 // Product Interface
 interface Product {

@@ -1,3 +1,4 @@
+//to fetch and display products
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../services/productService';
 import './StyledProductList.tsx';
@@ -20,8 +21,6 @@ interface Product {
   rating?: number; // Optional rating property
   createdAt?: string; // Optional created date property
 }
-
-
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
