@@ -5,45 +5,41 @@ import bcrypt from 'bcrypt';
 import cloudinary from '../config/cloudinary';
 
 
-export const updateProfile = async (req: Request, res: Response, next: NextFunction) => {
-    const { error } = updateProfileSchema.validate(req.body);
+type User={
+   name?: string;
+   email?: string;
+   address?: string;
+   mobileNumber?: string;
 
-    if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-    }
+}
+export const updateProfile = async (req: Request, res: Response, next: NextFunction) => {          
+    try { 
+        const id = req.params.id
+        const userProfile = await User.findByPk(id);        
+        if (!userProfile) {            
+            return res.status(404).json({ error: 'Profile not found' });        
+        }   
+        //name, email, address, mobileNumber
+        const updatedData : User = {};
 
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    try {
-        const userProfile = await User.findByPk(id);
-
-        if (!userProfile) {
-            return res.status(404).json({ error: 'Profile not found' });
+        if(req.body.name !== ''){
+            updatedData.name = req.body.name
         }
-
-           // Check if a file is uploaded
-           if (req.file) {
-            // Upload the image to Cloudinary
-            const result = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'user_profiles',
-                width: 300,
-                height: 300,
-                crop: 'fill',
-            });
-
-            // Add the Cloudinary image URL to updatedData
-            updatedData.profileImage = result.secure_url;
+        if(req.body.email !== ''){
+            updatedData.email = req.body.email
         }
-
+        if(req.body.address !== ''){
+            updatedData.address = req.body.address
+        }
+        if(req.body.mobileNumber !== ''){
+            updatedData.mobileNumber = req.body.mobileNumber
+        }
         await userProfile.update(updatedData);
-
-        return res.status(200).json({ message: 'Profile updated successfully', profile: userProfile });
-    } catch (err) {
-        console.error("Error during profile update:", err);
-        return res.status(500).json({ error: 'Something went wrong during the update.' });
-    }
-};
+        return res.status(200).json({ message: 'Profile updated successfully', profile: userProfile });    
+    } catch (err) {        
+        console.error("Error during profile update:", err);        
+        return res.status(500).json({ error: 'Something went wrong during the update.' });    
+    }};
 
 
 
