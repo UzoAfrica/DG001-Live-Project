@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
-import { Product } from './ProductList';
+import { Product } from '../ProductList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'; 
 
 interface StyledGridProps {
   products: Product[];
@@ -102,6 +103,8 @@ const StyledGrid: React.FC<StyledGridProps> = ({ products, onAddToWishlist, onAd
   const [activeWishlist, setActiveWishlist] = useState<{ [key: number]: boolean }>({});
   const [activeCart, setActiveCart] = useState<{ [key: number]: boolean }>({});
 
+  const navigate = useNavigate();
+
   const handleAddToWishlist = (product: Product) => {
     if (activeWishlist[product.id]) {
       const confirmRemove = window.confirm("Remove this product from your wishlist?");
@@ -128,10 +131,15 @@ const StyledGrid: React.FC<StyledGridProps> = ({ products, onAddToWishlist, onAd
     }
   };
 
+  const handleProductClick = (product: Product) => {
+    // Navigate to the product details page using the product's ID
+    navigate(`/product/${product.id}`);
+  };
+
   return (
     <Grid>
       {products.map((product) => (
-        <ProductItem key={product.id}>
+         <ProductItem key={product.id} onClick={() => handleProductClick(product)}> {/* Add onClick */}
           <ProductImage src={product.imageUrl} alt={product.name} />
           <ProductDetails>
             <ProductName>{product.name}</ProductName>

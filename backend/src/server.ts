@@ -93,7 +93,6 @@ app.use('/api', indexRouter);
 app.use('/profile', profileRoute);
 app.use('/image', imageRoute);
 app.use('/auth', authRoutes);
-app.use('/admin', adminRoute);
 
 // Catch 404 and forward to general error handler
 app.use((req: Request, res: Response, next: NextFunction) => {

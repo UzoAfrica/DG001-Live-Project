@@ -2,6 +2,7 @@ import { Request, Response, NextFunction} from 'express';
 import  { updateProfileSchema} from '../validators/profile.validator';
 import User from '../database/models/user.model';
 import bcrypt from 'bcrypt';
+import cloudinary from '../config/cloudinary';
 
 
 export const updateProfile = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,6 +22,20 @@ export const updateProfile = async (req: Request, res: Response, next: NextFunct
             return res.status(404).json({ error: 'Profile not found' });
         }
 
+           // Check if a file is uploaded
+           if (req.file) {
+            // Upload the image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'user_profiles',
+                width: 300,
+                height: 300,
+                crop: 'fill',
+            });
+
+            // Add the Cloudinary image URL to updatedData
+            updatedData.profileImage = result.secure_url;
+        }
+
         await userProfile.update(updatedData);
 
         return res.status(200).json({ message: 'Profile updated successfully', profile: userProfile });
@@ -34,7 +49,6 @@ export const updateProfile = async (req: Request, res: Response, next: NextFunct
 
 
 export const changePassword = async (req: Request, res: Response) => {
-    
 
     try {
 

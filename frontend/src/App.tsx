@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CartProvider } from '../src/components/Cart/CartProvider';
+import { CartProvider } from './components/Cart/CartProvider.tsx';
 
 // Landing Page Components
 import Header from './components/LandingPage/Header';
@@ -148,10 +148,7 @@ const router = createBrowserRouter([
     path:'/TenantDb' ,
     element: < TenantDb/>,
   },
-  {
-    path:'/ProductList' ,
-    element: < ProductList/>,
-  },
+
   {
     path: '/', // Base path for the main layout with Navbar
     element: <MainLayout userProfile={userProfile} />, // Main layout with Navbar

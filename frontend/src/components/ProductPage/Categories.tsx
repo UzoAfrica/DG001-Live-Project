@@ -77,6 +77,16 @@ export default function Categories() {
     navigate(`/products/${category}`);
   };
 
+  const handlePriceSelect = (price: string) => {
+    setSelectedPrice(price);
+    navigate(`/products/${price}`);
+  };
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    navigate(`/products/${color}`);
+  };
+
   const handleDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDropdownValue(e.target.value);
   };
@@ -123,7 +133,7 @@ export default function Categories() {
               name="price"
               value={option.value}
               checked={selectedPrice === option.value}
-              onChange={() => handleCategorySelect(option.value)}
+              onChange={() => handlePriceSelect(option.value)}
             />
             <label htmlFor={option.value}>{option.label}</label>
           </div>
@@ -148,7 +158,7 @@ export default function Categories() {
               name="color"
               value={option.value}
               checked={selectedColor === option.value}
-              onChange={() => setSelectedColor(option.value)}
+              onChange={() => handleColorSelect(option.value)}
             />
             <label htmlFor={option.value}>{option.label}</label>
           </ColorOption>

@@ -5,6 +5,7 @@ import registerRouter from './register';
 import resetRouter from './reset.route';
 import shopRouter from './shop.routes';
 import adminRouter from './adminRoute';
+import { authorizeRole } from '../middlewares/admin';
 
 const indexRouter = express.Router();
 

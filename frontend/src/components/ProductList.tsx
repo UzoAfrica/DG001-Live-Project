@@ -10,6 +10,7 @@ import StyledGrid from '../components/ProductPage/StyledGrid.tsx';
 import Categories from '../components/ProductPage/Categories';
 import SortByButton from '../components/ProductPage/SortByButton';
 
+
 interface Product {
   id: number;
   name: string;
@@ -73,9 +74,9 @@ const ProductList: React.FC = () => {
     } else if (sortOption === 'mostRecent') {
       updatedProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     } else if (sortOption === 'highPrice') {
-      updatedProducts.sort((a, b) => b.price - a.price);
-    } else if (sortOption === 'lowPrice') {
       updatedProducts.sort((a, b) => a.price - b.price);
+    } else if (sortOption === 'lowPrice') {
+      updatedProducts.sort((a, b) => b.price - a.price);
     }
 
     setFilteredProducts(updatedProducts);
@@ -128,6 +129,10 @@ const ProductList: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const handleProductClick = (productId: number) => {
+    navigate(`/product/${productId}`);
+  };
+
   return (
     <div className="product-list-container">
       <div className="sidebar">
@@ -145,7 +150,12 @@ const ProductList: React.FC = () => {
           <SortByButton onSort={setSortOption} />
         </div>
         <h2 className="trending-sales-heading">Product List</h2>
-        <StyledGrid products={filteredProducts} onAddToWishlist={handleAddToWishlist} onAddToCart={handleAddToCart}/>
+        <StyledGrid 
+  products={filteredProducts} 
+  onAddToWishlist={handleAddToWishlist} 
+  onAddToCart={handleAddToCart}
+  onProductClick={handleProductClick} // Pass the click handler
+/>
       </div>
     </div>
   );

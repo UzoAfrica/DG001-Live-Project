@@ -195,3 +195,31 @@ export const StylendAtag = styled.a`
 display: flex;
 gap: 20px;
 `
+
+import styled from 'styled-components';
+
+export const Container = styled.div`
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+export const ProductCard = styled.div`
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+`;
+
+export const ProductContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+`;
+
+export const ProductImage = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+`;

@@ -57,7 +57,7 @@ const AdminLogin: React.FC = () => {
       localStorage.setItem('adminId', response.data.data.user.id);
       localStorage.setItem('adminEmail', formData.email);
       showSuccessToast('Admin logged in successfully');
-      navigate('/*/');
+      navigate('/TenantDb');
     } catch (error: any) {
       setLoading(false);
       return showErrorToast(error.message);
