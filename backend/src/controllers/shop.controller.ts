@@ -20,7 +20,7 @@ interface CustomRequest extends Request {
  // Helper function to upload videos
 const uploadVideo = async (video: Express.Multer.File): Promise<string> => {
   const result = await cloudinary.uploader.upload(video.path, {
-    resource_type: 'video', // Specify that it's a video file
+    resource_type: 'video',
   });
   return result.secure_url;
 };
@@ -31,10 +31,17 @@ const uploadImage = async (image: Express.Multer.File): Promise<string> => {
   return result.secure_url;
 };
 
-// Get all shops
+// Get all shops with user details
 export const getAllShops: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const shops = await Shop.findAll(); // Fetch all shops from the database
+    const shops = await Shop.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name', 'createdAt', 'gender'],
+        },
+      ],
+    });
     res.status(200).json({ message: 'Shops retrieved successfully', shops });
   } catch (error) {
     const errorMessage =
@@ -46,6 +53,7 @@ export const getAllShops: RequestHandler = async (req: Request, res: Response) =
     });
   }
 };
+
 
 // Get my shops
 // export const getMyShops: RequestHandler = async (req: Request, res: Response) => {
