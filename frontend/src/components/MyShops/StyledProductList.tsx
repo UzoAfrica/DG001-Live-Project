@@ -2,7 +2,7 @@ import styled from 'styled-components';
 // Container for the entire product list
 export const ProductListContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 300px));
   gap: 20px;
   padding: 20px;
   background-color: #f9f9f9; // light background
@@ -23,6 +23,8 @@ export const ProductCard = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
   height: auto;
+  max-width: 500px;
+
 
   &:hover {
     transform: translateY(-5px);

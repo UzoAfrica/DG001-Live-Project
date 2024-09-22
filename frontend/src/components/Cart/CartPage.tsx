@@ -22,12 +22,14 @@ import {
   ClearCartButton,
 } from './CartStyled';
 import {
+  createOrder,
   initiatePayment,
   verifyPayment,
   VerifyPaymentResponse,
 } from '../../axiosFolder/functions/paymentFunction';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
 import { CartContext, CartContextProps } from './CartProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface CartProps {
   setOpenCart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,12 +46,16 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
   } = useContext(CartContext) as CartContextProps;
 
   const userEmail = localStorage.getItem('userEmail') || '';
+  const navigate = useNavigate();
 
   useEffect(() => {
     const paymentReference = localStorage.getItem('paymentReference');
     const checkPayment = async () => {
       if (paymentReference) {
         try {
+          const cart = localStorage.getItem('cart')!;
+          const userId = localStorage.getItem('userId')!;
+
           const response = (await verifyPayment(
             paymentReference
           )) as VerifyPaymentResponse;
@@ -59,6 +65,10 @@ const Cart: FC<CartProps> = ({ setOpenCart }) => {
             localStorage.removeItem('paymentReference');
           } else {
             showSuccessToast(response.message!);
+
+            const createOrderResponse = await createOrder(cart, userId);
+            navigate(`/orders/${userId}`);
+            console.log(createOrderResponse);
             localStorage.removeItem('paymentReference');
             clearCart();
           }

@@ -24,6 +24,7 @@ import AdminLogin from './components/Login/AdminLogIn.tsx';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 import UserProfile from './components/Userpofile/UserProfile';
+import AdminProfile from './components/AdminProfile/Adminprofile.tsx';
 
 // Product, Cart, and Wishlist Components
 import Wishlist from './components/Cart/wishlist/WishlistPage';
@@ -42,7 +43,7 @@ import CallbackPage from './components/Login/Callback';
 //tenantDb
 import TenantDb from './admin/TenantDb.tsx';
 //productList
-import ProductList from '../src/components/ProductList.tsx'
+import ProductList from '../src/components/ProductList.tsx';
 import ProductCategory from './components/ProductPage/ProductCategory.tsx';
 
 //MyProducts
@@ -50,6 +51,9 @@ import MyProducts from '../src/components/MyProducts/MyProducts.tsx';
 
 //MyShops
 import MyShops from '../src/components/MyShops/MyShops.tsx';
+
+//Orders
+import OrdersPage from '../src/components/OrdersPage/OrdersPage.tsx';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -164,12 +168,16 @@ const router = createBrowserRouter([
         element: <UserProfile />,
       },
       {
+        path: 'admin/profile',
+        element: <AdminProfile />,
+      },
+      {
         path: 'cart',
         element: <CartWrapper />,
       },
       {
-        path:'/ProductList' ,
-        element: < ProductList/>,
+        path: '/ProductList',
+        element: <ProductList />,
       },
       {
         path: 'product/:productId',
@@ -184,8 +192,20 @@ const router = createBrowserRouter([
         element: <CreateShop />,
       },
       {
-        path: 'shop',
+        path: 'shop/:id',
         element: <Shop />,
+      },
+      {
+        path: '/MyProductList/:id',
+        element: <MyProducts />,
+      },
+      {
+        path: '/MyShops',
+        element: <MyShops />,
+      },
+      {
+        path: '/orders/:userId',
+        element: <OrdersPage />,
       },
       {
         path: '*',

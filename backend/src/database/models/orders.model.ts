@@ -1,14 +1,15 @@
 // models/Order.ts
-import { Model, DataTypes } from 'sequelize';
-import  sequelize  from '../../config/sequelize.config'; 
+import { DataTypes, Model } from 'sequelize';
+import sequelize from '../../config/sequelize.config';
 
 class Order extends Model {
-  public id!: number;
-  public userId!: number;
+  public id!: string;
+  public userId!: string;
   public productName!: string;
   public amountPaid!: number;
   public deliveryStatus!: 'Pending' | 'Shipped' | 'Delivered' | 'Cancelled';
   public dateOrdered!: Date;
+  public quantity!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -16,8 +17,13 @@ class Order extends Model {
 
 Order.init(
   {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+    },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
     },
     productName: {
@@ -35,6 +41,9 @@ Order.init(
     dateOrdered: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
     },
   },
   {

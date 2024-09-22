@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getProducts, getMyProducts} from '../../services/productService.ts'; //imports and makes api call to fetch list of products
 import './StyledProductList.tsx';
 import { showErrorToast } from '../utils/toastify.ts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   ProductCard,
   ProductButton,
@@ -13,6 +13,7 @@ import {
   ProductPrice,
   ProductTitle,
 } from './StyledProductList.tsx';
+import { getUserProducts } from '../../axiosFolder/functions/productFunction.ts';
 
 interface Product {
   //type-check objects fields
@@ -24,15 +25,18 @@ interface Product {
 }
 
 const MyProducts: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const { id } = useParams(); // priceRange from URL
+
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const products = await getProducts();
-        setProducts(products);
+        const products = await getUserProducts(id!);
+        console.log(products);
+        setProducts(products?.data);
         setLoading(false);
       } catch (error) {
         showErrorToast('Error fetching products');

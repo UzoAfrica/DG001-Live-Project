@@ -23,8 +23,8 @@ export const authenticateToken: RequestHandler = async (
 
   try {
 
+    console.log("token>>>",token);
     const decoded = jwt.decode(token) as { id: string };
-
     if (!decoded) {
       return res.status(403).json({ message: 'Please login again' });
     }

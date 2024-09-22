@@ -2,7 +2,7 @@ import styled from 'styled-components';
 // Container for the entire product list
 export const ProductListContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 300px));
   gap: 20px;
   padding: 20px;
   background-color: #f9f9f9; // light background

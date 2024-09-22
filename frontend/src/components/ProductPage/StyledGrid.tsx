@@ -138,7 +138,7 @@ const StyledGrid: React.FC<StyledGridProps> = ({ products, onAddToWishlist, onAd
 
   return (
     <Grid>
-      {products.map((product) => (
+      { products.length > 0 ? (products.map((product) => (
          <ProductItem key={product.id} onClick={() => handleProductClick(product)}> {/* Add onClick */}
           <ProductImage src={product.imageUrl} alt={product.name} />
           <ProductDetails>
@@ -161,7 +161,7 @@ const StyledGrid: React.FC<StyledGridProps> = ({ products, onAddToWishlist, onAd
             </ActionButtonContainer>
           </ProductDetails>
         </ProductItem>
-      ))}
+      ))) : (<h2>No products found...</h2>)}
     </Grid>
   );
 };
