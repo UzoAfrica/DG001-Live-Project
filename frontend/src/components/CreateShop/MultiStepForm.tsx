@@ -131,7 +131,7 @@ const MultiStepForm = () => {
     }
     if(currentStep === 1){
       if (productFormData.image === '' || productFormData.category === '' || productFormData.name === ''
-        || productFormData.price === '' || productFormData.color === '' || productFormData.description) {
+        || productFormData.price === '' || productFormData.color === '' || productFormData.description === '') {
         return showErrorToast( 'all fields are required');
       }
 
