@@ -116,7 +116,7 @@ const MultiStepForm = () => {
       );
 
       // Redirect to shop page
-      return navigate('/shop');
+      return navigate(`/shop/${addProductResponse.data.product.id}`);
     } catch (error) {
       console.error('Error in form submission:', error);
       showErrorToast('An error occurred while creating your shop and product.');
@@ -124,17 +124,26 @@ const MultiStepForm = () => {
   };
 
   const handleNext = () => {
-    if(currentStep === 0){
-      if (shopFormData.name === '' || shopFormData.category === '' || shopFormData.currency === '') {
-        return showErrorToast( 'all fields are required');
+    if (currentStep === 0) {
+      if (
+        shopFormData.name === '' ||
+        shopFormData.category === '' ||
+        shopFormData.currency === ''
+      ) {
+        return showErrorToast('all fields are required');
       }
     }
-    if(currentStep === 1){
-      if (productFormData.image === '' || productFormData.category === '' || productFormData.name === ''
-        || productFormData.price === '' || productFormData.color === '' || productFormData.description) {
-        return showErrorToast( 'all fields are required');
+    if (currentStep === 1) {
+      if (
+        productFormData.image === '' ||
+        productFormData.category === '' ||
+        productFormData.name === '' ||
+        productFormData.price === '' ||
+        productFormData.color === '' ||
+        productFormData.description === ''
+      ) {
+        return showErrorToast('all fields are required');
       }
-
     }
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);

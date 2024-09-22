@@ -65,8 +65,8 @@ const MyShops: React.FC = () => {
             <ProductImage src={shop.imageUrls[0]} alt={shop.name} />
             <ProductTitle>{shop.name}</ProductTitle>
             <ProductDescription>{shop.description}</ProductDescription>
-            <ProductButton onClick={() => navigate('/ProductList')}>
-              Go to products
+            <ProductButton onClick={() => navigate(`/shop/${shop.id}`)}>
+              Go to shop
             </ProductButton>
           </ProductCard>
         ))}

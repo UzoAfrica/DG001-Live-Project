@@ -42,7 +42,7 @@ import CallbackPage from './components/Login/Callback';
 //tenantDb
 import TenantDb from './admin/TenantDb.tsx';
 //productList
-import ProductList from '../src/components/ProductList.tsx'
+import ProductList from '../src/components/ProductList.tsx';
 import ProductCategory from './components/ProductPage/ProductCategory.tsx';
 
 //MyProducts
@@ -168,8 +168,8 @@ const router = createBrowserRouter([
         element: <CartWrapper />,
       },
       {
-        path:'/ProductList' ,
-        element: < ProductList/>,
+        path: '/ProductList',
+        element: <ProductList />,
       },
       {
         path: 'product/:productId',
@@ -184,8 +184,16 @@ const router = createBrowserRouter([
         element: <CreateShop />,
       },
       {
-        path: 'shop',
+        path: 'shop/:id',
         element: <Shop />,
+      },
+      {
+        path: '/MyProductList/:id',
+        element: <MyProducts />,
+      },
+      {
+        path: '/MyShops',
+        element: <MyShops />,
       },
       {
         path: '*',

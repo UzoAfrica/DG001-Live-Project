@@ -15,7 +15,7 @@ const CallbackPage = () => {
       localStorage.setItem('token', token);
 
       // Redirect to home page or dashboard
-      navigate('/product-page');
+      navigate('/ProductList');
     } else {
       // Handle error or redirect
       navigate('/login?error=Authentication failed');

@@ -197,7 +197,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
           </StepTwoDesktopContainer>
 
           {/* Videos section */}
-          <StepTwoDesktopContainer
+          {/* <StepTwoDesktopContainer
             $display="flex"
             $flexDirection="column"
             $alignItems="center"
@@ -297,7 +297,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
                 {selectedVideo ? 'Change Video' : 'Add a Video'}
               </Paragraph>
             </Container>
-          </StepTwoDesktopContainer>
+          </StepTwoDesktopContainer> */}
 
           {/* Listing details */}
           <SecondDesktopContainer

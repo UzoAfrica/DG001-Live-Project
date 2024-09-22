@@ -10,12 +10,13 @@ import PlusSVG from '../../images/plus.svg';
 import BlenderSVG from '../../images/blender.svg';
 import { SecondDesktopContainer } from '../CreateShop/styles/StepTwo';
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   updateShop,
   getShopById,
 } from '../../axiosFolder/functions/shopFunction';
 import { showErrorToast, showSuccessToast } from '../utils/toastify';
+import { getUserProducts } from '../../axiosFolder/functions/productFunction';
 
 const ShopHome = () => {
   const shopPhotoInputRef = useRef<HTMLInputElement>(null);
@@ -23,15 +24,25 @@ const ShopHome = () => {
     string,
     string
   > | null>(null);
+  const [userProducts, setUserProducts] = useState<Record<string, any>[]>([]);
   const navigate = useNavigate();
   const createdShop = JSON.parse(localStorage.getItem('createdShop')!);
   const createdProduct = JSON.parse(localStorage.getItem('createdProduct')!);
+  const { id } = useParams(); // priceRange from URL
 
   useEffect(() => {
     const fetchShop = async () => {
-      const response = await getShopById(createdShop.id);
+      const response = await getShopById(id!);
       setRetrievedShop(response.data.shop);
       localStorage.setItem('createdShop', JSON.stringify(response.data.shop));
+
+      const userProductsResponse = await getUserProducts(id!);
+      setUserProducts(userProductsResponse?.data);
+      console.log(userProductsResponse?.data);
+      localStorage.setItem(
+        'userProducts',
+        JSON.stringify(userProductsResponse!.data)
+      );
     };
     fetchShop();
   }, []);
@@ -182,17 +193,11 @@ const ShopHome = () => {
             $maxWidth="615px"
             $padding="0 0.4rem"
           >
-            <Container
+            {/* <Container
               $display="flex"
               $flexDirection="column"
               className="blender-container"
             >
-              <Image
-                src={createdProduct ? createdProduct.imageUrl[0] : BlenderSVG}
-                alt="blender"
-                width="220px"
-                $border="1px solid #F2F2F2"
-              ></Image>
               <Container>
                 <Paragraph
                   $fontSize="1rem"
@@ -200,20 +205,25 @@ const ShopHome = () => {
                   $border="1px solid #F2F2F2"
                   $maxWidth="220px"
                 >
-                  {createdProduct ? (
-                    <>
-                      {createdProduct.name}
-                      <br />N {createdProduct.price}
-                    </>
+                  {userProducts.length > 0 ? (
+                    userProducts.map((product) => {
+                      <div key={product.id}>
+                        <Image
+                          src={product.imageUrl[0]}
+                          alt="blender"
+                          width="220px"
+                          $border="1px solid #F2F2F2"
+                        ></Image>
+                        {product.name}
+                        <br />N {product.price}
+                      </div>;
+                    })
                   ) : (
-                    <>
-                      Blender
-                      <br />N 20,000
-                    </>
+                    <>No Products in this shop</>
                   )}
                 </Paragraph>
               </Container>
-            </Container>
+            </Container> */}
           </Container>
           <Button
             $padding="0.65rem 2.2rem"
@@ -226,7 +236,7 @@ const ShopHome = () => {
             className="form-button-left"
             type="button"
             onClick={() => {
-              navigate('/ProductList');
+              navigate(`/MyProductList/${id}`);
             }}
           >
             Go to products

@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/register', adminSignUp);
 router.use('/admin', authorizeRole);
+router.post('/login', login);
 
 router.get('/admin/TenantDb', (req, res) => {
     res.status(200).json({ message: 'Access to TenantDb granted' });
