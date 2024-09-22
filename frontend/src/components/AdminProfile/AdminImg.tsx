@@ -30,7 +30,7 @@ const MyDropzone: React.FC = () => {
           </Dragzone>
 
           {image && (
-            <ProfileImg src={image} alt="Preview" style={{ width: '100px', maxHeight: '100px', objectFit: 'contain' }} />
+            <ProfileImg src={image} alt="Preview" style={{ width: '70px', maxHeight: '70px', objectFit: 'contain' }} />
           )}
     </Flexo>
      
