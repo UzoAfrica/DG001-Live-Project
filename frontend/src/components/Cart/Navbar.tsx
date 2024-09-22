@@ -39,6 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const { totalItems } = useContext(CartContext) as CartContextProps;
+  const userId = JSON.parse(localStorage.getItem('user')!).id;
 
   useEffect(() => {
     if (userProfile?.profileImage) {
@@ -98,6 +99,8 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('admin');
+    localStorage.removeItem('adminId');
     window.location.href = '/login';
   };
 
@@ -204,6 +207,9 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
               </DropdownItem>
               <DropdownItem>
                 <a href="/ProductList">Product-list</a>
+              </DropdownItem>
+              <DropdownItem>
+                <Link to={`/orders/${userId}`}>My Orders</Link>
               </DropdownItem>
               <DropdownItem onClick={handleLogout}>
                 <span>Logout</span>

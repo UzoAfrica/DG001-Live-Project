@@ -54,7 +54,7 @@ const AdminLogin: React.FC = () => {
       }
 
       setLoading(false);
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('admin', JSON.stringify(response.data.data.user));
       localStorage.setItem('adminId', response.data.data.user.id);
       localStorage.setItem('adminEmail', formData.email);

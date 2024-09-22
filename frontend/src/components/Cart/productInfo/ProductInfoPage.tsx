@@ -21,8 +21,12 @@ import {
   GridProductPrice,
   ProductItem,
 } from '../productInfo/productInfoStyled';
-import { getProducts, getProductById } from '../../../axiosFolder/functions/productFunction';
 import {
+  getProducts,
+  getProductById,
+} from '../../../axiosFolder/functions/productFunction';
+import {
+  createOrder,
   initiatePayment,
   verifyPayment,
   VerifyPaymentResponse,
@@ -46,9 +50,9 @@ interface Product {
   quantity: number;
   [key: string]: string | number;
 }
-interface ReviewForm {
+export interface ReviewForm {
   comment: string;
-  rating: number;
+  rating: number | string;
 }
 export interface Review {
   rating: number;
@@ -66,7 +70,7 @@ const ProductInfoPage: FC = () => {
   const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false);
   const [reviewForm, setReviewForm] = useState<ReviewForm>({
     comment: '',
-    rating: 0,
+    rating: '',
   });
   const [reviews, setReviews] = useState<Review[] | []>([]);
   const { productId } = useParams<{ productId: string }>();
@@ -121,8 +125,25 @@ const ProductInfoPage: FC = () => {
             showErrorToast(response.message);
             localStorage.removeItem('paymentReference');
           } else {
+            let cart = [];
+            let productDetails = {
+              id: productId,
+              price: localStorage.getItem('price'),
+              name: localStorage.getItem('productName'),
+              quantity: 1,
+            };
+            const userId = localStorage.getItem('userId')!;
+            cart.push(productDetails);
+
+            const createOrderResponse = await createOrder(
+              JSON.stringify(cart),
+              userId
+            );
+            console.log(createOrderResponse);
+
             showSuccessToast(response.message);
-            localStorage.removeItem('paymentReference');
+            navigate(`/orders/${userId}`);
+            return localStorage.removeItem('paymentReference');
           }
         } catch (error) {
           if (error instanceof Error) {
@@ -191,7 +212,6 @@ const ProductInfoPage: FC = () => {
       if (userChoice) {
         navigate('/cart');
       }
-
     } catch (error) {
       showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
@@ -223,6 +243,9 @@ const ProductInfoPage: FC = () => {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       const userEmail = localStorage.getItem('userEmail');
+
+      localStorage.setItem('price', String(mainProduct?.price));
+      localStorage.setItem('productName', mainProduct?.name as string);
 
       if (!mainProduct) {
         showErrorToast('Product information not available!');
@@ -294,6 +317,10 @@ const ProductInfoPage: FC = () => {
           },
         ];
       });
+      setReviewForm({
+        comment: '',
+        rating: '',
+      });
       showSuccessToast(response!.data.message);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -337,6 +364,7 @@ const ProductInfoPage: FC = () => {
             handleRatingInputChange={handleRatingInputChange}
             setIsReviewFormOpen={setIsReviewFormOpen}
             reviews={reviews}
+            reviewForm={reviewForm}
           ></Reviews>
 
           {/* Similar Products Section */}

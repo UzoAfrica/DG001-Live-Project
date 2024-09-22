@@ -1,11 +1,11 @@
 
 import AdminSettings from './AdminSettings';
-import NavProfile from './NavProfile';
+// import NavProfile from './NavProfile';
 
 export default function AdminProfile() {
   return (
     <>
-      <NavProfile />
+      {/* <NavProfile /> */}
       <AdminSettings />
     </>
   );

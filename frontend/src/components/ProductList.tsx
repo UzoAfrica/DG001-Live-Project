@@ -10,7 +10,6 @@ import StyledGrid from '../components/ProductPage/StyledGrid.tsx';
 import Categories from '../components/ProductPage/Categories';
 import SortByButton from '../components/ProductPage/SortByButton';
 
-
 interface Product {
   id: number;
   name: string;
@@ -54,16 +53,20 @@ const ProductList: React.FC = () => {
 
     // Filter by category and color
     if (filters.category) {
-      updatedProducts = updatedProducts.filter(product => product.category === filters.category);
+      updatedProducts = updatedProducts.filter(
+        (product) => product.category === filters.category
+      );
     }
 
     if (filters.color) {
-      updatedProducts = updatedProducts.filter(product => product.color === filters.color);
+      updatedProducts = updatedProducts.filter(
+        (product) => product.color === filters.color
+      );
     }
 
     // Search functionality
     if (searchTerm) {
-      updatedProducts = updatedProducts.filter(product =>
+      updatedProducts = updatedProducts.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -72,7 +75,10 @@ const ProductList: React.FC = () => {
     if (sortOption === 'highestRated') {
       updatedProducts.sort((a, b) => b.rating - a.rating);
     } else if (sortOption === 'mostRecent') {
-      updatedProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      updatedProducts.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     } else if (sortOption === 'highPrice') {
       updatedProducts.sort((a, b) => a.price - b.price);
     } else if (sortOption === 'lowPrice') {
@@ -82,7 +88,10 @@ const ProductList: React.FC = () => {
     setFilteredProducts(updatedProducts);
   }, [filters, searchTerm, sortOption, products]);
 
-  const handleFilterChange = (newFilters: { category: string; color: string }) => {
+  const handleFilterChange = (newFilters: {
+    category: string;
+    color: string;
+  }) => {
     setFilters(newFilters);
   };
 
@@ -93,7 +102,9 @@ const ProductList: React.FC = () => {
   const handleAddToWishlist = (product: Product) => {
     try {
       const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      const existingProduct = wishlist.find((item: Product) => item.id === product.id);
+      const existingProduct = wishlist.find(
+        (item: Product) => item.id === product.id
+      );
 
       if (existingProduct) {
         alert('Product is already in your wishlist!');
@@ -110,7 +121,9 @@ const ProductList: React.FC = () => {
   const handleAddToCart = (product: Product) => {
     try {
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existingProduct = cart.find((item: Product) => item.id === product.id);
+      const existingProduct = cart.find(
+        (item: Product) => item.id === product.id
+      );
 
       if (existingProduct) {
         existingProduct.quantity = (existingProduct.quantity || 1) + 1;
@@ -150,12 +163,12 @@ const ProductList: React.FC = () => {
           <SortByButton onSort={setSortOption} />
         </div>
         <h2 className="trending-sales-heading">Product List</h2>
-        <StyledGrid 
-  products={filteredProducts} 
-  onAddToWishlist={handleAddToWishlist} 
-  onAddToCart={handleAddToCart}
-  onProductClick={handleProductClick} // Pass the click handler
-/>
+        <StyledGrid
+          products={filteredProducts}
+          onAddToWishlist={handleAddToWishlist}
+          onAddToCart={handleAddToCart}
+          onProductClick={handleProductClick} // Pass the click handler
+        />
       </div>
     </div>
   );

@@ -1,96 +1,114 @@
- // src/components/OrdersPage.tsx
- import React, { useEffect, useState } from 'react';
- import { OrdersContainer, OrdersTable, TableHeader, TableRow, TableCell, SearchOrdersBox, SimilarProductsSection, Grid, ProductItem, ProductImageContainer, ProductImage, ProductDetails, ProductName, ProductDescription, ProductPrice } from './OrdersPage.styles';
- import Navbar from './Navbar';
- import { Order } from './types.ts';
- import { FaSearch } from 'react-icons/fa';
- import { getProducts } from '../../services/productService'; // Importing the service
+// src/components/OrdersPage.tsx
+import React, { useEffect, useState } from 'react';
+import {
+  OrdersContainer,
+  OrdersTable,
+  TableHeader,
+  TableRow,
+  TableCell,
+  SearchOrdersBox,
+  SimilarProductsSection,
+  Grid,
+  ProductItem,
+  ProductImageContainer,
+  ProductImage,
+  ProductDetails,
+  ProductName,
+  ProductDescription,
+  ProductPrice,
+} from './OrdersPage.styles';
+import Navbar from './Navbar';
+import { Order } from './types.ts';
+import { FaSearch } from 'react-icons/fa';
+import { getProducts } from '../../services/productService'; // Importing the service
+import { getOrders } from '../../axiosFolder/functions/paymentFunction.ts';
+import { formatDate } from '../../utils/convertTime.ts';
 
- const OrdersPage: React.FC = () => {
- //   const [orders, setOrders] = useState<Order[]>([]);
- //   const [searchTerm, setSearchTerm] = useState('');
- //   const [selectedProduct, setSelectedProduct] = useState<Order | null>(null);
+const OrdersPage: React.FC = () => {
+  const [orders, setOrders] = useState<any>([]);
+  //   const [searchTerm, setSearchTerm] = useState('');
+  //   const [selectedProduct, setSelectedProduct] = useState<Order | null>(null);
 
-   // useEffect(() => {
-   //   const fetchOrders = async () => {
-   //     const fetchedOrders = await getProducts(); // Fetching orders
-   //     if (Array.isArray(fetchedOrders)) {
-   //       setOrders(fetchedOrders); // Set fetched orders to state
-   //     }
-   //   };
-   //
-   //   fetchOrders(); // Call the fetch function
-   // }, []); // Empty dependency array to run once on mount
-   //
-   // const filteredOrders = orders.filter(order =>
-   //   order.productName.toLowerCase().includes(searchTerm.toLowerCase())
-   // );
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const userId = localStorage.getItem('userId')!;
+      const fetchedOrders = await getOrders(userId); // Fetching orders
+      console.log(fetchedOrders);
+      if (Array.isArray(fetchedOrders)) {
+        setOrders(fetchedOrders); // Set fetched orders to state
+      }
+    };
 
-   // const handleProductClick = (order: Order) => {
-   //   setSelectedProduct(order);
-   // };
+    fetchOrders(); // Call the fetch function
+  }, []); // Empty dependency array to run once on mount
+  //
+  // const filteredOrders = orders.filter(order =>
+  //   order.productName.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-   return (
-     <>
-       <Navbar />
-       <OrdersContainer>
-         {/*<SearchOrdersBox>*/}
-         {/*  <FaSearch />*/}
-         {/*  <input*/}
-         {/*    type="text"*/}
-         {/*    placeholder="Search orders..."*/}
-         {/*    value={searchTerm}*/}
-         {/*    onChange={(e) => setSearchTerm(e.target.value)}*/}
-         {/*  />*/}
-         {/*</SearchOrdersBox>*/}
-         <OrdersTable>
-           <thead>
-           <tr>
-             <TableHeader>Order ID</TableHeader>
-             <TableHeader>Product Name</TableHeader>
-             <TableHeader>Date Ordered</TableHeader>
-             <TableHeader>Amount Paid</TableHeader>
-             <TableHeader>Delivery Status</TableHeader>
-           </tr>
-           </thead>
-           <tbody>
-           {/*{filteredOrders.map((order) => (*/}
-           {/*  <TableRow key={order.orderId} onClick={() => handleProductClick(order)}>*/}
-           {/*    <TableCell>{order.orderId}</TableCell>*/}
-           {/*    <TableCell>{order.productName}</TableCell>*/}
-           {/*    <TableCell>{order.dateOrdered}</TableCell>*/}
-           {/*    <TableCell>₦{order.amountPaid.toFixed(2)}</TableCell>*/}
-           {/*    <TableCell>{order.deliveryStatus}</TableCell>*/}
-           {/*  </TableRow>*/}
-           {/*))}*/}
-           </tbody>
-         </OrdersTable>
-         {/*{selectedProduct && (*/}
-         {/*  <div>*/}
-         {/*    <h2>{selectedProduct.productName}</h2>*/}
-         {/*    <img src={selectedProduct.productImage} alt={selectedProduct.productName} />*/}
-         {/*    <p>{selectedProduct.productDescription}</p>*/}
-         {/*  </div>*/}
-         {/*)}*/}
-         <SimilarProductsSection>
-           <h2>Similar Products</h2>
-           <Grid>
-             {/* Similar products section can remain as is */}
-           </Grid>
-         </SimilarProductsSection>
-       </OrdersContainer>
-     </>
-   );
- };
+  // const handleProductClick = (order: Order) => {
+  //   setSelectedProduct(order);
+  // };
 
- export default OrdersPage;
+  return (
+    <>
+      <Navbar />
+      <OrdersContainer>
+        {/*<SearchOrdersBox>*/}
+        {/*  <FaSearch />*/}
+        {/*  <input*/}
+        {/*    type="text"*/}
+        {/*    placeholder="Search orders..."*/}
+        {/*    value={searchTerm}*/}
+        {/*    onChange={(e) => setSearchTerm(e.target.value)}*/}
+        {/*  />*/}
+        {/*</SearchOrdersBox>*/}
+        <OrdersTable>
+          <thead>
+            <tr>
+              <TableHeader>Order ID</TableHeader>
+              <TableHeader>Product Name</TableHeader>
+              <TableHeader>Date Ordered</TableHeader>
+              <TableHeader>Amount Paid</TableHeader>
+              <TableHeader>Delivery Status</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.length > 0 ? (
+              orders.map((order) => (
+                <TableRow
+                  key={order.orderId}
+                  // onClick={() => handleProductClick(order)}
+                >
+                  <TableCell>{order.id.split('-')[4]}</TableCell>
+                  <TableCell>{order.productName}</TableCell>
+                  <TableCell>{formatDate(order.dateOrdered)}</TableCell>
+                  <TableCell>₦{order.amountPaid.toFixed(2)}</TableCell>
+                  <TableCell>{order.deliveryStatus}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <h2>No orders yet...</h2>
+            )}
+          </tbody>
+        </OrdersTable>
+        {/*{selectedProduct && (*/}
+        {/*  <div>*/}
+        {/*    <h2>{selectedProduct.productName}</h2>*/}
+        {/*    <img src={selectedProduct.productImage} alt={selectedProduct.productName} />*/}
+        {/*    <p>{selectedProduct.productDescription}</p>*/}
+        {/*  </div>*/}
+        {/*)}*/}
+        <SimilarProductsSection>
+          {/* <h2>Similar Products</h2> */}
+          <Grid>{/* Similar products section can remain as is */}</Grid>
+        </SimilarProductsSection>
+      </OrdersContainer>
+    </>
+  );
+};
 
-
-
-
-
-
-
+export default OrdersPage;
 
 // import React, { useState } from 'react';
 // import { OrdersContainer, OrdersTable, TableHeader, TableRow, TableCell, SearchOrdersBox, SimilarProductsSection, Grid, ProductItem, ProductImageContainer, ProductImage, ProductDetails, ProductName, ProductDescription, ProductPrice } from './OrdersPage.styles';

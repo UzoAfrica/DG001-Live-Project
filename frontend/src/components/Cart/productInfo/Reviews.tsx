@@ -5,7 +5,7 @@ import {
   ReviewContainer,
 } from './productInfoStyled';
 import StarRating from './StarRating';
-import { Review } from './ProductInfoPage';
+import { Review, ReviewForm } from './ProductInfoPage';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -21,6 +21,7 @@ export type ReviewsProps = {
   handleRatingInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setIsReviewFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
   reviews: [] | Review[];
+  reviewForm: ReviewForm;
 };
 
 const Reviews: React.FC<ReviewsProps> = ({
@@ -30,9 +31,10 @@ const Reviews: React.FC<ReviewsProps> = ({
   handleRatingInputChange,
   setIsReviewFormOpen,
   reviews,
+  reviewForm,
 }) => {
   return (
-    <ReviewsContainer className="lolll">
+    <ReviewsContainer className="">
       <div className="reviews-title">
         <h3>Reviews</h3>
         <button
@@ -52,6 +54,7 @@ const Reviews: React.FC<ReviewsProps> = ({
               id="add-comment"
               placeholder="Add your comment here"
               required
+              value={reviewForm.comment}
               onChange={(event) => {
                 handleCommentInputChange(event);
               }}
@@ -68,6 +71,7 @@ const Reviews: React.FC<ReviewsProps> = ({
               maxLength={5}
               minLength={1}
               required
+              value={reviewForm.rating}
               onChange={(event) => {
                 handleRatingInputChange(event);
               }}

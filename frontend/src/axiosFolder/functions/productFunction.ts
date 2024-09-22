@@ -10,10 +10,21 @@ import axios from '../configurations/setup';
 // Modify this to accept an optional config parameter
 export const getProducts = (config = {}) => axios.get('api/products', config);
 
-
 // Get a specific product by ID
 export const getProductById = (productId: string) =>
   axios.get(`api/products/${productId}`);
+
+// Get user products
+export const getUserProducts = (shopId: string) => {
+  try {
+    const response = axios.get(`api/products/${shopId}`);
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response;
+    }
+  }
+};
 
 // Get trending sales products with filters and pagination
 export const getTrendingProducts = (filters: Record<string, any>) =>
