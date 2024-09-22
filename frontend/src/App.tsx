@@ -170,14 +170,6 @@ const router = createBrowserRouter([
         element: <ProductList />,
       },
       {
-        path: '/MyProductList',
-        element: <MyProducts />,
-      },
-      {
-        path: '/MyShops',
-        element: <MyShops />,
-      },
-      {
         path: 'product/:productId',
         element: <Product />,
       },
@@ -192,6 +184,14 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Shop />,
+      },
+      {
+        path: '/MyProductList',
+        element: <MyProducts />,
+      },
+      {
+        path: '/MyShops',
+        element: <MyShops />,
       },
       {
         path: '*',

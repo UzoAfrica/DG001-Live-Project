@@ -25,15 +25,17 @@ interface Product {
 }
 
 const MyShops: React.FC = () => {
-  const [shops, setShops] = useState([]);
+  const [shops, setShops] = useState<Record<string, string>[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchMyShops = async () => {
       try {
-        const myShops = await getMyShops(localStorage.getItem('userId')!)
-        console.log(myShops);
+        const myShops = await getMyShops(localStorage.getItem('userId')!);
+        // const myShops = await getMyShops(
+        //   '171a9133-e8de-4641-961c-1badf7ebdf09'
+        // );
         setShops(myShops.data.shops);
         setLoading(false);
       } catch (error) {
@@ -43,7 +45,7 @@ const MyShops: React.FC = () => {
       }
     };
 
-    fetchProducts();
+    fetchMyShops();
   }, []);
 
   if (loading) {
@@ -51,18 +53,25 @@ const MyShops: React.FC = () => {
   }
 
   return (
-    <ProductListContainer>
-      {shops.map((shop) => (
-        <ProductCard key={shop.id}>
-          <ProductImage src={shop.imageUrls[0]} alt={shop.name} />
-          <ProductTitle>{shop.name}</ProductTitle>
-          <ProductDescription>{shop.description}</ProductDescription>
-          <ProductButton onClick={() => navigate('/shop')}>
-            See more
-          </ProductButton>
-        </ProductCard>
-      ))}
-    </ProductListContainer>
+    // shops.length == 0 ? () : ()
+    shops.length === 0 ? (
+      <h3 style={{ textAlign: 'center', marginTop: '2rem' }}>
+        You have not created any shops
+      </h3>
+    ) : (
+      <ProductListContainer>
+        {shops.map((shop) => (
+          <ProductCard key={shop.id}>
+            <ProductImage src={shop.imageUrls[0]} alt={shop.name} />
+            <ProductTitle>{shop.name}</ProductTitle>
+            <ProductDescription>{shop.description}</ProductDescription>
+            <ProductButton onClick={() => navigate('/ProductList')}>
+              Go to products
+            </ProductButton>
+          </ProductCard>
+        ))}
+      </ProductListContainer>
+    )
   );
 };
 

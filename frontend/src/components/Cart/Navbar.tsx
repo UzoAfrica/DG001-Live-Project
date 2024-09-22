@@ -145,15 +145,15 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
 
         <NavRight>
           {/* <NotificationIcon> */}
-            {/* <i className="fa fa-bell" aria-hidden="true"></i> */}
-            {/* <img
+          {/* <i className="fa fa-bell" aria-hidden="true"></i> */}
+          {/* <img
               src={BellSVG}
               alt="notifications icon"
               width="25px"
               height="25px"
             /> */}
 
-            {/* {notificationCount > 0 && (
+          {/* {notificationCount > 0 && (
               <NotificationCount>{notificationCount}</NotificationCount>
             )} */}
           {/* </NotificationIcon> */}
@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ userProfile }) => {
                 <a href="/profile">Profile</a>
               </DropdownItem>
               <DropdownItem>
-                <a href="/MyShops">My Shop</a>
+                <a href="/MyShops">My Shops</a>
               </DropdownItem>
               <DropdownItem>
                 <a href="/product-page">Product-page</a>
