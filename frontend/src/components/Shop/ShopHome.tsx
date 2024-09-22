@@ -236,7 +236,7 @@ const ShopHome = () => {
             className="form-button-left"
             type="button"
             onClick={() => {
-              navigate(`/MyProductList/${id}`);
+              navigate(`/MyProductList/${createdShop.id}`);
             }}
           >
             Go to products

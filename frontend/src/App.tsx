@@ -24,6 +24,7 @@ import AdminLogin from './components/Login/AdminLogIn.tsx';
 import Reset from './components/ResetPassword/Reset';
 import ReSend from './components/ResendOtp/Resend';
 import UserProfile from './components/Userpofile/UserProfile';
+import AdminProfile from './components/AdminProfile/Adminprofile.tsx';
 
 // Product, Cart, and Wishlist Components
 import Wishlist from './components/Cart/wishlist/WishlistPage';
@@ -50,6 +51,9 @@ import MyProducts from '../src/components/MyProducts/MyProducts.tsx';
 
 //MyShops
 import MyShops from '../src/components/MyShops/MyShops.tsx';
+
+//Orders
+import OrdersPage from '../src/components/OrdersPage/OrdersPage.tsx';
 
 // Define an interface for MainLayout props
 interface MainLayoutProps {
@@ -164,6 +168,10 @@ const router = createBrowserRouter([
         element: <UserProfile />,
       },
       {
+        path: 'admin/profile',
+        element: <AdminProfile />,
+      },
+      {
         path: 'cart',
         element: <CartWrapper />,
       },
@@ -194,6 +202,10 @@ const router = createBrowserRouter([
       {
         path: '/MyShops',
         element: <MyShops />,
+      },
+      {
+        path: '/orders/:userId',
+        element: <OrdersPage />,
       },
       {
         path: '*',

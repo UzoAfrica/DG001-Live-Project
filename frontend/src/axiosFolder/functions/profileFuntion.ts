@@ -5,17 +5,14 @@ import axios from '../configurations/setup';
 // Review API Requests
 
 // Add review for a product
-export const updateProfile = ( formData: any , UserId: any) => {
+export const updateProfile = (formData: any, UserId: any) => {
   try {
-    const response = axios.put(
-      `/profile/user/${UserId}`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = axios.put(`/profile/user/${UserId}`, formData, {
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -25,4 +22,3 @@ export const updateProfile = ( formData: any , UserId: any) => {
 };
 
 export default axios;
- 

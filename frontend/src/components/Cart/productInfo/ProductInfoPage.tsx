@@ -26,6 +26,7 @@ import {
   getProductById,
 } from '../../../axiosFolder/functions/productFunction';
 import {
+  createOrder,
   initiatePayment,
   verifyPayment,
   VerifyPaymentResponse,
@@ -124,8 +125,25 @@ const ProductInfoPage: FC = () => {
             showErrorToast(response.message);
             localStorage.removeItem('paymentReference');
           } else {
+            let cart = [];
+            let productDetails = {
+              id: productId,
+              price: localStorage.getItem('price'),
+              name: localStorage.getItem('productName'),
+              quantity: 1,
+            };
+            const userId = localStorage.getItem('userId')!;
+            cart.push(productDetails);
+
+            const createOrderResponse = await createOrder(
+              JSON.stringify(cart),
+              userId
+            );
+            console.log(createOrderResponse);
+
             showSuccessToast(response.message);
-            localStorage.removeItem('paymentReference');
+            navigate(`/orders/${userId}`);
+            return localStorage.removeItem('paymentReference');
           }
         } catch (error) {
           if (error instanceof Error) {
@@ -225,6 +243,9 @@ const ProductInfoPage: FC = () => {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       const userEmail = localStorage.getItem('userEmail');
+
+      localStorage.setItem('price', String(mainProduct?.price));
+      localStorage.setItem('productName', mainProduct?.name as string);
 
       if (!mainProduct) {
         showErrorToast('Product information not available!');

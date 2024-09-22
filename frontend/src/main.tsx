@@ -21,7 +21,7 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <React.StrictMode>
+    // <React.StrictMode>
       <GoogleOAuthProvider clientId={clientId as string}>
         {' '}
         {/* Ensure clientId is treated as a string */}
@@ -31,7 +31,7 @@ if (rootElement) {
           <App />
         </DevSupport>
       </GoogleOAuthProvider>
-    </React.StrictMode>,
+    // </React.StrictMode>,
   );
 } else {
   console.error('Root element not found. Please check your index.html file.');

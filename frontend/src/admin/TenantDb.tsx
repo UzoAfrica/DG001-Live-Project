@@ -18,6 +18,7 @@ import { Shop, User } from './types.ts';
 import logo from '../images/logo.svg';
 import { pullUsers } from '../axiosFolder/functions/tenantFunction.ts';
 import { formatDate } from '../utils/convertTime.ts';
+import { useNavigate } from 'react-router-dom';
 
 const TenantDb: React.FC = () => {
   const [users, setUsers] = useState<any>([]);
@@ -29,7 +30,6 @@ const TenantDb: React.FC = () => {
       try {
         const tenantsResponse = await pullUsers();
         setUsers(tenantsResponse?.data.shops);
-        console.log('>>>>', tenantsResponse);
         // const shops = shopsResponse.data;
 
         // // Get owner IDs from shops
@@ -55,6 +55,7 @@ const TenantDb: React.FC = () => {
     };
     fetchShopsAndUsers();
   }, []);
+  const navigate = useNavigate()
 
   // const filteredUsers = users.filter((user) =>
   //   user.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -74,11 +75,11 @@ const TenantDb: React.FC = () => {
       <Container>
         <Sidebar>
           {[
-            'Dashboard',
+            // 'Dashboard',
             'Tenant Database',
-            'Support Tickets',
+            // 'Support Tickets',
             'Settings',
-            'Logout',
+            // 'Logout',
           ].map((item) => (
             <SidebarItem
               key={item}

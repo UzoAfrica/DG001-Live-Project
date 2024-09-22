@@ -55,6 +55,49 @@ export const initiatePayment = async (
   }
 };
 
+// Function to create orders
+export const createOrder = async (
+  cart: any,
+  userId: string
+): Promise<VerifyPaymentResponse | AxiosResponse<any, any> | undefined> => {
+  try {
+    const response = await axios.post(
+      `api/orders/create-orders/${userId}`,
+      cart,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error creating order:', error);
+    if (error instanceof AxiosError) {
+      return error.response;
+    }
+  }
+};
+
+// Function to get orders
+export const getOrders = async (
+  userId: string
+): Promise<VerifyPaymentResponse | AxiosResponse<any, any> | undefined> => {
+  try {
+    const response = await axios.get(`api/orders/users-orders/${userId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating order:', error);
+    if (error instanceof AxiosError) {
+      return error.response;
+    }
+  }
+};
+
 // Function to verify payment
 export const verifyPayment = async (
   reference: string

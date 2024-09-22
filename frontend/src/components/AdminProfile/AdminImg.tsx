@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { useDropzone } from 'react-dropzone';
 import { Dragzone, Flexo, ProfileImg } from '../StyleCompo';
 
-const MyDropzone: React.FC = () => {
+const MyDropzone: React.FC<any> = ({setProfileFormData}) => {
   const [image, setImage] = useState<string | null>(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -11,6 +11,12 @@ const MyDropzone: React.FC = () => {
       console.log('Accepted files:', acceptedFiles);
       const file = acceptedFiles[0];
       if (file) {
+        setProfileFormData((previousState) => {
+          return {
+            ...previousState,
+            image: file
+          }
+        })
         setImage(URL.createObjectURL(file));
       }
     },
@@ -30,7 +36,7 @@ const MyDropzone: React.FC = () => {
           </Dragzone>
 
           {image && (
-            <ProfileImg src={image} alt="Preview" style={{ width: '100px', maxHeight: '100px', objectFit: 'contain' }} />
+            <ProfileImg src={image} alt="Preview" style={{ width: '50px', maxHeight: '50px', objectFit: 'contain' }} />
           )}
     </Flexo>
      

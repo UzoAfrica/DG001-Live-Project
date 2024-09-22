@@ -16,7 +16,7 @@ import {
   SecondDesktopContainer,
 } from './styles/StepTwo';
 import CameraSVG from '../../images/camera.svg';
-import VideoCameraSVG from '../../images/videocam.svg';
+// import VideoCameraSVG from '../../images/videocam.svg';
 import React, { useState, useRef } from 'react';
 import { FormDataType, handleShopInputChangeType } from './MultiStepForm';
 
@@ -36,7 +36,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
   setProductFormData,
 }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<File | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
+  // const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
 
@@ -52,17 +52,17 @@ const StepTwo: React.FC<StepTwoProps> = ({
     }
   };
 
-  const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setSelectedVideo(event.target.files[0]);
+  // const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     setSelectedVideo(event.target.files[0]);
 
-      // Add the uploaded image to the form data -- Friday can help to fix
-      // setProductFormData({
-      //   ...productFormData,
-      //   video: event.target.files[0],
-      // });
-    }
-  };
+  //     // Add the uploaded image to the form data -- Friday can help to fix
+  //     // setProductFormData({
+  //     //   ...productFormData,
+  //     //   video: event.target.files[0],
+  //     // });
+  //   }
+  // };
 
   const triggerPhotoUpload = () => {
     photoInputRef.current?.click();
