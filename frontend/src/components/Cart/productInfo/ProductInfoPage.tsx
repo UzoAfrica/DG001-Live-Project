@@ -21,7 +21,10 @@ import {
   GridProductPrice,
   ProductItem,
 } from '../productInfo/productInfoStyled';
-import { getProducts, getProductById } from '../../../axiosFolder/functions/productFunction';
+import {
+  getProducts,
+  getProductById,
+} from '../../../axiosFolder/functions/productFunction';
 import {
   initiatePayment,
   verifyPayment,
@@ -46,9 +49,9 @@ interface Product {
   quantity: number;
   [key: string]: string | number;
 }
-interface ReviewForm {
+export interface ReviewForm {
   comment: string;
-  rating: number;
+  rating: number | string;
 }
 export interface Review {
   rating: number;
@@ -66,7 +69,7 @@ const ProductInfoPage: FC = () => {
   const [isReviewFormOpen, setIsReviewFormOpen] = useState<boolean>(false);
   const [reviewForm, setReviewForm] = useState<ReviewForm>({
     comment: '',
-    rating: 0,
+    rating: '',
   });
   const [reviews, setReviews] = useState<Review[] | []>([]);
   const { productId } = useParams<{ productId: string }>();
@@ -191,7 +194,6 @@ const ProductInfoPage: FC = () => {
       if (userChoice) {
         navigate('/cart');
       }
-
     } catch (error) {
       showErrorToast('Error adding product to cart');
       console.error('Error adding product to cart:', error);
@@ -294,6 +296,10 @@ const ProductInfoPage: FC = () => {
           },
         ];
       });
+      setReviewForm({
+        comment: '',
+        rating: '',
+      });
       showSuccessToast(response!.data.message);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -337,6 +343,7 @@ const ProductInfoPage: FC = () => {
             handleRatingInputChange={handleRatingInputChange}
             setIsReviewFormOpen={setIsReviewFormOpen}
             reviews={reviews}
+            reviewForm={reviewForm}
           ></Reviews>
 
           {/* Similar Products Section */}
