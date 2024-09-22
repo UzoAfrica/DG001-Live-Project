@@ -37,17 +37,19 @@ export const updateProfile = async (req: Request, res: Response, next: NextFunct
 
          // Check if a file is uploaded
          if (req.file) {
-            // Upload the image to Cloudinary
+            console.log("File received, uploading to Cloudinary...");
             const result = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'user_profiles',
-                width: 300,
-                height: 300,
-                crop: 'fill',
+              folder: 'user_profiles',
+              width: 300,
+              height: 300,
+              crop: 'fill',
             });
-
-            // Add the Cloudinary image URL to updatedData
+          
+            console.log("Cloudinary upload result:", result);
+          
             updatedData.profileImage = result.secure_url;
-        }
+            console.log("Updated profile image URL:", updatedData.profileImage);
+          }
 
         await userProfile.update(updatedData);
         return res.status(200).json({ message: 'Profile updated successfully', profile: userProfile });    
