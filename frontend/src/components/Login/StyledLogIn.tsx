@@ -47,8 +47,7 @@ export const FormContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 90%;
-  height: 540px;
-  max-width: 598px;
+  max-width: 400px;
   text-align: flex-start;
 `;
 
@@ -95,15 +94,15 @@ export const Select = styled.select`
 `;
 
 export const SignUpButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: #ef6820;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #e04f16;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
 `;
 
 export const Separator = styled.div`
@@ -147,13 +146,13 @@ export const GoogleSignUp = styled.div`
 `;
 
 export const Footer = styled.p`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #666;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
 
-  a {
-    color: #ef6820;
-    text-decoration: none;
-  }
+    a {
+        color: #e04f16;
+        text-decoration: none;
+    }
 `;

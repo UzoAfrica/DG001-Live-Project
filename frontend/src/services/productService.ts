@@ -1,5 +1,5 @@
 //to handle API requests
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { AxiosError } from 'axios';
 import axios from '../../src/axiosFolder/configurations/setup';
 

@@ -7,7 +7,8 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CartProvider } from '../src/components/Cart/CartProvider';
+import { CartProvider } from './components/Cart/CartProvider.tsx';
+
 // Landing Page Components
 import Header from './components/LandingPage/Header';
 import Hero from './components/LandingPage/Hero';
@@ -41,7 +42,7 @@ import CallbackPage from './components/Login/Callback';
 //tenantDb
 import TenantDb from './admin/TenantDb.tsx';
 //productList
-import ProductList from '../src/components/ProductList.tsx';
+import ProductList from '../src/components/ProductList.tsx'
 import ProductCategory from './components/ProductPage/ProductCategory.tsx';
 
 //MyProducts
@@ -149,6 +150,7 @@ const router = createBrowserRouter([
     path: '/TenantDb',
     element: <TenantDb />,
   },
+
   {
     path: '/', // Base path for the main layout with Navbar
     element: <MainLayout userProfile={userProfile} />, // Main layout with Navbar
@@ -166,8 +168,8 @@ const router = createBrowserRouter([
         element: <CartWrapper />,
       },
       {
-        path: '/ProductList',
-        element: <ProductList />,
+        path:'/ProductList' ,
+        element: < ProductList/>,
       },
       {
         path: 'product/:productId',
@@ -184,14 +186,6 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Shop />,
-      },
-      {
-        path: '/MyProductList',
-        element: <MyProducts />,
-      },
-      {
-        path: '/MyShops',
-        element: <MyShops />,
       },
       {
         path: '*',

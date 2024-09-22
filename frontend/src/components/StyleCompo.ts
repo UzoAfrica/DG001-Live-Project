@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const BackImg = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-  background-image: url('./src/images/c4e920f58d65bab2316b7611a10653b0.png');
+  background-image: url('../src/images/c4e920f58d65bab2316b7611a10653b0.png');
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -155,9 +155,9 @@ export const StyledOtpBox = styled.input<{ disabled?: boolean }>`
   font-size: xx-large;
   align-items: center;
   cursor: ${(props) =>
-    props.disabled
-      ? 'not-allowed'
-      : 'text'}; // Change cursor based on disabled state
+  props.disabled
+    ? 'not-allowed'
+    : 'text'}; // Change cursor based on disabled state
 
   @media (max-width: 800px) {
     width: 20px;
@@ -195,9 +195,9 @@ export const StyledRightDiv = styled.div`
 `;
 
 export  const STyledStartSelling = styled.button`
- width: 150px;
- height: 50px;
- background-color:  #E04F16;
+width: 150px;
+height: 50px;
+background-color:  #E04F16;
 border-radius: 5px;
 border: 0.5px solid #E04F16;
 color: white;
@@ -263,7 +263,7 @@ export const StyledPassWord = styled.a`
     border-bottom: 2.5px solid #e04f16;
   }
   @media (max-width: 800px){
-    
+
   }
 `;
 
@@ -315,7 +315,7 @@ display: flex;
 gap: 5px;
 @media (max-width: 800px){
   margin: auto;
-  
+
 }
 `
 // export const StyledUserProfile = styled.img`
@@ -388,12 +388,9 @@ gap: 10px;
 
 @media (max-width: 800px){
   margin: auto;
-  
+
 }
-` 
-
-
-
+`
 export const StyledpTag = styled.p`
 color: gray;
 `

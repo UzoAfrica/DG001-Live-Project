@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { StyleCategories } from './StyledProducts.ts';
 import { useNavigate } from 'react-router-dom';
@@ -25,9 +25,42 @@ const colorOptions = [
   { label: 'Yellow', value: 'yellow' },
 ];
 
-const ColorOption = styled.div`
+// const Dropdown = styled.div`
+//   margin-bottom: 20px;
+// `;
+
+// const DropdownButton = styled.button`
+//   width: 100%;
+//   padding: 10px;
+//   background-color: #f5f5f5;
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   text-align: left;
+// `;
+
+// const DropdownContent = styled.div`
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   background-color: #fff;
+//   margin-top: 5px;
+// `;
+
+// const DropdownItem = styled.div`
+//   padding: 10px;
+//   cursor: pointer;
+//
+//   &:hover {
+//     background-color: #f0f0f0;
+//   }
+// `;
+
+const ColorOption = styled.div<{ isSelected: boolean; color: string }>`
   input[type="radio"]:checked + label {
     color: ${(props) => props.color};
+  }
+  label {
+    color: ${(props) => (props.isSelected ? props.color : 'black')}; // Change label color if selected
   }
 `;
 
@@ -35,13 +68,23 @@ export default function Categories() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedPrice, setSelectedPrice] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
-  const [dropdownValue, setDropdownValue] = useState(''); 
+  const [dropdownValue, setDropdownValue] = useState('');
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    navigate(`/products/${category}`); 
+    navigate(`/products/${category}`);
+  };
+
+  const handlePriceSelect = (price: string) => {
+    setSelectedPrice(price);
+    navigate(`/products/${price}`);
+  };
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    navigate(`/products/${color}`);
   };
 
   const handleDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -90,7 +133,7 @@ export default function Categories() {
               name="price"
               value={option.value}
               checked={selectedPrice === option.value}
-              onChange={() => handleCategorySelect(option.value)}
+              onChange={() => handlePriceSelect(option.value)}
             />
             <label htmlFor={option.value}>{option.label}</label>
           </div>
@@ -107,17 +150,19 @@ export default function Categories() {
       <label>Color</label>
       <div>
         {colorOptions.map((option) => (
+            <div>
           <ColorOption key={option.value} color={option.value}>
             <input
-              type="checkbox"
+              type="radio"
               id={option.value}
               name="color"
               value={option.value}
               checked={selectedColor === option.value}
-              onChange={() => handleCategorySelect(option.value)}
+              onChange={() => handleColorSelect(option.value)}
             />
             <label htmlFor={option.value}>{option.label}</label>
           </ColorOption>
+            </div>
         ))}
 
         {/* Dropdown after color */}

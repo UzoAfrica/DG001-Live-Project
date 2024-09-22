@@ -11,6 +11,7 @@ interface Product {
   imageUrl: string;
   price: number;
   category: string;
+  color : string
 }
 
 export default function ProductListing() {
@@ -18,12 +19,12 @@ export default function ProductListing() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { category, priceRange } = useParams();  // priceRange from URL
+  const { category, priceRange, color } = useParams();  // priceRange from URL
 
   // Function to parse price range from URL param
-  const parsePriceRange = (priceRange: string) => {
-    if (priceRange === 'less-than-25000') return { min: 0, max: 25000 };
-    if (priceRange === '15000-25000') return { min: 15000, max: 25000 };
+  const parsePriceRange = (price: string) => {
+    if (price === 'less-than-25000') return { min: 0, max: 25000 };
+    if (price === '15000-25000') return { min: 15000, max: 25000 };
     return { min: 0, max: Infinity }; // Default range if no valid price range is found
   };
 
@@ -62,30 +63,36 @@ export default function ProductListing() {
       }
       return true;  // If no category, return all products
     })
+    .filter(product => {
+      if (color) {
+        return product.color.toLowerCase() === color;  // Apply color filter
+      }
+      return true;
+    })
     .filter(product => product.price >= min && product.price <= max);  // Apply price range filter
 
-  return (
-    <Container>
-      <h1>
-        Products: {category || 'All'} {priceRange ? `under ${max}` : ''}
-      </h1>
-
-      <ProductContainer>
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map(product => (
-            <ProductCard key={product.id} onClick={() => navigate(`/product/${product.id}`)}>
-              <ProductImage src={product.imageUrl} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p>Price: ${product.price}</p>
-            </ProductCard>
-          ))
-        ) : (
-          <p>No products found.</p>
-        )}
-      </ProductContainer>
-    </Container>
-  );
-}
+    return (
+      <Container>
+        <h1>
+          Products: {category || 'All'} {priceRange ? `under ${max}` : ''} {color ? `in ${color}` : ''}
+        </h1>
+  
+        <ProductContainer>
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map(product => (
+              <ProductCard key={product.id} onClick={() => navigate(`/product/${product.id}`)}>
+                <ProductImage src={product.imageUrl} alt={product.name} />
+                <h3>{product.name}</h3>
+                <p>Price:{product.price}</p>
+              </ProductCard>
+            ))
+          ) : (
+            <p>No products found.</p>
+          )}
+        </ProductContainer>
+      </Container>
+    );
+  }
 
 
 

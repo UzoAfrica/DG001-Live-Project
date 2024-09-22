@@ -56,9 +56,9 @@ export const ProductDescription = styled.p`
 `;
 
 export const ProductPrice = styled.p`
-  font-size: 16px;
-  color: #d35d2c;
-  font-weight: bold;
+    font-size: 16px;
+    color: #e04f16;
+    font-weight: bold;
 `;
 
 export const ButtonContainer = styled.div`

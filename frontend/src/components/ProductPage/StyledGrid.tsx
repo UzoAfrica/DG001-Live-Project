@@ -1,38 +1,46 @@
 import styled from 'styled-components';
-import { Component } from 'react';
+import React, { useState } from 'react';
+import { Product } from '../ProductList';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'; 
+
+interface StyledGridProps {
+  products: Product[];
+  onAddToWishlist: (productId: number, product: Product) => void;
+  onAddToCart: (productId: number, product: Product) => void;
+}
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
-  padding: 10px;
+  padding: 5px;
 `;
 
 const ProductItem = styled.div`
   background-color: #f5f5f5;
   border-radius: 8px;
-  padding: 15px;
+  //padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
   transition: transform 0.2s ease-in-out;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   &:hover {
     transform: scale(1.05);
     background-color: antiquewhite;
   }
 `;
-//   border: 1px solid #ccc;
-//   padding: 10px;
-//   text-align: center;
-// `;
 
 const ProductImage = styled.img`
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 200px;
+  object-fit: scale-down;
   transition: transform 0.3s ease-in-out;
 
   &:hover {
@@ -40,51 +48,122 @@ const ProductImage = styled.img`
   }
 `;
 
+const ProductDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2px;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffffff;
+  width: 100%;
+`;
+
 const ProductName = styled.h2`
-  p {
-    margin: 5px 0;
-  }
-  font-family: 'inter';
-  font-size:    16px;
-  //margin: 10px 5px;
+  font-family: 'inter',sans-serif;
+  font-size: 16px;
 `;
 
 const ProductDescription = styled.p`
-  p {
-    margin: 5px 0;
-  }
-  font-family: 'inter';
-  font-size: 16px;
+  font-family: 'inter',sans-serif;
+  font-size: 14px;
   color: grey;
 `;
 
 const ProductPrice = styled.p`
-  p {
-    margin: 5px 0;
-  }
-  font-family: 'inter';
-  font-size:    16px;
-  //font-weight: bold;
+  font-family: 'inter',sans-serif;
+  font-size: 16px;
   color: green;
+    font-weight: bold;
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class StyledGrid extends Component<{ products: any }> {
-  render() {
-    const { products } = this.props;
-    return (
-      <Grid>
-        {products.map((product: any) => (
-          <ProductItem key={product.id}>
-            <ProductImage src={product.image} alt={product.name} />
+const ActionButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+`;
+
+const ActionButton = styled.button<{ active: boolean }>`
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: ${(props) => (props.active ? '#e04f16' : 'Red')};
+  font-size: 20px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: darkorange;
+  }
+`;
+
+const StyledGrid: React.FC<StyledGridProps> = ({ products, onAddToWishlist, onAddToCart }) => {
+  const [activeWishlist, setActiveWishlist] = useState<{ [key: number]: boolean }>({});
+  const [activeCart, setActiveCart] = useState<{ [key: number]: boolean }>({});
+
+  const navigate = useNavigate();
+
+  const handleAddToWishlist = (product: Product) => {
+    if (activeWishlist[product.id]) {
+      const confirmRemove = window.confirm("Remove this product from your wishlist?");
+      if (confirmRemove) {
+        setActiveWishlist((prev) => ({ ...prev, [product.id]: false }));
+        alert('Product removed from wishlist!');
+      }
+    } else {
+      onAddToWishlist(product);
+      setActiveWishlist((prev) => ({ ...prev, [product.id]: true }));
+    }
+  };
+
+  const handleAddToCart = (product: Product) => {
+    if (activeCart[product.id]) {
+      const confirmRemove = window.confirm("Remove this product from your cart?");
+      if (confirmRemove) {
+        setActiveCart((prev) => ({ ...prev, [product.id]: false }));
+        alert('Product removed from cart!');
+      }
+    } else {
+      onAddToCart(product);
+      setActiveCart((prev) => ({ ...prev, [product.id]: true }));
+    }
+  };
+
+  const handleProductClick = (product: Product) => {
+    // Navigate to the product details page using the product's ID
+    navigate(`/product/${product.id}`);
+  };
+
+  return (
+    <Grid>
+      {products.map((product) => (
+         <ProductItem key={product.id} onClick={() => handleProductClick(product)}> {/* Add onClick */}
+          <ProductImage src={product.imageUrl} alt={product.name} />
+          <ProductDetails>
             <ProductName>{product.name}</ProductName>
             <ProductDescription>{product.description}</ProductDescription>
-            <ProductPrice>{product.price}</ProductPrice>
-          </ProductItem>
-        ))}
-      </Grid>
-    );
-  }
-}
+            <ProductPrice>₦{product.price.toLocaleString()}</ProductPrice>
+            <ActionButtonContainer>
+              <ActionButton
+                active={activeWishlist[product.id] || false}
+                onClick={() => handleAddToWishlist(product)}
+              >
+                <FontAwesomeIcon icon={solidHeart} />
+              </ActionButton>
+              <ActionButton
+                active={activeCart[product.id] || false}
+                onClick={() => handleAddToCart(product)}
+              >
+                <FontAwesomeIcon icon={faShoppingCart} />
+              </ActionButton>
+            </ActionButtonContainer>
+          </ProductDetails>
+        </ProductItem>
+      ))}
+    </Grid>
+  );
+};
 
 export default StyledGrid;

@@ -77,7 +77,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
       <Container className="step-two">
         <Container $maxWidth="930px" $margin="0 auto" $padding="0.4rem">
           <Paragraph $fontSize="1.5rem" $fontWeight="500">
-            Creating a listing
+            Creating a Product
           </Paragraph>
           <Paragraph
             $margin="1rem 0 0 0"

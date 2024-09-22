@@ -23,9 +23,9 @@ export const Btn = styled.a`
     border: none;
     border-radius: 10px;
     color: white;
-    background-color: #df6d4b;
+    background-color: #e04f16;
     text-decoration: none;
-    padding: 5px 10px ;
+    padding: 5px 10px;
 `
 export const MainDiv = styled.div`
   gap: 100px;
@@ -38,18 +38,15 @@ export const StyleCategories = styled.div`
   padding: 20px;
   background-color: #ffffff;
   border-radius: 20px;
-  height: 100vh;
+  //box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 800px;
   width: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-   
 
   h2 {
            padding: 10px;
           margin: 5px 0;
     
-    font-family: 'Outfit';
+    font-family: 'Outfit', sans-serif;
   }
 
   h4 {
@@ -57,14 +54,14 @@ export const StyleCategories = styled.div`
           margin: 5px 0;
       
           
-    font-family: 'Outfit';
+    font-family: 'Outfit', sans-serif;
 
   }
 
   label {
           margin: 5px 0;
       
-      font-family: 'Outfit';
+      font-family: 'Outfit', sans-serif;
   }
 
   div {
@@ -73,59 +70,15 @@ export const StyleCategories = styled.div`
 
   input[type='checkbox'] {
     margin-right: 8px;
-}
-  select {
-   color : coral
-  }  
-  
+  }
 `
 export const ColorOption = styled.div`
-
-  input[type="checkbox"]:checked + label {
+  input[type="radio"]:checked + label {
     color: ${(props) => props.color};
-  
   }
 `;
 
-// Styled Components
-export const Container = styled.div`
-  margin: 20px;
-`;
 
-export const ProductContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-`;
-
-export const ProductCard = styled.div`
-  width: 200px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  text-align: center;
-  background-color: #fff;
-  cursor: pointer; /* Change cursor to indicate clickable */
-  &:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional hover effect */
-  }
-`;
-
-export const ProductImage = styled.img`
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  margin-bottom: 10px;
-`;
-
-// export const StyleCategories = styled.div`
-// display: flex;
-// flex-direction: column;
-// row-gap: 20px;
-// height: 80%;
-//
-// `
 export const Holder = styled.div`
   width: 60%;
 `
@@ -141,11 +94,9 @@ export const MaxOut = styled.div`
   justify-content: space-between;
   margin-right: 100px;
 `
-export const TextArea = styled.input`
+export const StyledInput = styled.input`
   height: 30px;
   width: 60%;
-  border: 1px solid #000;
-  outline: none
 `
 
 export const TwinsCol = styled.div`
@@ -231,9 +182,9 @@ height: 400px;
 `
 
 export const ColoredDiv = styled.div`
-background-color: #e04f16;
-display: flex;
-padding-left: 10px;
+    background-color: #e04f16;
+    display: flex;
+    padding-left: 10px;
 `
  
 export const StyleDark = styled.p`
@@ -244,3 +195,31 @@ export const StylendAtag = styled.a`
 display: flex;
 gap: 20px;
 `
+
+import styled from 'styled-components';
+
+export const Container = styled.div`
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+export const ProductCard = styled.div`
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+`;
+
+export const ProductContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+`;
+
+export const ProductImage = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+`;

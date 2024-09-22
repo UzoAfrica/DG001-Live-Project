@@ -56,16 +56,17 @@ export const SearchInputWrapper = styled.div`
 `;
 
 export const SearchInput = styled.input`
-  width: 100%;
-  padding: 10px 40px; /* Adjusted padding to accommodate icons */
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  font-size: 14px;
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    padding-right: 30px;
 
-  &:focus {
-    outline: none;
-    border-color: #d35d2c;
-  }
+    &:focus {
+        outline: none;
+        border-color: #e04f16;
+    }
 
   @media (max-width: 768px) {
     width: 100%;
@@ -153,6 +154,7 @@ export const NotificationCount = styled.div`
   padding: 10px;
   color: white;
   border-radius: 50%;
+  padding: 2px 6px;
   font-size: 12px;
 `;
 
@@ -216,6 +218,7 @@ export const StartSellingButton = styled.button`
   }
 `;
 
+/* Dropdown menu styles for user profile */
 export const ProfileDropdown = styled.div`
   position: absolute;
   top: 45px;

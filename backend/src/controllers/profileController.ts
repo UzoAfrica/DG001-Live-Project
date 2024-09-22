@@ -2,6 +2,7 @@ import { Request, Response, NextFunction} from 'express';
 import  { updateProfileSchema} from '../validators/profile.validator';
 import User from '../database/models/user.model';
 import bcrypt from 'bcrypt';
+import cloudinary from '../config/cloudinary';
 
 
 type User={
@@ -44,7 +45,6 @@ export const updateProfile = async (req: Request, res: Response, next: NextFunct
 
 
 export const changePassword = async (req: Request, res: Response) => {
-    
 
     try {
 

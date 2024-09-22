@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import OTP from '../database/models/otp.model';
-import sendEmail from '../utils/email.util'; 
+import sendEmail from '../utils/email.util';
+import fs from 'fs';
+import path from 'path';
 
 // Define the sendOTP function
 export const sendOTP = async (
@@ -26,11 +28,20 @@ export const sendOTP = async (
       expiresAt: new Date(Date.now() + 10 * 60 * 1000), 
     });
 
+    // Read the OTP email template
+    const templatePath = path.join(__dirname, '../frontend/otpemailTemplate.html');
+    let emailTemplate = fs.readFileSync(templatePath, 'utf8');
+
+    // Replace the placeholder with the actual OTP
+    emailTemplate = emailTemplate.replace('{{OTP}}', generatedOtp.toString());
+
+
     // Send OTP via email
     await sendEmail(res, {
       to: email,
       subject: 'Your OTP',
-      text: `Your OTP is: ${generatedOtp}. It will expire in 10 minutes.`, 
+      html: emailTemplate, //send the html template
+      //text: `Your OTP is: ${generatedOtp}. It will expire in 10 minutes.`,
     });
 
     return res.status(200).json({

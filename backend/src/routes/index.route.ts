@@ -6,6 +6,7 @@ import resetRouter from './reset.route';
 import shopRouter from './shop.routes';
 import adminRouter from './adminRoute';
 import orderRouter from './order.route';
+import { authorizeRole } from '../middlewares/admin';
 
 const indexRouter = express.Router();
 

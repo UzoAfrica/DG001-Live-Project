@@ -12,3 +12,30 @@ export default function Main() {
     </>
   );
 }
+
+
+// import Categories from './Categories';
+// import { MainDiv } from './StyledProducts.ts';
+// import Trending from './Trending';
+//
+// interface MainProps {
+//   searchTerm: string;
+// }
+//
+// const Main: React.FC<MainProps> = ({ searchTerm }) => {
+//   return (
+//     <MainDiv>
+//       <Categories />
+//       <Trending searchTerm={searchTerm} />
+//     </MainDiv>
+//   );
+// };
+//
+// export default Main;
+
+
+
+
+
+
+

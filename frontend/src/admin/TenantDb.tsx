@@ -24,29 +24,35 @@ const TenantDb: React.FC = () => {
     const [activeSidebarItem, setActiveSidebarItem] = useState('Dashboard');
 
     useEffect(() => {
-        const fetchShopsAndUsers = async () => {
-            try {
-                const shopsResponse = await axios.get<Shop[]>('https://api/shops');
-                const shops = shopsResponse.data;
-                //get owner ID from shops
-                const ownerIds = shops.map(shop => shop.ownerId);
-                //fetch users with shops
-                const usersResponse = await axios.get<User[]>('https://api/users', {
-                    params: { ids: ownerIds.join(',') }
-                });
-                const usersWithShops = usersResponse.data.map(user => {
-                    const shop = shops.find(shop => shop.ownerId === user.id);
-                    return { ...user, shopName: shop ? shop.name : '' };
-                });
+      const fetchShopsAndUsers = async () => {
+        try {
+          const shopsResponse = await axios.get<Shop[]>('https://api/shops');
+          const shops = shopsResponse.data;
 
-                setUsers(usersWithShops);
-            } catch (err) {
-                console.error('Failed to fetch data', err);
-            }
-        };
+          // Get owner IDs from shops
+          const ownerIds = shops.map(shop => shop.ownerId);
 
-        fetchShopsAndUsers();
+          // Check if ownerIds is not empty before fetching users
+          if (ownerIds.length > 0) {
+            const usersResponse = await axios.get<User[]>('https://api/users', {
+              params: { ids: ownerIds.join(',') }
+            });
+            const usersWithShops = usersResponse.data.map(user => {
+              const shop = shops.find(shop => shop.ownerId === user.id);
+              return { ...user, shopName: shop ? shop.name : '' };
+            });
+
+            setUsers(usersWithShops);
+          } else {
+            console.warn('No owner IDs found, skipping user fetch.');
+          }
+        } catch (err) {
+          console.error('Failed to fetch data', err);
+        }
+      };
+      fetchShopsAndUsers();
     }, []);
+
 
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -65,7 +71,7 @@ const TenantDb: React.FC = () => {
             </Navbar>
             <Container>
                 <Sidebar>
-                    {['Dashboard', 'Tenant Database', 'User Analytics', 'Product Metrics', 'Support Tickets', 'Settings',
+                    {['Dashboard', 'Tenant Database', 'Support Tickets', 'Settings',
                         'Logout'].map((item) => (
                             <SidebarItem
                              key={item}

@@ -11,19 +11,19 @@ export const HeroSection = styled.section`
 
 export const HeroText = styled.div`
   max-width: 50%;
-  font-weight: 900;
+  font-weight: 600;
   font-size: 1.5rem;
   margin-bottom: 10px;
 `;
 
 export const TradeSpan = styled.span`
-  color: coral;
+    color: #e04f16;
 `;
 
 export const HeroImage = styled.div`
   img {
-    width: 100%;
-    height: auto;
+      width: 100%;
+      height: auto;
   }
 `;
 
@@ -32,7 +32,7 @@ export const SearchContainer = styled.div`
   align-items: center;
   gap: 10px;
   position: relative;
-  width: 100%;
+  width: 80%;
 `;
 
 export const SearchInput = styled.input.attrs({ type: 'text' })`
@@ -46,18 +46,19 @@ export const SearchInput = styled.input.attrs({ type: 'text' })`
 `;
 
 export const SearchButton = styled.button`
-  height: 40px;
-  background-color: coral;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 0 4px 4px 0;
-  padding: 0 10px;
-  font-size: 16px;
-  position: absolute;
-  right: 0; 
-  top: 0; 
-  border-radius: 0 4px 4px 0;
-  z-index: 1; 
-  
+    height: 40px;
+    background-color: #e04f16;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    padding: 0 10px;
+    font-family: Outfit ;
+    font-size: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 0 4px 4px 0;
+    z-index: 1;
+
 `;

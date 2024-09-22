@@ -75,29 +75,29 @@ export const Form = styled.form<AdditionalProps>`
 
 // General purpose <button> element
 export const Button = styled.button<AdditionalProps>`
-  color: ${(props) => props.$color || ''};
-  font-family: ${(props) => props.$fontFamily || "'Outfit', sans-serif"};
-  font-weight: ${(props) => props.$fontWeight || 'normal'};
-  font-size: ${(props) => props.$fontSize || ''};
-  border: ${(props) => props.$border || ''};
-  border-radius: ${(props) => props.$borderRadius || ''};
-  background-color: ${(props) => props.$backgroundColor || ''};
-  padding: ${(props) => props.$padding || ''};
-  max-width: ${(props) => props.$maxWidth || ''};
-  width: ${(props) => props.$width || '288px'};
+    color: ${(props) => props.$color || ''};
+    font-family: ${(props) => props.$fontFamily || "'Outfit', sans-serif"};
+    font-weight: ${(props) => props.$fontWeight || 'normal'};
+    font-size: ${(props) => props.$fontSize || ''};
+    border: ${(props) => props.$border || ''};
+    border-radius: ${(props) => props.$borderRadius || ''};
+    background-color: ${(props) => props.$backgroundColor || ''};
+    padding: ${(props) => props.$padding || ''};
+    max-width: ${(props) => props.$maxWidth || ''};
+    width: ${(props) => props.$width || '288px'};
 
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+        cursor: pointer;
+    }
 
-  /* Dektop screen */
-  @media screen and (min-width: 768px) {
-    width: 200px;
-  }
+    /* Dektop screen */
+    @media screen and (min-width: 768px) {
+        width: 200px;
+    }
 
-  &:focus-visible {
-    outline: 1px solid #e04f16;
-  }
+    &:focus-visible {
+        outline: 1px solid #e04f16;
+    }
 `;
 
 // General purpose <label> element

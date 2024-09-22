@@ -17,14 +17,14 @@ const ProgressStep = styled.div<{ $isActive?: boolean }>`
   width: 20%;
   text-align: center;
   /* position: relative; */
-  color: ${({ $isActive }) => ($isActive ? '#E04F16' : '#8C8C8C')};
+  color: ${({ $isActive }) => ($isActive ? '#e04f16' : '#8C8C8C')};
   font-weight: ${({ $isActive }) => ($isActive ? 'bold' : 'normal')};
 `;
 
 const StepCircle = styled.div<{ $isActive?: boolean }>`
   width: 24px;
   height: 24px;
-  background-color: ${({ $isActive }) => ($isActive ? '#E04F16' : '#C4C4C4')};
+  background-color: ${({ $isActive }) => ($isActive ? '#e04f16' : '#C4C4C4')};
   border-radius: 50%;
   margin: 0 auto 8px;
   display: flex;
